@@ -27,7 +27,7 @@ SECTIONS {
     *(.patch_change_chara_wifi_onPageEnter)
   }
 
-	/* We'll insert the loader's code at the very end of the executable's .text section */
+  /* We'll insert the loader's code at the very end of the executable's .text section */
   /* NOTE: This address depends on the game version! */
   . = ADDR_LOADER;
 	/* Addr already 4 byte aligned! */
