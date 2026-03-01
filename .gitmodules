@@ -1,0 +1,3 @@
+[submodule "include/vendor/MK7-Memory"]
+	path = include/vendor/MK7-Memory
+	url = https://github.com/mk7re/MK7-Memory.git
