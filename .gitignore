@@ -21,4 +21,6 @@ build/*
 *.ips
 source/patch_symbols.hpp
 .DS_Store
-exheader/**/exheader_template.bin
+!exheader/
+!exheader/**/
+!exheader/**/exheader_template.bin
