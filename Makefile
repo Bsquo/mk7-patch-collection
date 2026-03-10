@@ -19,17 +19,16 @@ include $(DEVKITARM)/3ds_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source \
-				source/loader \
-				source/examples/show_timer_in_gp \
-				source/examples/change_chara_wifi
+
+include $(TOPDIR)/sources.mk
 
 INCLUDES	:=	include \
 				include/vendor/MK7-Memory/include \
 				include/vendor/MK7-Memory/vendor/lms/Include \
 				include/vendor/MK7-Memory/vendor/nnheaders/include \
 				include/vendor/MK7-Memory/vendor/nw4c/include \
-				include/vendor/MK7-Memory/vendor/sead/include
+				include/vendor/MK7-Memory/vendor/sead/include \
+				include/vendor/MK7-Memory/vendor/libc/include
 				
 PATCH		:= patch.py
 
@@ -42,6 +41,8 @@ ADDRESSES_DIR := addresses
 # Defaults to USA Rev1
 VERSION ?= usa_rev1
 
+include $(TOPDIR)/versions.mk
+
 ADDRESSES_FILE := $(TOPDIR)/$(ADDRESSES_DIR)/$(VERSION)/addresses.ld
 SYMBOLS_FILE   := $(TOPDIR)/$(ADDRESSES_DIR)/$(VERSION)/symbols.ld
 
@@ -53,9 +54,9 @@ LINKER_SCRIPT 	:= $(TOPDIR)/mk7.ld
 
 ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -mfpu=vfpv2
 
-CFLAGS	:=	-g -Wall -O2 -mword-relocations -D DEBUG \
+CFLAGS	:=	-g -Wall -O2 -mword-relocations \
 			-ffunction-sections -fomit-frame-pointer \
-			$(ARCH)
+			$(ARCH) -DGAME_VERSION=$(VERSION_SYM)
 
 # -DNNSDK is for sead
 CFLAGS	+=	$(INCLUDE) -D__3DS__ -DNNSDK
@@ -63,12 +64,13 @@ CFLAGS	+=	$(INCLUDE) -D__3DS__ -DNNSDK
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17 -Wno-invalid-offsetof \
 							-Wno-array-bounds -fno-unwind-tables -fno-asynchronous-unwind-tables
 
-ASFLAGS	:=	-g $(ARCH)
+ASFLAGS := -g $(ARCH) -DGAME_VERSION=$(VERSION_SYM) $(INCLUDE)
 LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $*.map) \
 			-T $(LINKER_SCRIPT) \
 			-T $(ADDRESSES_FILE) \
 			-T $(SYMBOLS_FILE) \
-			-Wl,--no-demangle
+			-Wl,--no-demangle \
+			-DGAME_VERSION=$(VERSION_SYM)
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

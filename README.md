@@ -2,6 +2,11 @@
 
 This repository contains various examples patches and mods for **Mario Kart 7**.
 
+## List of patches
+* **change_chara_wifi** (WIP): Adds a "Character" button in the online VR screen that allows you to change the character in between races.
+
+* **show_timer_in_gp**: Makes the timer be visible during Grand Prix
+
 ## Building
 
 Install the 3DS packages from [devkitPro](https://devkitpro.org/wiki/Getting_Started), as well as Python and make, if nor already installed.

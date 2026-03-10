@@ -1,3 +1,4 @@
+#include "versions.h"
 #include <3ds/types.h>
 
 // Copies the value of a general-purpose register (`REG`)
