@@ -9,14 +9,15 @@ This repository contains various examples patches and mods for **Mario Kart 7**.
 
 ## Building
 
-Install the 3DS packages from [devkitPro](https://devkitpro.org/wiki/Getting_Started), as well as Python and make, if nor already installed.
+Install the 3DS packages from [devkitPro](https://devkitpro.org/wiki/Getting_Started), as well as Python and make, if not already installed.
 
 Use ```make``` in the repository's root to build ```code.ips``` and ```exheader.bin```. For cleaning, use ```make clean```.
 
 You can specify which game version to build the patches for by typing ```make VERSION=XXXX```, where XXXX is one of the following. The title ID is shown between parenthesis:
 
 * ```usa_rev1```: Americas (v1.1, prepatched) (`0004000000030800`)
-* ```eur_rev2```: Europe (v1.2) (`0004000000030800`) (WIP)
+* ```eur_rev0```: Europe (v1.0) (`0004000000030700`) (WIP)
+* ```eur_rev2```: Europe (v1.2) (`0004000000030700`) (WIP)
 
 ## Installation
 ### On 3DS Console with Luma3DS
