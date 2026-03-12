@@ -1,4 +1,4 @@
-# The VERSION_* symbols correspond to the defines in `include/versions.h`
+# The VERSION_* symbols correspond to the defines in `include/versions.h` from MK7-Memory
 
 ifeq ($(VERSION),chn_dlp)
 VERSION_SYM := VERSION_CHN_DLP
