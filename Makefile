@@ -38,8 +38,8 @@ ADDRESSES_DIR := addresses
 # game version selection
 #---------------------------------------------------------------------------------
 
-# Defaults to USA Rev1
-VERSION ?= usa_rev1
+# Defaults to E3 2010
+VERSION ?= e3_2010
 
 include $(TOPDIR)/versions.mk
 

@@ -103,3 +103,7 @@ endif
 ifeq ($(VERSION),usa_rev2)
 VERSION_SYM := VERSION_USA_REV2
 endif
+
+ifeq ($(VERSION),e3_2010)
+VERSION_SYM := VERSION_E3_2010
+endif
