@@ -18,6 +18,15 @@ SECTIONS {
     *(.patch_show_timer_in_gp)
   }
 
+  /* race_prints */
+  .patch_race_prints_init ADDR_RACE_PRINTS_INIT : {
+    *(.patch_race_prints_init)
+  }
+
+  .patch_race_prints_calc ADDR_RACE_PRINTS_CALC : {
+    *(.patch_race_prints_calc)
+  }
+
   /* change_chara_wifi */
   .patch_change_chara_wifi_initControl ADDR_CHANGE_CHARA_WIFI_INIT_CONTROL : {
     *(.patch_change_chara_wifi_initControl)

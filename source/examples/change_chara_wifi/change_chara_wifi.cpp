@@ -11,6 +11,10 @@ void setButtonPosY(UI::MenuButton *button, f32 pos_y) {
     // Often times `R_center` is the name of the element at the root of the button's layout
     // So we can use this to move the button
     pane_handle.m_element = button->m_control_sight->getElementHandle("R_center", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
+    
+    if (pane_handle.m_element == nullptr)
+        return;
+    
     button->setPosY(pane_handle, pos_y);
 }
 
@@ -25,10 +29,9 @@ HOOK void changeCharaWifi_initControl() {
     // We'll use the message ID 6329 (0x18B9), which is the string "Character"
     UI::MessageString change_character_button_text;
     UI::MessageDataList::getMessage(change_character_button_text, &change_chara_button->m_message_data_list, 6329);
-    // Note that this should actually be a `nw::lyt::TextBox`, but we don't have that datatype defined yet on this repo
     UI::ControlSight::ElementHandle textbox_handle;
     textbox_handle.m_element = change_chara_button->m_control_sight->getElementHandle("T_diabtn", UI::ControlSight::EElementType::ELEMENT_TYPE_TEXTBOX);
-    // The first argument of `replaceMessageImpl` should be a `wchar_t *`, but the symbol map says it's a `u32`
+    // The first argument of `replaceMessageImpl` should be a `nw::lyt::TextBox *`, but the symbol map says it's a `u32`
     change_chara_button->m_control_sight->replaceMessageImpl((u32) textbox_handle.m_element, change_character_button_text, nullptr, nullptr);    
 
     // Assign the "OK" sound effect when pressing the button

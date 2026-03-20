@@ -7,3 +7,43 @@ _ZN8Sequence13ControlSlider9setSlideHEPN2UI13VisualControlE = 0x481a64;
 _ZN2UI15BaseFastControl7setPosYERNS_12ControlSight13ElementHandleEf = 0x15ac60;
 _ZN2UI15BaseFastControl7setPosXERNS_12ControlSight13ElementHandleEf = 0x15ac14;
 _ZN2UI12ControlSight13ElementHandleC1Ev = 0x14f854;
+_ZN2UI15MessageDataListD1Ev = 0x0015c7ec;
+_ZTVN2UI13VisualControlE = 0x0061ac84;
+_ZN2UI18ControlInitializer13initCreateArgEPNS_7Control9CreateArgERKN4sead14SafeStringBaseIcEES8_ = 0x00167bd8;
+_ZN2UI18ControlInitializer15endSetupControlEPNS_7Control9CreateArgE = 0x00167ef8;
+__c89vswprintf = 0x00116100;
+_ZNK2UI11MenuCaption15getDTIClassInfoEv = 0x004e237c;
+_ZNK2UI11MenuCaption11getDTIClassEv = 0x004e22d0;
+_ZN2UI19BaseMenuViewControl6createEPKPv = 0x0015aad4;
+_ZN2UI15BaseFastControl4calcEv = 0x0015aa74;
+_ZN2UI13VisualControl14forceCameraDirEv = 0x001577cc;
+_ZN2UI19BaseMenuViewControl5resetEv = 0x0015796c;
+_ZN2UI13VisualControl11readyFadeinEv = 0x00157544;
+_ZN2UI13VisualControl12readyFadeoutEv = 0x001577bc;
+_ZN2UI13VisualControl8fadeStepEv = 0x00157984;
+_ZN2UI13VisualControl14isFadeCompleteEv = 0x001578d0;
+_ZN2UI13VisualControl4drawEv = 0x0015795c;
+_ZN2UI13VisualControl11getRootPaneEv = 0x001574a8;
+_ZN2UI7Control13generateFaderEv = 0x00178258;
+_ZN2UI15BaseFastControl10animMenuInEv = 0x00159b50;
+_ZN2UI15BaseFastControl11animMenuOutEv = 0x00159b54;
+_ZN2UI11MenuCaption8animKeepEv = 0x0014cc70;
+_ZTVN2UI15ControlAnimator15AnimationDefineE = 0x0061b20c;
+_ZN2UI19BaseMenuViewControlC2Ev = 0x0016a5bc;
+_ZN4Util12TIndLinkListIN2UI7ControlEE6appendEPNS_9TLinkNodeIS2_EE = 0x005aaaf0;
+_ZN2UI13VisualControl9CreateArg12__sub_objectEv = 0x00157998;
+_ZTVN2UI13VisualControl9CreateArgE = 0x0061ac6c;
+_ZN2UI11MenuCaptionD2Ev = 0x0014cd20;
+_ZN6Object5Actor6acceptEPNS_12ActorVisitorE = 0x004205c0;
+_ZN6Object5Actor11createOuterEPKv = 0x00420568;
+_ZN6Object5Actor9initOuterEv = 0x00420618;
+_ZN2UI11MenuCaption8onCreateEPKNS_7Control9CreateArgE = 0x0014ccc0;
+_ZN2UI11MenuCaption7onResetEv = 0x0014cc0c;
+_ZN2UI11MenuCaption6onCalcEv = 0x0014cb00;
+_ZN2UI15ControlAnimator15AnimationDefine12__sub_objectEv = 0x0015b42c;
+_ZN2UI11MenuCaption15AnimationDefine15defineAnimationEv = 0x0014c970;
+
+# NOTE: This is a pointer that points to another pointer that actually points at RootSystem
+# i.e. not a direct pointer to RootSystem
+# We need this for MK7-Memorys's `g_root_system` function
+_ZN6System13g_root_systemE = 0x0010042c;
