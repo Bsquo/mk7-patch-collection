@@ -5,6 +5,8 @@ This repository contains various examples patches and mods for **Mario Kart 7**.
 ## List of patches
 * **change_chara_wifi** (WIP): Adds a "Character" button in the online VR screen that allows you to change the character in between races.
 
+* **race_prints**: Prints some vehicle and race information in the top screen during races. (USA Rev1 only, at the moment)
+
 * **show_timer_in_gp**: Makes the timer be visible during Grand Prix
 
 ## Building
