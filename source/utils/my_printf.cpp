@@ -60,7 +60,7 @@ void MyPrintf::setColor(const nw::ut::Color8 color, s32 color_location = nw::lyt
 
 void MyPrintf::setPos(f32 x, f32 y) {
     UI::ControlSight::ElementHandle textbox_handle;
-    textbox_handle.m_element = m_control_sight->getElementHandle("T_caption_00", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
+    textbox_handle.m_element = m_control_sight->getElementHandle("T_caption_00", UI::ControlSight::EElementType::ELEMENT_TYPE_TEXTBOX);
     
     if (textbox_handle.m_element == nullptr)
         return;
@@ -166,7 +166,7 @@ UI::MessageString MyPrintf::formatMessage(wchar_t *dest_buf, u16 dest_chars, con
 
 nw::lyt::TextBox *MyPrintf::getTextBox() const {
     UI::ControlSight::ElementHandle textbox_handle;
-    textbox_handle.m_element = m_control_sight->getElementHandle("T_caption_00", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
+    textbox_handle.m_element = m_control_sight->getElementHandle("T_caption_00", UI::ControlSight::EElementType::ELEMENT_TYPE_TEXTBOX);
     
     if (textbox_handle.m_element == nullptr)
         return nullptr;
