@@ -61,7 +61,7 @@ CFLAGS	:=	-g -Wall -O2 -mword-relocations \
 # -DNNSDK is for sead
 CFLAGS	+=	$(INCLUDE) -D__3DS__ -DNNSDK
 
-CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++17 -Wno-invalid-offsetof \
+CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++23 -Wno-invalid-offsetof \
 							-Wno-array-bounds -fno-unwind-tables -fno-asynchronous-unwind-tables
 
 ASFLAGS := -g $(ARCH) -DGAME_VERSION=$(VERSION_SYM) $(INCLUDE)
