@@ -1,11 +1,6 @@
+.include "macros.s"
+
 .arm
 
-.section .patch_race_prints_init
-.global patch_race_prints_init
-patch_race_prints_init:
-    bl hook_race_prints_init
-
-.section .patch_race_prints_calc
-.global patch_race_prints_calc
-patch_race_prints_calc:
-    bl hook_race_prints_calc
+PATCH_BL patch_race_prints_init, hook_race_prints_init
+PATCH_BL patch_race_prints_calc, hook_race_prints_calc

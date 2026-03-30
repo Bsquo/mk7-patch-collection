@@ -1,11 +1,6 @@
+.include "macros.s"
+
 .arm
 
-.section .patch_change_chara_wifi_initControl
-.global patch_change_chara_wifi_initControl
-patch_change_chara_wifi_initControl:
-    bl hook_change_chara_wifi_initControl
-
-.section .patch_change_chara_wifi_onPageEnter
-.global patch_change_chara_wifi_onPageEnter
-patch_change_chara_wifi_onPageEnter:
-    bl hook_change_chara_wifi_onPageEnter
+PATCH_BL patch_change_chara_wifi_initControl, hook_change_chara_wifi_initControl
+PATCH_BL patch_change_chara_wifi_onPageEnter, hook_change_chara_wifi_onPageEnter

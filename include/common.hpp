@@ -1,3 +1,5 @@
+#pragma once
+
 #include "versions.h"
 #include <3ds/types.h>
 

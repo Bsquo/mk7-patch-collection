@@ -3,6 +3,7 @@
 #include "Sequence/ControlSlider.hpp"
 #include "Sequence/MenuWiFi_Confirm.hpp"
 #include "Sound/SndSeEvent.hpp"
+#include "LMS_MessageID.hpp"
 
 UI::MenuButton *change_chara_button = nullptr;
 
@@ -26,9 +27,9 @@ HOOK void changeCharaWifi_initControl() {
     change_chara_button = menu->setupControl<UI::MenuButton>("dialog_btn_long", "center");
 
     // Now, we assign an actual text message ID to it
-    // We'll use the message ID 6329 (0x18B9), which is the string "Character"
+    // We'll use the message ID 6329 (0x18B9), which is the string "Character" (LMS_MessageID::Characters)
     UI::MessageString change_character_button_text;
-    UI::MessageDataList::getMessage(change_character_button_text, &change_chara_button->m_message_data_list, 6329);
+    UI::MessageDataList::getMessage(change_character_button_text, &change_chara_button->m_message_data_list, LMS_MessageID::Characters);
     UI::ControlSight::ElementHandle textbox_handle;
     textbox_handle.m_element = change_chara_button->m_control_sight->getElementHandle("T_diabtn", UI::ControlSight::EElementType::ELEMENT_TYPE_TEXTBOX);
     // The first argument of `replaceMessageImpl` should be a `nw::lyt::TextBox *`, but the symbol map says it's a `u32`
