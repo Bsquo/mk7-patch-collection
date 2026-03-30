@@ -20,16 +20,16 @@
 ----------------------- */
 /* Adds a `bl` instruction that branches to `hook_func` */
 .macro PATCH_BL name, hook_func
-    .section .patch_\name
-    .global patch_\name
-patch_\name:
+    .section .\name
+    .global \name
+\name:
     bl \hook_func
 .endm
 
 /* Adds a `b` instruction that branches to `hook_func` */
 .macro PATCH_B name, hook_func
-    .section .patch_\name
-    .global patch_\name
-patch_\name:
+    .section .\name
+    .global \name
+\name:
     b \hook_func
 .endm
