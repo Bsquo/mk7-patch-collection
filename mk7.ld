@@ -12,6 +12,12 @@ SECTIONS {
     *(.patch_loader)
   }
 
+  . = 0x100018;
+
+  .patch_call_global_constructors 0x100018 : {
+    *(.patch_call_global_constructors)
+  }
+
   /* --- Our custom code patches --- */
   /* show_timer_in_gp */
   .patch_show_timer_in_gp ADDR_SHOW_TIMER_IN_GP : {
@@ -36,6 +42,11 @@ SECTIONS {
     *(.patch_change_chara_wifi_onPageEnter)
   }
 
+  /* class_lr_select */
+  .patch_class_lr_select_initControl ADDR_CLASS_LR_SELECT_INIT_CONTROL : {
+    *(.patch_class_lr_select_initControl)
+  }
+
   /* We'll insert the loader's code at the very end of the executable's .text section */
   /* NOTE: This address depends on the game version! */
   . = ADDR_LOADER;
@@ -45,22 +56,39 @@ SECTIONS {
 		*(.loader*)
 	}
 
+  .init : {
+    *(.init)
+  }
+
+  .init_array : {
+    __init_array_start = . ;
+    KEEP(*(SORT(.init_array.*)))
+    KEEP(*(.init_array))
+    . = ALIGN(4);
+    __init_array_end = . ;
+  }
+
+  .fini : {
+    *(.fini)
+  }
+
+  .fini_array : {
+    KEEP(*(SORT(.fini_array.*)))
+    KEEP(*(.fini_array))
+  }
+
   /* Our custom code goes here */
   . = ADDR_CUSTOM_CODE;
   _LD_SYMBOL_TEXT_START = . ;
     .text : {
-        __text_start = . ;
-        *(.text*)
-        *(.rodata*)
-        *(.data*)
-        *(.bss*)
-        *(.init*)
-        *(.fini*)
-        *(.eh_frame*)
-        *(.init_array*)
-        *(.fini_array*)
-        *(COMMON)
-        __text_end  = . ;
+      __text_start = . ;
+      *(.text*)
+      *(.rodata*)
+      *(.data*)
+      *(.bss*)
+      *(.eh_frame*)
+      *(COMMON)
+      __text_end  = . ;
   }
   _LD_SYMBOL_TEXT_SIZE = __text_end - __text_start;
 

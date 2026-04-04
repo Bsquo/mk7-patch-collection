@@ -1,4 +1,5 @@
 nninitRegion = 0x100024;
+nninitSetup = 0x100194;
 _ZN8Sequence12BaseRacePage8initTimeEv = 0x47dccc;
 _ZN8Sequence8BasePage12setupControlIN2UI10MenuButtonEEEPT_RKN4sead14SafeStringBaseIcEESA_ = 0x5dae14;
 #_ZNK2UI15MessageDataList10getMessageEl = 0x4e5458;
@@ -42,6 +43,29 @@ _ZN2UI11MenuCaption7onResetEv = 0x0014cc0c;
 _ZN2UI11MenuCaption6onCalcEv = 0x0014cb00;
 _ZN2UI15ControlAnimator15AnimationDefine12__sub_objectEv = 0x0015b42c;
 _ZN2UI11MenuCaption15AnimationDefine15defineAnimationEv = 0x0014c970;
+_ZN2UI8LRSelect15AnimationDefine15defineAnimationEv = 0x0017a198;
+_ZNK2UI8LRSelect15getDTIClassInfoEv = 0x004e0d14;
+_ZNK2UI8LRSelect11getDTIClassEv = 0x004e0c8c;
+_ZN2UI20BaseMenuInputControl6createEPKPv = 0x0016d14c;
+_ZN2UI8LRSelect8onCreateEPKNS_7Control9CreateArgE = 0x0017ba60;
+_ZN2UI20BaseMenuInputControl5resetEv = 0x0016d148;
+_ZN2UI8LRSelect7onResetEv = 0x0017b978;
+_ZN2UI8LRSelect6onCalcEv = 0x0017b910;
+_ZN2UI20BaseMenuInputControl16initTouchHandlerEv = 0x0016cfb4;
+_ZN2UI20BaseMenuInputControl10keyHandlerElNS_6EKeyIDE = 0x0016cc10;
+_ZN2UI8LRSelect16keyHandlerCursorEll = 0x0017a77c;
+_ZN2UI8LRSelect16touchHandlerDownElRKN4sead7Vector2IfEE = 0x0017a99c;
+_ZN2UI8LRSelect20touchHandlerSlideOutElRKN4sead7Vector2IfEE = 0x0017ab28;
+_ZN2UI8LRSelect19touchHandlerSlideInElRKN4sead7Vector2IfEE = 0x0017aaa8;
+_ZN2UI20BaseMenuInputControl22touchHandlerCaptureOutElRKN4sead7Vector2IfEE = 0x0016d044;
+_ZN2UI8LRSelect14touchHandlerUpElRKN4sead7Vector2IfEE = 0x0017a0d8;
+_ZN2UI8LRSelect15selectHandlerOnEll = 0x0017a618;
+_ZN2UI8LRSelect16selectHandlerOffEll = 0x0017a910;
+_ZN2UI20BaseMenuInputControl6setValElll = 0x0016d180;
+_ZN2UI8LRSelectC2Ev = 0x0017bbf0;
+_ZN2UI8LRSelectD2Ev = 0x0017bc40;
+_ZN2UI6UIUtil15AdjustTextWidthEPN2nw3lyt7TextBoxEPKw = 0x00177f1c;
+EngineClassSpeedMultipliers = 0x00665580;
 
 # NOTE: This is a pointer that points to another pointer that actually points at RootSystem
 # i.e. not a direct pointer to RootSystem

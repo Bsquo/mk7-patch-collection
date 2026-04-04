@@ -3,4 +3,5 @@ SOURCES		:=	source \
 				source/utils \
 				source/examples/show_timer_in_gp \
 				source/examples/change_chara_wifi \
-				source/examples/race_prints
+				source/examples/race_prints \
+				source/examples/class_lr_select
