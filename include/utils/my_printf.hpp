@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Sequence/BasePage.hpp"
 #include "UI/ControlAnimator.hpp"
 #include "UI/MenuCaption.hpp"

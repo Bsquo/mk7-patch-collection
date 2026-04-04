@@ -9,12 +9,12 @@ namespace mod {
 namespace utils {
 
 s32 MyLRSelect::num_lr_select = 0;
-s32 MyLRSelect::options_buffer[100] = {0};
+s32 MyLRSelect::options_array[100] = {0};
 
 void MyLRSelect::onReset() {
     LRSelect::onReset();
 
-    m_option = options_buffer[id];
+    m_option = options_array[id];
     updateSelection();
 }
 
@@ -111,7 +111,7 @@ void MyLRSelect::updateSelection() {
         onApply(this);
     }
 
-    options_buffer[id] = m_option;
+    options_array[id] = m_option;
 }
 
 }
