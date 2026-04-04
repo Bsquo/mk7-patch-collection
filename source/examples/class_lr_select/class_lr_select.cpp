@@ -70,4 +70,14 @@ HOOK void classLRSelect_initControl() {
     engine_class_select = mod::utils::MyLRSelect::createLRSelect(menu, true);
     engine_class_select->initSettings(engine_class_select_settings);
     engine_class_select->setOnApply(onApply_engineClassSelect);
+
+    Sequence::ControlSlider *control_slider = menu->m_control_slider_array[0];
+
+    if (control_slider != nullptr) {
+        control_slider->setSlideH(engine_class_select);
+
+        if (engine_class_select->m_bg != nullptr) {
+            control_slider->setSlideH(engine_class_select->m_bg);
+        }
+    }
 }

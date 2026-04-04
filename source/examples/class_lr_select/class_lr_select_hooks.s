@@ -4,4 +4,4 @@
 .text
 
 HOOK hook_class_lr_select_initControl, classLRSelect_initControl, \
-    cpy r4, r0
+    add r1, r4, #0x298
