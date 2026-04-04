@@ -67,7 +67,7 @@ HOOK void classLRSelect_initControl() {
     Sequence::BaseMenuPage *menu;
     READ_ARM_REG(r4, menu);
 
-    engine_class_select = mod::utils::MyLRSelect::createLRSelect(menu);
+    engine_class_select = mod::utils::MyLRSelect::createLRSelect(menu, true);
     engine_class_select->initSettings(engine_class_select_settings);
     engine_class_select->setOnApply(onApply_engineClassSelect);
 }

@@ -66,6 +66,13 @@ _ZN2UI8LRSelectC2Ev = 0x0017bbf0;
 _ZN2UI8LRSelectD2Ev = 0x0017bc40;
 _ZN2UI6UIUtil15AdjustTextWidthEPN2nw3lyt7TextBoxEPKw = 0x00177f1c;
 EngineClassSpeedMultipliers = 0x00665580;
+_ZN2UI10LRSelectBgD2Ev = 0x00143750;
+_ZN2UI8LRSelect5setBgEPNS_10LRSelectBgE = 0x0017b8b4;
+_ZN2UI10LRSelectBg15AnimationDefine15defineAnimationEv = 0x001436e8;
+_ZNK2UI10LRSelectBg15getDTIClassInfoEv = 0x004e0d14;
+_ZNK2UI10LRSelectBg11getDTIClassEv = 0x004e0c8c;
+_ZN2UI10LRSelectBg8onCreateEPKNS_7Control9CreateArgE = 0x001436ec;
+
 
 # NOTE: This is a pointer that points to another pointer that actually points at RootSystem
 # i.e. not a direct pointer to RootSystem
