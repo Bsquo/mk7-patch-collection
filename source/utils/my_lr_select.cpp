@@ -87,10 +87,8 @@ void MyLRSelect::initSettings(const Settings &settings) {
     m_control_sight->replaceMessageImpl((u32) name_textbox, m_settings.name, nullptr, nullptr);
     UI::UIUtil::AdjustTextWidth(name_textbox, m_settings.name);
 
-    for (s32 i = 0; i < m_settings.m_num_options; i++) {
-        m_control_sight->replaceMessageImpl((u32) m_val_textbox, m_settings.options_text[i], nullptr, nullptr);
-        UI::UIUtil::AdjustTextWidth(m_val_textbox, m_settings.options_text[i]);
-    }
+    m_control_sight->replaceMessageImpl((u32) m_val_textbox, m_settings.options_text[m_settings.m_default_option], nullptr, nullptr);
+    UI::UIUtil::AdjustTextWidth(m_val_textbox, m_settings.options_text[m_settings.m_default_option]);
 }
 
 void MyLRSelect::setOnApply(OnApplyCallback callback) {
