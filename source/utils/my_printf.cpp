@@ -1,33 +1,17 @@
 #include "utils/my_printf.hpp"
+#include "utils/ext_base_menu_page.hpp"
 #include <wchar.h>
 
 namespace mod {
 namespace utils {
 
-MyPrintf *MyPrintf::createPrint(Sequence::BasePage *menu) {
-    UI::ControlInitializer *initializer = menu->m_control_initializer;
-    UI::ControlDirector *director = initializer->m_control_director;
-    menu->m_set_item_to_all_manipulators = true;
-
-    CreateArg create_arg;
-    // TODO: Hacky way to emit UI::MenuCaption::AnimationDefine's vtable
-    new (&create_arg.m_animation_define) MyPrintf::AnimationDefine;
-
-    MyPrintf *my_printf = new MyPrintf();
-    my_printf->initNode(director);
-    director->appendNode(my_printf);
-
-    initializer->m_control = my_printf;
-    initializer->initCreateArg(&create_arg, "caption", "caption");
-    initializer->m_control_create_arg = &create_arg;
-    initializer->endSetupControl(&create_arg);
-
-    menu->m_set_item_to_all_manipulators = false;
-
-    menu->m_controls_outside_manipulator_array.pushBack(my_printf);
-
+MyPrintf *MyPrintf::createPrint(Sequence::BasePage *menu, bool do_hide_background) {
+    MyPrintf *my_printf = mod::utils::setupControl<MyPrintf>(menu, "caption", "caption");
+    my_printf->hide_background = do_hide_background;
     my_printf->reallocateStringBuffer();
-    my_printf->hideBackground();
+
+    if (my_printf->hide_background)
+        my_printf->hideBackground();
 
     return my_printf;
 }
@@ -65,8 +49,10 @@ void MyPrintf::setPos(f32 x, f32 y) {
     if (textbox_handle.m_element == nullptr)
         return;
     
-    // We substract by -400 here to counter the +400 offset we applied to the background in `hideBackground`
-    x -= 400.0f;
+    if (hide_background) {
+        // We substract by -400 here to counter the +400 offset we applied to the background in `hideBackground`
+        x -= 400.0f;
+    }
 
     setPosX(textbox_handle, x);
     setPosY(textbox_handle, y);
@@ -110,10 +96,14 @@ void MyPrintf::setTextAlignment(u8 position) {
 // For this to take effect, call this function right after creating MyPrintf in your initialization function
 void MyPrintf::setDrawBottomScreen(bool draw_in_bottom_screen) {
     if (draw_in_bottom_screen) {
-        m_draw_screen_flag |= DRAW_ON_BOTTOM_SCREEN;
+        m_draw_screen_flag |= static_cast<u32>(
+            UI::Control::EDrawScreenFlag::DRAW_ON_BOTTOM_SCREEN
+        );
     }
     else {
-        m_draw_screen_flag |= DRAW_ON_TOP_SCREEN;
+        m_draw_screen_flag |= static_cast<u32>(
+            UI::Control::EDrawScreenFlag::DRAW_ON_TOP_SCREEN
+        );
     }
 }
 

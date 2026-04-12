@@ -1,5 +1,7 @@
 #include "common.hpp"
 #include "utils/my_lr_select.hpp"
+#include "utils/ext_base_menu_page.hpp"
+
 #include "UI/ControlDirector.hpp"
 #include "UI/ControlInitializer.hpp"
 #include "UI/EKeyID.hpp"
@@ -31,43 +33,45 @@ void MyLRSelect::keyHandlerCursor(s32 param_1, s32 key) {
     updateSelection();
 }
 
-MyLRSelect *MyLRSelect::createLRSelect(Sequence::BasePage *menu, bool create_bg) {
-    UI::ControlInitializer *initializer = menu->m_control_initializer;
-    UI::ControlDirector *director = initializer->m_control_director;
+void MyLRSelect::selectHandlerOn(s32 param_1, s32 param_2) {
+    LRSelect::selectHandlerOn(param_1, param_2);
+
+    if (caption != nullptr)
+        caption->animIn();
+}
+
+void MyLRSelect::selectHandlerOff(s32 param_1, s32 param_2) {
+    LRSelect::selectHandlerOff(param_1, param_2);
+
+    if (caption != nullptr)
+        caption->animOut();
+}
+
+MyLRSelect *MyLRSelect::createLRSelect(Sequence::BasePage *menu, bool create_bg, EDesign design) {
     MyLRSelectBg *bg = nullptr;
+    const char *control_filename = nullptr;
 
     if (create_bg) {
-        MyLRSelectBg::CreateArg bg_create_arg;
-        // TODO: Hacky way to emit UI::LRSelectBg::AnimationDefine's vtable
-        new (&bg_create_arg.m_animation_define) MyLRSelectBg::AnimationDefine;
-
-        bg = new MyLRSelectBg();
-        bg->initNode(director);
-        director->appendNode(bg);
-
-        initializer->m_control = bg;
-        initializer->initCreateArg(&bg_create_arg, "game_setup_bg", "game_setup_bg");
-        initializer->m_control_create_arg = &bg_create_arg;
-        initializer->endSetupControl(&bg_create_arg);
-
-        menu->m_controls.pushBack(bg);
+        bg = mod::utils::setupControl<MyLRSelectBg>(menu, "game_setup_bg", "game_setup_bg");
     }
 
-    CreateArg create_arg;
-    // TODO: Hacky way to emit UI::LRSelect::AnimationDefine's vtable
-    new (&create_arg.m_animation_define) MyLRSelect::AnimationDefine;
+    switch (design) {
+        case DESIGN_0:
+        default:
+            control_filename = "game_setup";
+            break;
 
-    MyLRSelect *my_lr_select = new MyLRSelect();
-    my_lr_select->initNode(director);
-    director->appendNode(my_lr_select);
+        case DESIGN_1:
+            control_filename = "game_setup_L";
+            break;
 
-    initializer->m_control = my_lr_select;
-    // We will use "game_setup" and "game_setup_5_00" as examples
-    initializer->initCreateArg(&create_arg, "game_setup", "game_setup_5_00");
-    initializer->m_control_create_arg = &create_arg;
-    initializer->endSetupControl(&create_arg);
+        case DESIGN_2:
+            control_filename = "game_setup_LL";
+            break;
+    }
 
-    menu->m_controls.pushBack(my_lr_select);
+    // We will use "game_setup_LL" and "game_setup_2_00" as examples
+    MyLRSelect *my_lr_select = mod::utils::setupControl<MyLRSelect>(menu, control_filename, "game_setup_2_00");
 
     if (create_bg) {
         my_lr_select->setBg(bg);
@@ -93,6 +97,18 @@ void MyLRSelect::initSettings(const Settings &settings) {
 
 void MyLRSelect::setOnApply(OnApplyCallback callback) {
     onApply = callback;
+}
+
+void MyLRSelect::initCaption(Sequence::BasePage *menu, bool do_hide_background, const UI::MessageString &message) {
+    caption = MyPrintf::createPrint(menu, do_hide_background);
+
+    if (caption != nullptr) {
+        caption->setMessage(message);
+    }
+}
+
+void MyLRSelect::setPosY(f32 pos_y) {
+    getRootPane()->m_translate.y = pos_y;
 }
 
 void MyLRSelect::updateSelection() {

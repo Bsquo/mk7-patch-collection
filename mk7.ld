@@ -7,7 +7,7 @@ SECTIONS {
 
   . = 0x100000;
 
-	/* Loader-related patches */
+	/* Loader-related */
   .patch_loader 0x100000 : {
     *(.patch_loader)
   }
@@ -45,6 +45,21 @@ SECTIONS {
   /* class_lr_select */
   .patch_class_lr_select_initControl ADDR_CLASS_LR_SELECT_INIT_CONTROL : {
     *(.patch_class_lr_select_initControl)
+  }
+  .patch_class_lr_select_onPagePreStep ADDR_CLASS_LR_SELECT_ON_PAGE_PRE_STEP : {
+    *(.patch_class_lr_select_onPagePreStep)
+  }
+  .patch_class_lr_select_onPageEnter ADDR_CLASS_LR_SELECT_ON_PAGE_ENTER : {
+    *(.patch_class_lr_select_onPageEnter)
+  }
+  .patch_class_lr_select_onPageComplete ADDR_CLASS_LR_SELECT_ON_PAGE_COMPLETE : {
+    *(.patch_class_lr_select_onPageComplete)
+  }
+  .patch_class_lr_select_onSliderSetting ADDR_CLASS_LR_SELECT_ON_SLIDER_SETTING : {
+    *(.patch_class_lr_select_onSliderSetting)
+  }
+  .patch_class_lr_select_procOpenMenu ADDR_CLASS_LR_SELECT_PROC_OPEN_MENU : {
+    *(.patch_class_lr_select_procOpenMenu)
   }
 
   /* We'll insert the loader's code at the very end of the executable's .text section */

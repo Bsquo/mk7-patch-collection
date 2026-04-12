@@ -2,4 +2,11 @@
 
 .arm
 
-PATCH_BL patch_class_lr_select_initControl, hook_class_lr_select_initControl
+# We'll patch the `Sequence::MenuMulti_Group` menu by
+# patching some of its vtable entries
+PATCH_WORD patch_class_lr_select_initControl, classLRSelect_initControl
+PATCH_WORD patch_class_lr_select_onPagePreStep, _ZN8Sequence4Page13onPagePreStepEv
+PATCH_WORD patch_class_lr_select_onPageEnter, classLRSelect_onPageEnter
+PATCH_WORD patch_class_lr_select_onPageComplete, classLRSelect_onPageComplete
+PATCH_WORD patch_class_lr_select_onSliderSetting, _ZN8Sequence12BaseMenuPage15onSliderSettingEbb
+PATCH_WORD patch_class_lr_select_procOpenMenu, _ZN8Sequence8BasePage12procOpenMenuEv

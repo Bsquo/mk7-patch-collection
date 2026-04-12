@@ -72,7 +72,27 @@ _ZN2UI10LRSelectBg15AnimationDefine15defineAnimationEv = 0x001436e8;
 _ZNK2UI10LRSelectBg15getDTIClassInfoEv = 0x004e0d14;
 _ZNK2UI10LRSelectBg11getDTIClassEv = 0x004e0c8c;
 _ZN2UI10LRSelectBg8onCreateEPKNS_7Control9CreateArgE = 0x001436ec;
-
+_ZN8Sequence4Page13onPagePreStepEv = 0x004cf5b0;
+_ZN8Sequence4Page11onPageEnterEv = 0x004cf4e0;
+_ZN8Sequence4Page14onPageCompleteEv = 0x004cf5c4;
+_ZN8Sequence8BasePage11enterCursorEi = 0x004d26fc;
+_ZN8Sequence12BaseMenuPage15onSliderSettingEbb = 0x00472e94;
+_ZN8Sequence8BasePage12procOpenMenuEv = 0x004d2b28;
+_ZN8Sequence8BasePage12setupControlIN2UI10BackButtonEEEPT_RKN4sead14SafeStringBaseIcEESA_ = 0x005dabf8;
+_ZN2UI13VisualControl11readyFadeinEl = 0x00157544;
+_ZN2UI13VisualControl12readyFadeoutEl = 0x001577bc;
+_ZN2UI13VisualControl4drawENS_7Control11EDrawScreenE = 0x0015795c;
+_ZN8Sequence11StartFadeinENS_5Fader10EFaderTypeEmNS0_12EFaderScreenE = 0x00471c50;
+_ZN8Sequence12StartFadeoutENS_5Fader10EFaderTypeEmNS0_12EFaderScreenE = 0x004803b0;
+_ZN2UI17MenuSimpleMessage15AnimationDefine15defineAnimationEv = 0x00166128;
+_ZNK2UI17MenuSimpleMessage15getDTIClassInfoEv = 0x004e6d08;
+_ZNK2UI17MenuSimpleMessage11getDTIClassEv = 0x004e6c80;
+_ZN2UI17MenuSimpleMessage8onCreateEPKNS_7Control9CreateArgE = 0x00166420;
+_ZN2UI17MenuSimpleMessage7onResetEv = 0x00166304;
+_ZN2UI11MenuCaption6animInEv = 0x0014ca48;
+_ZN2UI11MenuCaption7animOutEv = 0x0014cb94;
+_ZN2UI10CursorMove7setTypeENS0_5ETypeE = 0x00143360;
+ItemObjTail_defaultOnUseTailType = 0x00666334;
 
 # NOTE: This is a pointer that points to another pointer that actually points at RootSystem
 # i.e. not a direct pointer to RootSystem

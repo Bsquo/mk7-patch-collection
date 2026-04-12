@@ -1,12 +1,17 @@
 #include "common.hpp"
 #include "utils/my_lr_select.hpp"
+#include "utils/ext_base_menu_page.hpp"
+#include "utils/my_menu_simple_message.hpp"
+
 #include "Sequence/ControlSlider.hpp"
 #include "Sequence/BaseMenuPage.hpp"
+#include "Sequence/FaderPage.hpp"
+#include "UI/BackButton.hpp"
+#include "UI/CursorMove.hpp"
 
-mod::utils::MyLRSelect *engine_class_select = nullptr;
+mod::utils::MyLRSelect *lr_select_array[2] = {0};
 
-//// Settings. TODO: Cleanup ////
-
+// engine_class_select
 enum ClassLRSelect_EngineClass : u32 {
     _150_CC,
     _300_CC,
@@ -14,28 +19,13 @@ enum ClassLRSelect_EngineClass : u32 {
     _9999_CC
 };
 
-static char16_t name_str[] = u"CC";  
-static UI::MessageString name{name_str};
-
-static char16_t opt0_str[] = u"150cc";
-static UI::MessageString opt0{opt0_str};
-
-static char16_t opt1_str[] = u"300cc";  
-static UI::MessageString opt1{opt1_str};
-
-static char16_t opt2_str[] = u"500cc";  
-static UI::MessageString opt2{opt2_str};
-
-static char16_t opt3_str[] = u"9999cc";  
-static UI::MessageString opt3{opt3_str};
-
-static UI::MessageString options[] = { opt0, opt1, opt2, opt3 };
-
 mod::utils::MyLRSelect::Settings engine_class_select_settings(
-    ARRAY_COUNT(options),      // num_options
-    0,                         // default_option  
-    name,
-    options
+    0,
+    u"Modded 150cc",
+    {
+        { u"No", u"300cc", u"500cc", u"9999cc" },
+        4
+    }
 );
 
 void onApply_engineClassSelect(mod::utils::MyLRSelect *lr_select) {
@@ -61,23 +51,74 @@ void onApply_engineClassSelect(mod::utils::MyLRSelect *lr_select) {
     }
 }
 
+// unused_leaf_type_select
+enum ClassLRSelect_LeafType : u32 {
+    TYPE_NORMAL,
+    TYPE_UNUSED
+};
+
+mod::utils::MyLRSelect::Settings unused_leaf_type_select_settings(
+    0,
+    u"Leaf Type",
+    {
+        { u"Normal", u"Unused" },
+        2
+    }
+);
+
+void onApply_unusedLeafTypeSelect(mod::utils::MyLRSelect *lr_select) {
+    extern s32 ItemObjTail_defaultOnUseTailType;
+
+    switch (lr_select->m_option) {
+        case TYPE_NORMAL:
+        default:
+            ItemObjTail_defaultOnUseTailType = 3;
+            break;
+
+        case TYPE_UNUSED:
+            ItemObjTail_defaultOnUseTailType = 0;
+            break;
+    }
+}
+
 /////////////////
 
-HOOK void classLRSelect_initControl() {
-    Sequence::BaseMenuPage *menu;
-    READ_ARM_REG(r4, menu);
+HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
+    // Create the upper screen message window
+    mod::utils::MyMenuSimpleMessage *simple_message = mod::utils::setupControl<mod::utils::MyMenuSimpleMessage>(menu, "dialogue01", "dialogue");
+    simple_message->setMessage(u"Mod Menu");
 
-    engine_class_select = mod::utils::MyLRSelect::createLRSelect(menu, true);
-    engine_class_select->initSettings(engine_class_select_settings);
-    engine_class_select->setOnApply(onApply_engineClassSelect);
+    // Create the back button
+    UI::BackButton *back_button = menu->setupControl<UI::BackButton>("cmn_back_btn", "cmn_back_btn");
+    back_button->m_on_button_press_se = Sound::SndSeEvent::EEvent::SE_SYS_CANCEL_L;
+    back_button->m_return_code = menu->m_on_back_return_code;
 
-    Sequence::ControlSlider *control_slider = menu->m_control_slider_array[0];
+    // Create each LRSelect
+    // engine_class_select 
+    lr_select_array[0] = mod::utils::MyLRSelect::createLRSelect(menu, true, mod::utils::MyLRSelect::EDesign::DESIGN_0);
+    lr_select_array[0]->initSettings(engine_class_select_settings);
+    lr_select_array[0]->setOnApply(onApply_engineClassSelect);
+    lr_select_array[0]->initCaption(menu, false, u"Select a custom top speed for 150cc");
+    // TODO: This doesn't work for `engine_class_select`. Only for `unused_leaf_type_select`
+    lr_select_array[0]->setPosY(40.0f);
 
-    if (control_slider != nullptr) {
-        control_slider->setSlideH(engine_class_select);
+    // unused_leaf_type_select
+    lr_select_array[1] = mod::utils::MyLRSelect::createLRSelect(menu, false, mod::utils::MyLRSelect::EDesign::DESIGN_0);
+    lr_select_array[1]->initSettings(unused_leaf_type_select_settings);
+    lr_select_array[1]->setOnApply(onApply_unusedLeafTypeSelect);
+    lr_select_array[1]->initCaption(menu, false, u"Enables unused Super Leaf behaviour");
+    lr_select_array[1]->setPosY(60.0f);
 
-        if (engine_class_select->m_bg != nullptr) {
-            control_slider->setSlideH(engine_class_select->m_bg);
-        }
-    }
+    // TODO: Do we really need to call this?
+    menu->m_manipulators[0]->m_cursor_move.setType(UI::CursorMove::EType::NEXT_GAME_SETTING);
+}
+
+HOOK void classLRSelect_onPageEnter(Sequence::BaseMenuPage *menu) {
+    lr_select_array[0]->selectHandlerOn(0, 0);   // Ensure the caption for the first select appears when entering the menu
+    
+    Sequence::StartFadein(Sequence::Fader::EFaderType::FADE_IN_BLACK, 30, Sequence::Fader::EFaderScreen::BOTH_SCREENS);
+}
+
+HOOK void classLRSelect_onPageComplete(Sequence::BaseMenuPage *menu) {
+    Sequence::StartFadeout(Sequence::Fader::EFaderType::FADE_OUT_BLACK, 30, Sequence::Fader::EFaderScreen::BOTH_SCREENS);
 }
