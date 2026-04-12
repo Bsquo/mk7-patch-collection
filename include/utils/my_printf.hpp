@@ -22,9 +22,9 @@ class MyPrintf: public UI::MenuCaption {
         void _0x38() {}
         void _0x44() {}
 
-        MyPrintf() {}
-        ~MyPrintf() {}
-        static MyPrintf *createPrint(Sequence::BasePage *menu);
+        MyPrintf() = default;
+        ~MyPrintf() = default;
+        static MyPrintf *createPrint(Sequence::BasePage *menu, bool do_hide_background = true);
         void setMessage(const UI::MessageString &);
         void setMessage(u32);
         void setColor(const nw::ut::Color8, s32);
@@ -45,6 +45,7 @@ class MyPrintf: public UI::MenuCaption {
         UI::MessageString formatMessage(wchar_t *, u16, const wchar_t *, va_list);
         // One string buffer per `MyPrintf` instance
         wchar_t m_wbuf[BUFFER_CHARS];
+        bool hide_background;
 };
 
 }

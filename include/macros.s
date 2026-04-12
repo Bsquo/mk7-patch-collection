@@ -33,3 +33,24 @@
 \name:
     b \hook_func
 .endm
+
+.macro PATCH_WORD name, values:vararg
+    .section .\name
+    .global \name
+\name:
+    .word \values
+.endm
+
+.macro PATCH_HALF name, values:vararg
+    .section .\name
+    .global \name
+\name:
+    .hword \values
+.endm
+
+.macro PATCH_BYTES name, values:vararg
+    .section .\name
+    .global \name
+\name:
+    .byte \values
+.endm

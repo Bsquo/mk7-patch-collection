@@ -1,5 +1,7 @@
 #pragma once
 
+#include "utils/my_printf.hpp"
+
 #include "Sequence/BasePage.hpp"
 #include "UI/ControlAnimator.hpp"
 #include "UI/LRSelect.hpp"
@@ -10,6 +12,15 @@ namespace utils {
 
 class MyLRSelect: public UI::LRSelect {
     public:
+        enum EDesign: u32 {
+            // Name and selection have the same size
+            DESIGN_0,
+            // Name is significantly smaller than selection
+            DESIGN_1,
+            // Name is located above the selection
+            DESIGN_2
+        };
+
         struct AnimationDefine: public UI::LRSelect::AnimationDefine {};
 
         struct CreateArg: public UI::LRSelect::CreateArg {
@@ -19,53 +30,36 @@ class MyLRSelect: public UI::LRSelect {
         };
 
         struct Settings {
+            static const s32 MAX_OPTIONS = 10;
+
             s32 m_num_options;
             s32 m_default_option;
             UI::MessageString name;
-            UI::MessageString *options_text;
-
+            UI::MessageString options_text[MAX_OPTIONS];
             s32 name_message_id = -1;
-            s32 *options_message_ids = nullptr;
 
-            Settings()
-                : m_num_options(0),
-                m_default_option(-1),
-                name(nullptr),
-                options_text(nullptr),
-                name_message_id(-1),
-                options_message_ids(nullptr) {}
+            struct OptionList {
+                const char16_t* data[MAX_OPTIONS];
+                s32 count;
+            };
 
-            Settings(s32 num_options,
-                    s32 default_option,
-                    UI::MessageString name_,
-                    UI::MessageString *options_text_)
-                : m_num_options(num_options),
+            Settings(
+                s32 default_option,
+                const char16_t* name_str,
+                OptionList list
+            ):
+                m_num_options(list.count),
                 m_default_option(default_option),
-                name(name_),
-                options_text(options_text_) {}
+                name(name_str)
+            {
+                for (s32 i = 0; i < m_num_options; i++) {
+                    options_text[i] = UI::MessageString(list.data[i]);
+                }
+            }
 
-            Settings(s32 num_options,
-                    s32 default_option,
-                    s32 name_msg_id,
-                    s32* options_msg_ids)
-                : m_num_options(num_options),
-                m_default_option(default_option),
-                name_message_id(name_msg_id),
-                options_message_ids(options_msg_ids) {}
+            Settings(): m_num_options(0), m_default_option(0), name(nullptr) {}
 
             ~Settings() = default;
-
-            Settings& operator=(const Settings& other) {
-                if (this != &other) {
-                    m_num_options = other.m_num_options;
-                    m_default_option = other.m_default_option;
-                    name = other.name;
-                    options_text = other.options_text;
-                    name_message_id = other.name_message_id;
-                    options_message_ids = other.options_message_ids;
-                }
-                return *this;
-            }
         };
 
         using OnApplyCallback = void (*)(MyLRSelect*);
@@ -81,13 +75,22 @@ class MyLRSelect: public UI::LRSelect {
         ~MyLRSelect() {
             id = -1;
             num_lr_select--;
+            
+            // TODO: Figure out why this crashes
+            if (caption != nullptr) {
+                delete caption;
+            }
         }
         void onReset();
         void keyHandlerCursor(s32, s32);
+        void selectHandlerOn(s32, s32);
+        void selectHandlerOff(s32, s32);
 
-        static MyLRSelect *createLRSelect(Sequence::BasePage *, bool);
+        static MyLRSelect *createLRSelect(Sequence::BasePage *, bool, EDesign);
         void initSettings(const Settings &);
         void setOnApply(OnApplyCallback callback);
+        void initCaption(Sequence::BasePage *, bool, const UI::MessageString &);
+        void setPosY(f32);
 
         Settings m_settings;
 
@@ -98,6 +101,7 @@ class MyLRSelect: public UI::LRSelect {
 
         // DashSequenceEngine already has an array for this purpose (field 0xE8), but it only supports up to 23 entries.
         static s32 options_array[100];
+        MyPrintf *caption = nullptr;
 
     private:
         void updateSelection();
