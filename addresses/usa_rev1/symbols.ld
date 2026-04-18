@@ -93,6 +93,8 @@ _ZN2UI11MenuCaption6animInEv = 0x0014ca48;
 _ZN2UI11MenuCaption7animOutEv = 0x0014cb94;
 _ZN2UI10CursorMove7setTypeENS0_5ETypeE = 0x00143360;
 ItemObjTail_defaultOnUseTailType = 0x00666334;
+_ZN4sead7Color4f11cElementMinE = 0x003258c0;
+_ZN4sead7Color4f11cElementMaxE = 0x003258c4;
 
 # NOTE: This is a pointer that points to another pointer that actually points at RootSystem
 # i.e. not a direct pointer to RootSystem

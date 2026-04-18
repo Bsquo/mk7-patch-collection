@@ -1,4 +1,4 @@
-#include "common.hpp"
+#include "mod_common.hpp"
 #include "UI/MessageData.hpp"
 #include "Sequence/ControlSlider.hpp"
 #include "Sequence/MenuWiFi_Confirm.hpp"

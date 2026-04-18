@@ -14,6 +14,7 @@ SECTIONS {
 
   . = 0x100018;
 
+  # TODO: Do the same for global destructors
   .patch_call_global_constructors 0x100018 : {
     *(.patch_call_global_constructors)
   }
@@ -31,7 +32,6 @@ SECTIONS {
   .patch_race_prints_init ADDR_RACE_PRINTS_INIT : {
     *(.patch_race_prints_init)
   }
-
   .patch_race_prints_calc ADDR_RACE_PRINTS_CALC : {
     *(.patch_race_prints_calc)
   }
@@ -40,7 +40,6 @@ SECTIONS {
   .patch_change_chara_wifi_initControl ADDR_CHANGE_CHARA_WIFI_INIT_CONTROL : {
     *(.patch_change_chara_wifi_initControl)
   }
-
   .patch_change_chara_wifi_onPageEnter ADDR_CHANGE_CHARA_WIFI_ON_PAGE_ENTER : {
     *(.patch_change_chara_wifi_onPageEnter)
   }
@@ -63,6 +62,17 @@ SECTIONS {
   }
   .patch_class_lr_select_procOpenMenu ADDR_CLASS_LR_SELECT_PROC_OPEN_MENU : {
     *(.patch_class_lr_select_procOpenMenu)
+  }
+
+  /* ultra_miniturbo */
+  .patch_ultraminiturbo_init ADDR_ULTRA_MINITURBO_INIT : {
+    *(.patch_ultraminiturbo_init)
+  }
+  .patch_ultraminiturbo_calc ADDR_ULTRA_MINITURBO_CALC : {
+    *(.patch_ultraminiturbo_calc)
+  }
+  .patch_ultraminiturbo_update_dash_param ADDR_ULTRA_MINITURBO_UPDATE_DASH_PARAM : {
+    *(.patch_ultraminiturbo_update_dash_param)
   }
 
   /* We'll insert the loader's code at the very end of the executable's .text section */

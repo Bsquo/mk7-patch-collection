@@ -1,5 +1,6 @@
 #pragma once
 
+#include "common.hpp"
 #include "versions.h"
 #include <3ds/types.h>
 

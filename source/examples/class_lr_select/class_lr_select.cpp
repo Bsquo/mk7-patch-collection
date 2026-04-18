@@ -1,4 +1,4 @@
-#include "common.hpp"
+#include "examples/class_lr_select/class_lr_select.hpp"
 #include "utils/my_lr_select.hpp"
 #include "utils/ext_base_menu_page.hpp"
 #include "utils/my_menu_simple_message.hpp"
@@ -81,6 +81,38 @@ void onApply_unusedLeafTypeSelect(mod::utils::MyLRSelect *lr_select) {
     }
 }
 
+// ultra_miniturbo_select
+bool g_ultra_miniturbo_enabled = false;
+
+enum ClassLRSelect_OnOff : u32 {
+    OPTION_OFF,
+    OPTION_ON
+};
+
+mod::utils::MyLRSelect::Settings ultra_miniturbo_select_settings(
+    0,
+    u"Ultra Miniturbo",
+    {
+        { u"Off", u"On" },
+        2
+    }
+);
+
+void onApply_ultraMiniturbo(mod::utils::MyLRSelect *lr_select) {
+    extern s32 ItemObjTail_defaultOnUseTailType;
+
+    switch (lr_select->m_option) {
+        case OPTION_OFF:
+        default:
+            g_ultra_miniturbo_enabled = false;
+            break;
+
+        case OPTION_ON:
+            g_ultra_miniturbo_enabled = true;
+            break;
+    }
+}
+
 /////////////////
 
 HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
@@ -95,7 +127,7 @@ HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
 
     // Create each LRSelect
     // engine_class_select 
-    lr_select_array[0] = mod::utils::MyLRSelect::createLRSelect(menu, true, mod::utils::MyLRSelect::EDesign::DESIGN_0);
+    lr_select_array[0] = mod::utils::MyLRSelect::createLRSelect(menu, false, mod::utils::MyLRSelect::EDesign::DESIGN_0);
     lr_select_array[0]->initSettings(engine_class_select_settings);
     lr_select_array[0]->setOnApply(onApply_engineClassSelect);
     lr_select_array[0]->initCaption(menu, false, u"Select a custom top speed for 150cc");
@@ -107,7 +139,14 @@ HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
     lr_select_array[1]->initSettings(unused_leaf_type_select_settings);
     lr_select_array[1]->setOnApply(onApply_unusedLeafTypeSelect);
     lr_select_array[1]->initCaption(menu, false, u"Enables unused Super Leaf behaviour");
-    lr_select_array[1]->setPosY(60.0f);
+    lr_select_array[1]->setPosY(00.0f);
+
+    // ultra_miniturbo_select
+    lr_select_array[2] = mod::utils::MyLRSelect::createLRSelect(menu, false, mod::utils::MyLRSelect::EDesign::DESIGN_0);
+    lr_select_array[2]->initSettings(ultra_miniturbo_select_settings);
+    lr_select_array[2]->setOnApply(onApply_ultraMiniturbo);
+    lr_select_array[2]->initCaption(menu, false, u"Enables purple miniturbos");
+    lr_select_array[2]->setPosY(-40.0f);
 
     // TODO: Do we really need to call this?
     menu->m_manipulators[0]->m_cursor_move.setType(UI::CursorMove::EType::NEXT_GAME_SETTING);

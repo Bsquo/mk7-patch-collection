@@ -77,9 +77,9 @@ class MyLRSelect: public UI::LRSelect {
             num_lr_select--;
             
             // TODO: Figure out why this crashes
-            if (caption != nullptr) {
-                delete caption;
-            }
+            //if (caption != nullptr) {
+            //    delete caption;
+            //}
 
             caption = nullptr;
         }
