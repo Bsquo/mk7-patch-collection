@@ -1,5 +1,6 @@
 /* show_timer_in_gp */
 ADDR_SHOW_TIMER_IN_GP = 0x4D9504;
+ADDR_PATCH_SET_TIME_CONTROL_POS = 0x47dea0;
 
 /* change_chara_wifi */
 ADDR_CHANGE_CHARA_WIFI_INIT_CONTROL = 0x49b4a0;

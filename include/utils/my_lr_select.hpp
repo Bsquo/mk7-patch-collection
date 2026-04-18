@@ -80,6 +80,8 @@ class MyLRSelect: public UI::LRSelect {
             if (caption != nullptr) {
                 delete caption;
             }
+
+            caption = nullptr;
         }
         void onReset();
         void keyHandlerCursor(s32, s32);

@@ -49,7 +49,7 @@ T* setupControlOutsideManipulatorArray(Sequence::BasePage *menu, const sead::Saf
     director->appendNode(control);
 
     initializer->m_control = control;
-    initializer->initCreateArg(&create_arg, "caption", "caption");
+    initializer->initCreateArg(&create_arg, control_filename, control_dataname);
     initializer->m_control_create_arg = &create_arg;
     initializer->endSetupControl(&create_arg);
 

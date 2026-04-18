@@ -26,7 +26,7 @@ HOOK void racePrints_init(Sequence::BaseRacePage *race_page) {
     prints->setTextAlignment(nw::lyt::ALIGN_TOP_LEFT);
 }
 
-HOOK void racePrints_calc() {
+HOOK void racePrints_calc(Sequence::BaseRacePage *page) {
     // Avoid printing in Battle mode, since this example print is only meant for
     // races in mind.
     RaceSys::CRaceMode::RaceType match_type = RaceSys::GetRaceInfo()->m_race_mode.m_type;
@@ -35,7 +35,7 @@ HOOK void racePrints_calc() {
         return;
     }
 
-    const s32 playerIdx = 0;
+    const s32 playerIdx = page->m_target_player_id;
 
     Kart::Vehicle *vehicle = Kart::GetDirector()->getKart(playerIdx);
     prints->printf

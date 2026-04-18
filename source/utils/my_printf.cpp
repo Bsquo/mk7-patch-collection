@@ -6,7 +6,7 @@ namespace mod {
 namespace utils {
 
 MyPrintf *MyPrintf::createPrint(Sequence::BasePage *menu, bool do_hide_background) {
-    MyPrintf *my_printf = mod::utils::setupControl<MyPrintf>(menu, "caption", "caption");
+    MyPrintf *my_printf = mod::utils::setupControlOutsideManipulatorArray<MyPrintf>(menu, "caption", "caption");
     my_printf->hide_background = do_hide_background;
     my_printf->reallocateStringBuffer();
 

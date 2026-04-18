@@ -23,6 +23,9 @@ SECTIONS {
   .patch_show_timer_in_gp ADDR_SHOW_TIMER_IN_GP : {
     *(.patch_show_timer_in_gp)
   }
+  .patch_set_time_control_pos ADDR_PATCH_SET_TIME_CONTROL_POS : {
+    *(.patch_set_time_control_pos)
+  }
 
   /* race_prints */
   .patch_race_prints_init ADDR_RACE_PRINTS_INIT : {
