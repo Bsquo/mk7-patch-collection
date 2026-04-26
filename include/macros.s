@@ -15,6 +15,20 @@
     bx lr
 .endm
 
+/* Same as above, except this will modify the value of r0,
+   so that we can execute hooks that return a number and use those
+   in the original game code.
+*/
+.macro HOOK_RET_INT name, target_func, original_instr:vararg
+    .global \name
+\name:
+    push {r1-r12, lr}
+    bl \target_func
+    pop  {r1-r12, lr}
+    \original_instr
+    bx lr
+.endm
+
 /* -----------------------
    Patch macro
 ----------------------- */

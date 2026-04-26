@@ -9,7 +9,12 @@
 #include "UI/BackButton.hpp"
 #include "UI/CursorMove.hpp"
 
-mod::utils::MyLRSelect *lr_select_array[2] = {0};
+mod::utils::MyLRSelect *lr_select_array[4] = {0};
+
+enum ClassLRSelect_OnOff : u32 {
+    OPTION_OFF,
+    OPTION_ON
+};
 
 // engine_class_select
 enum ClassLRSelect_EngineClass : u32 {
@@ -84,11 +89,6 @@ void onApply_unusedLeafTypeSelect(mod::utils::MyLRSelect *lr_select) {
 // ultra_miniturbo_select
 bool g_ultra_miniturbo_enabled = false;
 
-enum ClassLRSelect_OnOff : u32 {
-    OPTION_OFF,
-    OPTION_ON
-};
-
 mod::utils::MyLRSelect::Settings ultra_miniturbo_select_settings(
     0,
     u"Ultra Miniturbo",
@@ -99,8 +99,6 @@ mod::utils::MyLRSelect::Settings ultra_miniturbo_select_settings(
 );
 
 void onApply_ultraMiniturbo(mod::utils::MyLRSelect *lr_select) {
-    extern s32 ItemObjTail_defaultOnUseTailType;
-
     switch (lr_select->m_option) {
         case OPTION_OFF:
         default:
@@ -109,6 +107,31 @@ void onApply_ultraMiniturbo(mod::utils::MyLRSelect *lr_select) {
 
         case OPTION_ON:
             g_ultra_miniturbo_enabled = true;
+            break;
+    }
+}
+
+// random_stats
+bool g_random_stats_enabled = false;
+
+mod::utils::MyLRSelect::Settings random_stats_select_settings(
+    0,
+    u"Random stats",
+    {
+        { u"Off", u"On" },
+        2
+    }
+);
+
+void onApply_randomStats(mod::utils::MyLRSelect *lr_select) {
+    switch (lr_select->m_option) {
+        case OPTION_OFF:
+        default:
+            g_random_stats_enabled = false;
+            break;
+
+        case OPTION_ON:
+            g_random_stats_enabled = true;
             break;
     }
 }
@@ -147,6 +170,13 @@ HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
     lr_select_array[2]->setOnApply(onApply_ultraMiniturbo);
     lr_select_array[2]->initCaption(menu, false, u"Enables purple miniturbos");
     lr_select_array[2]->setPosY(-40.0f);
+
+    // random_stats
+    lr_select_array[3] = mod::utils::MyLRSelect::createLRSelect(menu, false, mod::utils::MyLRSelect::EDesign::DESIGN_0);
+    lr_select_array[3]->initSettings(random_stats_select_settings);
+    lr_select_array[3]->setOnApply(onApply_randomStats);
+    lr_select_array[3]->initCaption(menu, false, u"Randomizes your vehicle stats on each race");
+    lr_select_array[3]->setPosY(-80.0f);
 
     // TODO: Do we really need to call this?
     menu->m_manipulators[0]->m_cursor_move.setType(UI::CursorMove::EType::NEXT_GAME_SETTING);

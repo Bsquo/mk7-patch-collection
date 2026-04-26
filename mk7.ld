@@ -75,6 +75,44 @@ SECTIONS {
     *(.patch_ultraminiturbo_update_dash_param)
   }
 
+  /* random_stats_patches */
+  .patch_random_stats_weight ADDR_RANDOM_STATS_WEIGHT : {
+    *(.patch_random_stats_weight)
+  }
+  .patch_random_stats_speed_land ADDR_RANDOM_STATS_SPEED_LAND : {
+    *(.patch_random_stats_speed_land)
+  }
+  .patch_random_stats_speed_sea ADDR_RANDOM_STATS_SPEED_SEA : {
+    *(.patch_random_stats_speed_sea)
+  }
+  .patch_random_stats_speed_air ADDR_RANDOM_STATS_SPEED_AIR : {
+    *(.patch_random_stats_speed_air)
+  }
+  .patch_random_stats_accel ADDR_RANDOM_STATS_ACCEL : {
+    *(.patch_random_stats_accel)
+  }
+  .patch_random_stats_turn_land ADDR_RANDOM_STATS_TURN_LAND : {
+    *(.patch_random_stats_turn_land)
+  }
+  .patch_random_stats_turn_sea ADDR_RANDOM_STATS_TURN_SEA : {
+    *(.patch_random_stats_turn_sea)
+  }
+  .patch_random_stats_turn_air ADDR_RANDOM_STATS_TURN_AIR : {
+    *(.patch_random_stats_turn_air)
+  }
+  .patch_random_stats_offroad ADDR_RANDOM_STATS_OFFROAD : {
+    *(.patch_random_stats_offroad)
+  }
+  .patch_random_stats_miniturbo ADDR_RANDOM_STATS_MINITURBO : {
+    *(.patch_random_stats_miniturbo)
+  }
+  .patch_random_stats_tirefeeling ADDR_RANDOM_STATS_TIREFEELING : {
+    *(.patch_random_stats_tirefeeling)
+  }
+  .patch_random_stats_driftstart ADDR_RANDOM_STATS_DRIFTSTART : {
+    *(.patch_random_stats_driftstart)
+  }
+
   /* We'll insert the loader's code at the very end of the executable's .text section */
   /* NOTE: This address depends on the game version! */
   . = ADDR_LOADER;

@@ -5,4 +5,5 @@ SOURCES		:=	source \
 				source/examples/change_chara_wifi \
 				source/examples/race_prints \
 				source/examples/class_lr_select \
-				source/examples/ultra_miniturbo
+				source/examples/ultra_miniturbo \
+				source/examples/random_stats
