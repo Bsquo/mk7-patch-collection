@@ -24,7 +24,7 @@ MyPrintf *MyPrintf::createPrint(Sequence::BasePage *menu) {
 
     menu->m_set_item_to_all_manipulators = false;
 
-    menu->m_controls_outside_manipulator_array.pushBack(my_printf);
+    menu->m_both_controls.pushBack(my_printf);
 
     my_printf->reallocateStringBuffer();
     my_printf->hideBackground();
@@ -110,10 +110,10 @@ void MyPrintf::setTextAlignment(u8 position) {
 // For this to take effect, call this function right after creating MyPrintf in your initialization function
 void MyPrintf::setDrawBottomScreen(bool draw_in_bottom_screen) {
     if (draw_in_bottom_screen) {
-        m_draw_screen_flag |= DRAW_ON_BOTTOM_SCREEN;
+        m_draw_screen_flag |= UI::Control::EDrawScreenFlag::DRAW_ON_BOTTOM_SCREEN;
     }
     else {
-        m_draw_screen_flag |= DRAW_ON_TOP_SCREEN;
+        m_draw_screen_flag |= UI::Control::EDrawScreenFlag::DRAW_ON_TOP_SCREEN;
     }
 }
 
