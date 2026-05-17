@@ -6,4 +6,5 @@ SOURCES		:=	source \
 				source/examples/race_prints \
 				source/examples/class_lr_select \
 				source/examples/ultra_miniturbo \
-				source/examples/random_stats
+				source/examples/random_stats \
+				source/examples/input_viewer

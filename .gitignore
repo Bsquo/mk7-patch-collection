@@ -25,3 +25,5 @@ source/patch_symbols.hpp
 !exheader/
 !exheader/**/
 !exheader/**/exheader_template.bin
+!assets/
+!assets/**
