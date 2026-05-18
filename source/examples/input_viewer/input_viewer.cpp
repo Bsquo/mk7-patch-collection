@@ -31,7 +31,7 @@ void InputViewerButton::onCalc() {
     if (pad == nullptr)
         return;
 
-    if (pad->m_pad_controller->m_pad_controller_core->mPadHold & m_button) {
+    if (pad->m_subsystems_array[0]->m_data_on_frame->m_buttons & m_button) {
         hold();
     }
     else {
@@ -49,7 +49,7 @@ void InputViewerButton::release() {
     m_animator->getAnimationFamily(0)->setAnimation(0, ANIM_RELEASE);
 }
 
-void InputViewerButton::setParams(EType type, sead::CtrController::ButtonEnum button) {
+void InputViewerButton::setParams(EType type, u16 button) {
     m_type = type;
     m_button = button;
 }
@@ -61,7 +61,7 @@ HOOK void inputViewer_initControl() {
     READ_ARM_REG(r4, race_page);
 
     mod::InputViewerButton *input_viewer_a = mod::utils::setupControl<mod::InputViewerButton>(race_page, "input_viewer", "input_viewer");
-    input_viewer_a->setParams(mod::InputViewerButton::EType::BUTTON_CIRCLE, sead::CtrController::ButtonEnum::BUTTON_A);
+    input_viewer_a->setParams(mod::InputViewerButton::EType::BUTTON_CIRCLE, System::KDPad::BUTTON_A);
 }
 
 }

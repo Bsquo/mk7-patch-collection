@@ -34,11 +34,11 @@ class InputViewerButton: public UI::BaseMenuViewControl {
         ~InputViewerButton() = default;
         void onReset();
         void onCalc();
-        void setParams(EType, sead::CtrController::ButtonEnum);
+        void setParams(EType, u16);
 
     private:
         EType m_type;
-        sead::CtrController::ButtonEnum m_button;
+        u16 m_button;
 
         void hold();
         void release();
