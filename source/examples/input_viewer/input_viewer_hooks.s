@@ -3,8 +3,5 @@
 .arm
 .text
 
-HOOK hook_change_chara_wifi_initControl, changeCharaWifi_initControl, \
-    add sp, sp, #0x11C
-
-HOOK hook_change_chara_wifi_onPageEnter, changeCharaWifi_onPageEnter, \
-    bx lr   @ Original instruction is `nop`, so we can proceed just fine from here
+HOOK hook_input_viewer_initControl, inputViewer_initControl, \
+    ldr r0, [r4, #0x26c]

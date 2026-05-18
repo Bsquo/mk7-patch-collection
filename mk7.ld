@@ -113,6 +113,11 @@ SECTIONS {
     *(.patch_random_stats_driftstart)
   }
 
+  /* input_viewer */
+  .patch_input_viewer_initControl ADDR_INPUT_VIEWER_INITCONTROL : {
+    *(.patch_input_viewer_initControl)
+  }
+
   /* We'll insert the loader's code at the very end of the executable's .text section */
   /* NOTE: This address depends on the game version! */
   . = ADDR_LOADER;

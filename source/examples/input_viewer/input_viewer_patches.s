@@ -2,5 +2,4 @@
 
 .arm
 
-PATCH_BL patch_change_chara_wifi_initControl, hook_change_chara_wifi_initControl
-PATCH_BL patch_change_chara_wifi_onPageEnter, hook_change_chara_wifi_onPageEnter
+PATCH_BL patch_input_viewer_initControl, hook_input_viewer_initControl
