@@ -101,7 +101,7 @@ _ZN2UI15ControlAnimator15AnimationDefine23initAnimationFamilyListEl = 0x0015b2b0
 _ZN2UI15ControlAnimator15AnimationDefine19initAnimationFamilyElRKN4sead14SafeStringBaseIcEEl = 0x0015b1d8;
 _ZN2UI15ControlAnimator15AnimationDefine13initAnimationElRKN4sead14SafeStringBaseIcEEl = 0x0015b150;
 _ZN2UI15ControlAnimator15AnimationFamily12setAnimationElf = 0x0015b480;
-
+_ZN2UI15BaseFastControl8calcAnimEv = 0x0015ad00;
 
 # NOTE: This is a pointer that points to another pointer that actually points at RootSystem
 # i.e. not a direct pointer to RootSystem

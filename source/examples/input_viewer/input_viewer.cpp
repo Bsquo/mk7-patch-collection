@@ -2,12 +2,15 @@
 #include "examples/input_viewer/input_viewer.hpp"
 #include "utils/ext_base_menu_page.hpp"
 
+#include "Kart/Director.hpp"
+#include "Kart/Vehicle/Vehicle.hpp"
 #include "Sequence/RacePage.hpp"
 #include "System/RootSystem.hpp"
 #include "System/KDPadDirector.hpp"
 #include "System/KDPlayerPad.hpp"
-#include "System/KDPadControllerCore.hpp"
 #include "UI/ControlAnimator.hpp"
+
+#include "RaceSys/RaceInfo/Get.hpp"
 
 namespace mod {
 
@@ -25,13 +28,13 @@ void InputViewerButton::onReset() {
 }
 
 void InputViewerButton::onCalc() {
-    s32 index = static_cast<s32>(System::KDPadDirector::eKDPadListIndex::PLAYER);
-    System::KDPlayerPad *pad = static_cast<System::KDPlayerPad *>(System::g_root_system->get_pad_director()->m_pads[index]);
+    s16 player_idx = RaceSys::GetRaceInfo()->m_detail_kart_id;
+    System::KDPlayerPad *pad = static_cast<System::KDPlayerPad *>(Kart::GetDirector()->getKart(player_idx)->m_player_pad);
     
     if (pad == nullptr)
         return;
 
-    if (pad->m_subsystems_array[0]->m_data_on_frame->m_buttons & m_button) {
+    if (pad->m_pad_add_base->m_data_on_frame->m_buttons & m_button) {
         hold();
     }
     else {
