@@ -9,7 +9,7 @@
 #include "UI/BackButton.hpp"
 #include "UI/CursorMove.hpp"
 
-mod::utils::MyLRSelect *lr_select_array[4] = {0};
+mod::utils::MyLRSelect *lr_select_array[5] = {0};
 
 enum ClassLRSelect_OnOff : u32 {
     OPTION_OFF,
@@ -136,6 +136,31 @@ void onApply_randomStats(mod::utils::MyLRSelect *lr_select) {
     }
 }
 
+// race_prints
+bool g_race_prints_enabled = false;
+
+mod::utils::MyLRSelect::Settings race_prints_select_settings(
+    0,
+    u"Race prints",
+    {
+        { u"Off", u"On" },
+        2
+    }
+);
+
+void onApply_racePrints(mod::utils::MyLRSelect *lr_select) {
+    switch (lr_select->m_option) {
+        case OPTION_OFF:
+        default:
+            g_race_prints_enabled = false;
+            break;
+
+        case OPTION_ON:
+            g_race_prints_enabled = true;
+            break;
+    }
+}
+
 /////////////////
 
 HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
@@ -177,6 +202,12 @@ HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
     lr_select_array[3]->setOnApply(onApply_randomStats);
     lr_select_array[3]->initCaption(menu, false, u"Randomizes your vehicle stats on each race");
     lr_select_array[3]->setPosY(-80.0f);
+
+    // race_prints
+    lr_select_array[4] = mod::utils::MyLRSelect::createLRSelect(menu, false, mod::utils::MyLRSelect::EDesign::DESIGN_0);
+    lr_select_array[4]->initSettings(race_prints_select_settings);
+    lr_select_array[4]->setOnApply(onApply_racePrints);
+    lr_select_array[4]->setPosY(-100.0f);
 
     // TODO: Do we really need to call this?
     menu->m_manipulators[0]->m_cursor_move.setType(UI::CursorMove::EType::NEXT_GAME_SETTING);

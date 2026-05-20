@@ -6,6 +6,7 @@
 
 #include <nw/lyt/Pane.hpp>
 #include <nw/lyt/TextBox.hpp>
+#include <math/seadVector.h>
 #include <prim/seadSafeString.hpp>
 
 namespace mod {
@@ -50,6 +51,7 @@ class InputViewer: public UI::BaseMenuViewControl {
         virtual ~InputViewer() = default;
         virtual void onCreate(const Control::CreateArg *);
         virtual void onCalc();
+        void setRootPos(f32, f32);
 
         private:
             nw::lyt::Pane *getElement(const sead::SafeString &, const UI::ControlSight::EElementType);
@@ -58,8 +60,10 @@ class InputViewer: public UI::BaseMenuViewControl {
 
             nw::lyt::Pane *m_button_panes[NUM_OFF_ON_INPUTS][2];
             u32 m_buttons[NUM_OFF_ON_INPUTS];
+            UI::ControlSight::ElementHandle m_stick_pane_element;
             nw::lyt::Pane *m_stick_pane;
             nw::lyt::TextBox * m_stick_text;
+            sead::Vector2f m_stick_original_pos;
 };
 
 }

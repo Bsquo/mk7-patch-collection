@@ -41,8 +41,12 @@ void InputViewer::onCreate(const Control::CreateArg *) {
     m_buttons[INPUT_R] = System::KDPad::BUTTON_R;
 
     // Stick
-    m_stick_pane = getElement("P_button_stick", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
-    m_stick_text = static_cast<nw::lyt::TextBox*>(getElement("T_stick_values", UI::ControlSight::EElementType::ELEMENT_TYPE_TEXTBOX));
+    m_stick_pane_element.m_element = m_control_sight->getElementHandle("P_button_stick", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
+    m_stick_pane = static_cast<nw::lyt::Pane *>(m_stick_pane_element.m_element);
+    m_stick_text = static_cast<nw::lyt::TextBox *>(getElement("T_stick_values", UI::ControlSight::EElementType::ELEMENT_TYPE_TEXTBOX));
+
+    setRootPos(-110.0f, -60.0f);
+    m_stick_original_pos.set(m_stick_pane->m_translate.x, m_stick_pane->m_translate.y);
 }
 
 void InputViewer::onCalc() {
@@ -53,7 +57,7 @@ void InputViewer::onCalc() {
     if (pad == nullptr)
         return;
 
-        // Calc buttons
+    // Calc buttons
     for (u32 i = 0; i < NUM_OFF_ON_INPUTS; i++) {
         if (data->m_buttons & m_buttons[i]) {
             buttonOn(i);
@@ -64,9 +68,22 @@ void InputViewer::onCalc() {
     }
 
     // Calc stick
+    sead::Vector3f new_stick_pos(0.0f, 0.0f, 0.0f);
+    new_stick_pos.x = m_stick_original_pos.x + (data->m_stick_x - 7) * 2.0f;
+    new_stick_pos.y = m_stick_original_pos.y + (data->m_stick_y - 7) * 2.0f;
+    setPos(m_stick_pane_element, new_stick_pos);
+
+    // Calc stick text
     wchar_t buffer[64];
-    __2swprintf(buffer, ARRAY_COUNT(buffer), L"(%hhd , %hhd)", data->m_stick_x, data->m_stick_y);
+    __2swprintf(buffer, ARRAY_COUNT(buffer), L"(%hhd, %hhd)", data->m_stick_x, data->m_stick_y);
     m_stick_text->SetString(buffer, 0);
+}
+
+void InputViewer::setRootPos(f32 x, f32 y) {
+    UI::ControlSight::ElementHandle root_pane_handle;
+
+    root_pane_handle.m_element = m_control_sight->getElementHandle("R_center", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
+    setPos(root_pane_handle, sead::Vector3f(x, y, 0.0f));
 }
 
 nw::lyt::Pane *InputViewer::getElement(const sead::SafeString & name, const UI::ControlSight::EElementType element_type) {
