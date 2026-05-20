@@ -114,8 +114,11 @@ SECTIONS {
   }
 
   /* input_viewer */
-  .patch_input_viewer_initControl ADDR_INPUT_VIEWER_INITCONTROL : {
-    *(.patch_input_viewer_initControl)
+  .patch_input_viewer_create ADDR_INPUT_VIEWER_CREATE : {
+    *(.patch_input_viewer_create)
+  }
+  .patch_input_viewer_delete ADDR_INPUT_VIEWER_DELETE : {
+    *(.patch_input_viewer_delete)
   }
 
   /* We'll insert the loader's code at the very end of the executable's .text section */

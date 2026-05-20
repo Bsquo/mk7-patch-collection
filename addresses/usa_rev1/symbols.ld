@@ -7,6 +7,7 @@ _ZN2UI15MessageDataList10getMessageERNS_13MessageStringEPS0_l = 0x4e5458;
 _ZN8Sequence13ControlSlider9setSlideHEPN2UI13VisualControlE = 0x481a64;
 _ZN2UI15BaseFastControl7setPosYERNS_12ControlSight13ElementHandleEf = 0x15ac60;
 _ZN2UI15BaseFastControl7setPosXERNS_12ControlSight13ElementHandleEf = 0x15ac14;
+_ZN2UI15BaseFastControl6setPosERNS_12ControlSight13ElementHandleERKN4sead7Vector3IfEE = 0x0015ab18;
 _ZN2UI12ControlSight13ElementHandleC1Ev = 0x14f854;
 _ZN2UI15MessageDataListD1Ev = 0x0015c7ec;
 _ZTVN2UI13VisualControlE = 0x0061ac84;
