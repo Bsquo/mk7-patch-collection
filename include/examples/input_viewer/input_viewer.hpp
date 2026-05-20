@@ -1,24 +1,39 @@
 #pragma once
 
 #include "forward.hpp"
-#include "Object/Actor.hpp"
 #include "UI/BaseMenuViewControl.hpp"
 
-#include <controller/ctr/seadCtrController.h>
-#include <math/seadVector.hpp>
+
+#include <nw/lyt/Pane.hpp>
+#include <nw/lyt/TextBox.hpp>
+#include <prim/seadSafeString.hpp>
 
 namespace mod {
 
-class InputViewerInput: public UI::BaseMenuViewControl {
+class InputViewer: public UI::BaseMenuViewControl {
     public:
-        enum class EType : u32 {
-            TYPE_BUTTON,
-            TYPE_SHOULDER,
-            TYPE_STICK
+        enum { NUM_OFF_ON_INPUTS = 6 };
+
+        enum EInput : u32 {
+            INPUT_A,
+            INPUT_B,
+            INPUT_X,
+            INPUT_Y,
+            INPUT_L,
+            INPUT_R,
+
+            INPUT_STICK,
+            INPUT_STICK_OUTER,
+            INPUT_STICK_TEXTBOX
+        };
+
+        enum EInputState : u32 {
+            OFF,
+            ON
         };
 
         struct AnimationDefine: public UI::ControlAnimator::AnimationDefine {
-            void defineAnimation();
+            void defineAnimation() {}
         };
 
         struct CreateArg: public UI::VisualControl::CreateArg {
@@ -31,70 +46,21 @@ class InputViewerInput: public UI::BaseMenuViewControl {
         void _0x38() {}
         void _0x44() {}
 
-        InputViewerInput() = default;
-        virtual ~InputViewerInput() = default;
+        InputViewer() = default;
+        virtual ~InputViewer() = default;
+        virtual void onCreate(const Control::CreateArg *);
         virtual void onReset();
-        virtual void onCalc() = 0;
-        virtual void setButton(u16) = 0;
+        virtual void onCalc();
 
-        void hold();
-        void release();
-        sead::Vector2f getScale();
-        void setScale(f32, f32);
-        EType getType() const;
-        void setType(EType);
+        private:
+            nw::lyt::Pane *getElement(const sead::SafeString &, const UI::ControlSight::EElementType);
+            void buttonOff(u32);
+            void buttonOn(u32);
 
-    private:
-        void setHoldState(bool);
-
-        EType m_type;
-};
-
-class InputViewerButton: public InputViewerInput {
-    public:
-        ~InputViewerButton() = default;
-        void onCalc();
-        void setButton(u16);
-
-    private:
-        u16 m_button;
-};
-
-class InputViewerStick: public InputViewerInput {
-    public:
-        ~InputViewerStick() = default;
-        void onReset();
-        void onCalc();
-        void setButton(u16);
-
-    private:
-        sead::Vector2s m_stick;
-};
-
-class InputViewer {
-    public:
-        enum InputButton : u32 {
-            BUTTON_A,
-            BUTTON_B,
-            BUTTON_X,
-            BUTTON_Y,
-            BUTTON_L,
-            BUTTON_R,
-            BUTTON_STICK
-        };
-
-        InputViewer(Sequence::RacePage *);
-        ~InputViewer();
-        void applyInputPos();
-
-    private:
-        enum { NUM_INPUTS = 7 };
-
-        static sead::Vector3f BUTTON_POSITIONS[NUM_INPUTS];
-        InputViewerInput *m_inputs[NUM_INPUTS];
-        Sequence::RacePage *m_race_page;
-
-        inline void clear();
+            nw::lyt::Pane *m_button_panes[NUM_OFF_ON_INPUTS][2];
+            u32 m_buttons[NUM_OFF_ON_INPUTS];
+            nw::lyt::Pane *m_stick_pane;
+            nw::lyt::TextBox * m_stick_text;
 };
 
 }
