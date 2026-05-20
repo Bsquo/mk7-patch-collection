@@ -14,6 +14,7 @@ _ZTVN2UI13VisualControlE = 0x0061ac84;
 _ZN2UI18ControlInitializer13initCreateArgEPNS_7Control9CreateArgERKN4sead14SafeStringBaseIcEES8_ = 0x00167bd8;
 _ZN2UI18ControlInitializer15endSetupControlEPNS_7Control9CreateArgE = 0x00167ef8;
 __c89vswprintf = 0x00116100;
+__2swprintf = 0x001161d0;
 _ZNK2UI11MenuCaption15getDTIClassInfoEv = 0x004e237c;
 _ZNK2UI11MenuCaption11getDTIClassEv = 0x004e22d0;
 _ZN2UI19BaseMenuViewControl6createEPKPv = 0x0015aad4;

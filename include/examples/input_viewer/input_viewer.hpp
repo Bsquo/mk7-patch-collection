@@ -49,7 +49,6 @@ class InputViewer: public UI::BaseMenuViewControl {
         InputViewer() = default;
         virtual ~InputViewer() = default;
         virtual void onCreate(const Control::CreateArg *);
-        virtual void onReset();
         virtual void onCalc();
 
         private:

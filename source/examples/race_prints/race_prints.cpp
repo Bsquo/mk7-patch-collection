@@ -54,7 +54,7 @@ HOOK void racePrints_calc(Sequence::BaseRacePage *page) {
         vehicle->m_position->x, vehicle->m_position->y, vehicle->m_position->z,
         vehicle->m_miniturbo_charge, (vehicle->m_miniturbo_charge >= 220.0f) ? 460.0f : 220.0f,
         vehicle->m_boost_frames,
-        vehicle->m_lap_rank_checker->m_kart_infos[playerIdx].m_checkpoint_index,
+        vehicle->m_lap_rank_checker->m_kart_infos[playerIdx].m_current_checkpoint_index,
         vehicle->m_lap_rank_checker->m_kart_infos[playerIdx].m_key_checkpoint_id,
         vehicle->m_lap_rank_checker->m_kart_infos[playerIdx].m_current_race_progress,
         vehicle->m_lap_rank_checker->m_kart_infos[playerIdx].m_max_race_progress,
