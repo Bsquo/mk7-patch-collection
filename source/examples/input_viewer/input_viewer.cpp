@@ -19,10 +19,12 @@ void InputViewer::onCreate(const Control::CreateArg *) {
     m_button_panes[INPUT_A][OFF] = getElement("P_button_a_off", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_button_panes[INPUT_A][ON] = getElement("P_button_a_on", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_buttons[INPUT_A] = System::KDPad::BUTTON_A;
+    m_raw_buttons[INPUT_A] = System::KDPad::RAW_BUTTON_A;
 
     m_button_panes[INPUT_B][OFF] = getElement("P_button_b_off", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_button_panes[INPUT_B][ON] = getElement("P_button_b_on", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_buttons[INPUT_B] = System::KDPad::BUTTON_B;
+    m_raw_buttons[INPUT_B] = System::KDPad::RAW_BUTTON_B;
 
     m_button_panes[INPUT_X][OFF] = getElement("P_button_x_off", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_button_panes[INPUT_X][ON] = getElement("P_button_x_on", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
@@ -35,28 +37,38 @@ void InputViewer::onCreate(const Control::CreateArg *) {
     m_button_panes[INPUT_L][OFF] = getElement("P_button_l_off", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_button_panes[INPUT_L][ON] = getElement("P_button_l_on", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_buttons[INPUT_L] = System::KDPad::BUTTON_L;
+    m_raw_buttons[INPUT_L] = System::KDPad::RAW_BUTTON_L;
 
     m_button_panes[INPUT_R][OFF] = getElement("P_button_r_off", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_button_panes[INPUT_R][ON] = getElement("P_button_r_on", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_buttons[INPUT_R] = System::KDPad::BUTTON_R;
+    m_raw_buttons[INPUT_R] = System::KDPad::RAW_BUTTON_R;
 
     // Stick
     m_stick_pane_element.m_element = m_control_sight->getElementHandle("P_button_stick", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_stick_pane = static_cast<nw::lyt::Pane *>(m_stick_pane_element.m_element);
     m_stick_text = static_cast<nw::lyt::TextBox *>(getElement("T_stick_values", UI::ControlSight::EElementType::ELEMENT_TYPE_TEXTBOX));
 
-    setRootPos(-110.0f, -60.0f);
+    setRootPos(-110.0f, -55.0f);
     m_stick_original_pos.set(m_stick_pane->m_translate.x, m_stick_pane->m_translate.y);
 }
 
 void InputViewer::onCalc() {
     s16 player_idx = RaceSys::GetRaceInfo()->m_detail_kart_id;
-    System::KDPlayerPad *pad = static_cast<System::KDPlayerPad *>(Kart::GetDirector()->getKart(player_idx)->m_player_pad);
-    System::KDPadAddBase::KDPadDataOnFrame *data = pad->m_pad_add_base->m_data_on_frame;
+    Kart::Vehicle *vehicle = Kart::GetDirector()->getKart(player_idx);
+    System::KDPadAddBase::KDPadDataOnFrame *data = vehicle->m_player_pad->m_pad_add_base->m_data_on_frame;
+    bool is_mirror_mode = RaceSys::GetRaceInfo()->m_is_mirror_mode;
 
-    if (pad == nullptr)
-        return;
+    // CPUs use the "raw" buttons for inputs instead
+    if (vehicle->m_is_ai_pad_controlled) {
+        calcRaw(data, is_mirror_mode);
+    }
+    else {
+        calcNormal(data, is_mirror_mode);
+    }
+}
 
+void InputViewer::calcNormal(const System::KDPadAddBase::KDPadDataOnFrame *data, bool is_mirror_mode) {
     // Calc buttons
     for (u32 i = 0; i < NUM_OFF_ON_INPUTS; i++) {
         if (data->m_buttons & m_buttons[i]) {
@@ -68,14 +80,59 @@ void InputViewer::onCalc() {
     }
 
     // Calc stick
-    sead::Vector3f new_stick_pos(0.0f, 0.0f, 0.0f);
+    sead::Vector3f new_stick_pos(0.0f, 0.0f, 6.0f);     // We assign the position Z to 6 so that it renders in front of the outer ring.
     new_stick_pos.x = m_stick_original_pos.x + (data->m_stick_x - 7) * 2.0f;
     new_stick_pos.y = m_stick_original_pos.y + (data->m_stick_y - 7) * 2.0f;
+
+    if (is_mirror_mode) {
+        new_stick_pos.x = (new_stick_pos.x * -1.0f) + (m_stick_original_pos.x * 2.0f);
+    }
+
     setPos(m_stick_pane_element, new_stick_pos);
 
     // Calc stick text
     wchar_t buffer[64];
-    __2swprintf(buffer, ARRAY_COUNT(buffer), L"(%hhd, %hhd)", data->m_stick_x, data->m_stick_y);
+    s8 stick_x = data->m_stick_x;
+
+    if (is_mirror_mode) {
+        stick_x = (stick_x * -1) + 14;
+    }
+
+    __2swprintf(buffer, ARRAY_COUNT(buffer), L"(%hhd, %hhd)", stick_x, data->m_stick_y);
+    m_stick_text->SetString(buffer, 0);
+}
+
+void InputViewer::calcRaw(const System::KDPadAddBase::KDPadDataOnFrame *data, bool is_mirror_mode) {
+    // Calc buttons
+    for (u32 i = 0; i < NUM_OFF_ON_INPUTS; i++) {
+        if (data->m_raw_buttons & m_raw_buttons[i]) {
+            buttonOn(i);
+        }
+        else {
+            buttonOff(i);
+        }
+    }
+
+    // Calc stick
+    sead::Vector3f new_stick_pos(0.0f, 0.0f, 6.0f);     // We assign the position Z to 6 so that it renders in front of the outer ring.
+    new_stick_pos.x = m_stick_original_pos.x + data->m_raw_stick.x * 14.0f;
+    new_stick_pos.y = m_stick_original_pos.y + data->m_raw_stick.y * 14.0f;
+
+    if (is_mirror_mode) {
+        new_stick_pos.x = (new_stick_pos.x * -1.0f) + (m_stick_original_pos.x * 2.0f);
+    }
+
+    setPos(m_stick_pane_element, new_stick_pos);
+
+    // Calc stick text
+    wchar_t buffer[64];
+    f32 stick_x = data->m_raw_stick.x;
+
+    if (is_mirror_mode) {
+        stick_x *= -1.0f;
+    }
+
+    __2swprintf(buffer, ARRAY_COUNT(buffer), L"(%.5f, %.5f)", stick_x, data->m_raw_stick.y);
     m_stick_text->SetString(buffer, 0);
 }
 
