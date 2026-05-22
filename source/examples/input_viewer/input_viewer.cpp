@@ -44,6 +44,9 @@ void InputViewer::onCreate(const Control::CreateArg *) {
     m_buttons[INPUT_R] = System::KDPad::BUTTON_R;
     m_raw_buttons[INPUT_R] = System::KDPad::RAW_BUTTON_R;
 
+    m_button_panes[INPUT_FIRST_PERSON][ON] = getElement("P_wheel", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
+    m_buttons[INPUT_FIRST_PERSON] = System::KDPad::BUTTON_FIRST_PERSON;
+
     // Stick
     m_stick_pane_element.m_element = m_control_sight->getElementHandle("P_button_stick", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_stick_pane = static_cast<nw::lyt::Pane *>(m_stick_pane_element.m_element);
@@ -51,6 +54,8 @@ void InputViewer::onCreate(const Control::CreateArg *) {
 
     setRootPos(-110.0f, -55.0f);
     m_stick_original_pos.set(m_stick_pane->m_translate.x, m_stick_pane->m_translate.y);
+
+    m_prev_buttons = -1;
 }
 
 void InputViewer::onCalc() {
@@ -69,71 +74,88 @@ void InputViewer::onCalc() {
 }
 
 void InputViewer::calcNormal(const System::KDPadAddBase::KDPadDataOnFrame *data, bool is_mirror_mode) {
-    // Calc buttons
-    for (u32 i = 0; i < NUM_OFF_ON_INPUTS; i++) {
-        if (data->m_buttons & m_buttons[i]) {
-            buttonOn(i);
+    if (data->m_buttons != m_prev_buttons) {
+        // Calc buttons
+        for (u32 i = 0; i < NUM_OFF_ON_INPUTS; i++) {
+            if (data->m_buttons & m_buttons[i]) {
+                buttonOn(i);
+            }
+            else {
+                buttonOff(i);
+            }
         }
-        else {
-            buttonOff(i);
+
+        m_prev_buttons = data->m_buttons;
+    }
+
+    if (data->m_stick_x != m_prev_stick_x || data->m_stick_y != m_prev_stick_y) {
+        // Calc stick
+        sead::Vector3f new_stick_pos(0.0f, 0.0f, 6.0f);     // We assign the position Z to 6 so that it renders in front of the outer ring.
+        new_stick_pos.x = m_stick_original_pos.x + (data->m_stick_x - 7) * 2.0f;
+        new_stick_pos.y = m_stick_original_pos.y + (data->m_stick_y - 7) * 2.0f;
+
+        if (is_mirror_mode) {
+            new_stick_pos.x = (new_stick_pos.x * -1.0f) + (m_stick_original_pos.x * 2.0f);
         }
+
+        setPos(m_stick_pane_element, new_stick_pos);
+
+        // Calc stick text
+        wchar_t buffer[64];
+        s8 stick_x = data->m_stick_x;
+
+        if (is_mirror_mode) {
+            stick_x = (stick_x * -1) + 14;
+        }
+
+        __2swprintf(buffer, ARRAY_COUNT(buffer), L"(%2hhd, %2hhd)", stick_x, data->m_stick_y);
+        m_stick_text->SetString(buffer, 0);
+
+        m_prev_stick_x = data->m_stick_x;
+        m_prev_stick_y = data->m_stick_y;
     }
-
-    // Calc stick
-    sead::Vector3f new_stick_pos(0.0f, 0.0f, 6.0f);     // We assign the position Z to 6 so that it renders in front of the outer ring.
-    new_stick_pos.x = m_stick_original_pos.x + (data->m_stick_x - 7) * 2.0f;
-    new_stick_pos.y = m_stick_original_pos.y + (data->m_stick_y - 7) * 2.0f;
-
-    if (is_mirror_mode) {
-        new_stick_pos.x = (new_stick_pos.x * -1.0f) + (m_stick_original_pos.x * 2.0f);
-    }
-
-    setPos(m_stick_pane_element, new_stick_pos);
-
-    // Calc stick text
-    wchar_t buffer[64];
-    s8 stick_x = data->m_stick_x;
-
-    if (is_mirror_mode) {
-        stick_x = (stick_x * -1) + 14;
-    }
-
-    __2swprintf(buffer, ARRAY_COUNT(buffer), L"(%hhd, %hhd)", stick_x, data->m_stick_y);
-    m_stick_text->SetString(buffer, 0);
 }
 
 void InputViewer::calcRaw(const System::KDPadAddBase::KDPadDataOnFrame *data, bool is_mirror_mode) {
-    // Calc buttons
-    for (u32 i = 0; i < NUM_OFF_ON_INPUTS; i++) {
-        if (data->m_raw_buttons & m_raw_buttons[i]) {
-            buttonOn(i);
+    if (data->m_raw_buttons != m_prev_raw_buttons) {
+        // Calc buttons
+        for (u32 i = 0; i < NUM_OFF_ON_INPUTS; i++) {
+            if (data->m_raw_buttons & m_raw_buttons[i]) {
+                buttonOn(i);
+            }
+            else {
+                buttonOff(i);
+            }
         }
-        else {
-            buttonOff(i);
+
+        m_prev_raw_buttons = data->m_raw_buttons;
+    }
+
+    if (data->m_raw_stick.x != m_prev_raw_stick.x || data->m_raw_stick.y != m_prev_raw_stick.y) {
+        // Calc stick
+        sead::Vector3f new_stick_pos(0.0f, 0.0f, 6.0f);     // We assign the position Z to 6 so that it renders in front of the outer ring.
+        new_stick_pos.x = m_stick_original_pos.x + data->m_raw_stick.x * 14.0f;
+        new_stick_pos.y = m_stick_original_pos.y + data->m_raw_stick.y * 14.0f;
+
+        if (is_mirror_mode) {
+            new_stick_pos.x = (new_stick_pos.x * -1.0f) + (m_stick_original_pos.x * 2.0f);
         }
+
+        setPos(m_stick_pane_element, new_stick_pos);
+
+        // Calc stick text
+        wchar_t buffer[64];
+        f32 stick_x = data->m_raw_stick.x;
+
+        if (is_mirror_mode) {
+            stick_x *= -1.0f;
+        }
+
+        __2swprintf(buffer, ARRAY_COUNT(buffer), L"(%.5f, %.5f)", stick_x, data->m_raw_stick.y);
+        m_stick_text->SetString(buffer, 0);
+
+        m_prev_raw_stick.set(data->m_raw_stick.x, data->m_raw_stick.y);
     }
-
-    // Calc stick
-    sead::Vector3f new_stick_pos(0.0f, 0.0f, 6.0f);     // We assign the position Z to 6 so that it renders in front of the outer ring.
-    new_stick_pos.x = m_stick_original_pos.x + data->m_raw_stick.x * 14.0f;
-    new_stick_pos.y = m_stick_original_pos.y + data->m_raw_stick.y * 14.0f;
-
-    if (is_mirror_mode) {
-        new_stick_pos.x = (new_stick_pos.x * -1.0f) + (m_stick_original_pos.x * 2.0f);
-    }
-
-    setPos(m_stick_pane_element, new_stick_pos);
-
-    // Calc stick text
-    wchar_t buffer[64];
-    f32 stick_x = data->m_raw_stick.x;
-
-    if (is_mirror_mode) {
-        stick_x *= -1.0f;
-    }
-
-    __2swprintf(buffer, ARRAY_COUNT(buffer), L"(%.5f, %.5f)", stick_x, data->m_raw_stick.y);
-    m_stick_text->SetString(buffer, 0);
 }
 
 void InputViewer::setRootPos(f32 x, f32 y) {
@@ -154,11 +176,21 @@ nw::lyt::Pane *InputViewer::getElement(const sead::SafeString & name, const UI::
 }
 
 void InputViewer::buttonOff(u32 input) {
+    if (input == INPUT_FIRST_PERSON) {
+        m_control_sight->setVisibleImpl((u32) m_button_panes[INPUT_FIRST_PERSON][ON], false);
+        return;
+    }
+
     m_control_sight->setVisibleImpl((u32) m_button_panes[input][OFF], true);
     m_control_sight->setVisibleImpl((u32) m_button_panes[input][ON], false);
 }
 
 void InputViewer::buttonOn(u32 input) {
+    if (input == INPUT_FIRST_PERSON) {
+        m_control_sight->setVisibleImpl((u32) m_button_panes[INPUT_FIRST_PERSON][ON], true);
+        return;
+    }
+
     m_control_sight->setVisibleImpl((u32) m_button_panes[input][OFF], false);
     m_control_sight->setVisibleImpl((u32) m_button_panes[input][ON], true);
 }

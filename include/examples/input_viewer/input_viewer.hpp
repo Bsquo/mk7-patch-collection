@@ -13,7 +13,7 @@ namespace mod {
 
 class InputViewer: public UI::BaseMenuViewControl {
     public:
-        enum { NUM_OFF_ON_INPUTS = 6 };
+        enum { NUM_OFF_ON_INPUTS = 7 };
 
         enum EInput : u32 {
             INPUT_A,
@@ -22,6 +22,8 @@ class InputViewer: public UI::BaseMenuViewControl {
             INPUT_Y,
             INPUT_L,
             INPUT_R,
+
+            INPUT_FIRST_PERSON,    // 1st person enabled
 
             INPUT_STICK,
             INPUT_STICK_OUTER,
@@ -67,6 +69,11 @@ class InputViewer: public UI::BaseMenuViewControl {
             nw::lyt::Pane *m_stick_pane;
             nw::lyt::TextBox * m_stick_text;
             sead::Vector2f m_stick_original_pos;
+            u16 m_prev_buttons;
+            u32 m_prev_raw_buttons;
+            s8 m_prev_stick_x;
+            s8 m_prev_stick_y;
+            sead::Vector2f m_prev_raw_stick;
 };
 
 }

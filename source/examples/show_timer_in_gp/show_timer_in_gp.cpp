@@ -15,7 +15,7 @@ HOOK void setTimeControlPos(UI::TimeControl *time_control) {
     RaceSys::ERaceRuleMode rule_mode = RaceSys::GetRaceInfo()->m_race_mode.m_rule_mode;
     if (rule_mode == RaceSys::ERaceRuleMode::GrandPrix ||
         rule_mode == RaceSys::ERaceRuleMode::Versus) {
-        root_pane->m_translate.x = -275.0f;
-        root_pane->m_translate.y = -205.0f;
+        root_pane->m_translate.x = 0.0f;
+        root_pane->m_translate.y = 200.0f;
     }
 }
