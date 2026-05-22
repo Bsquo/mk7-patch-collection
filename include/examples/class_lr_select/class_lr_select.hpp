@@ -22,7 +22,13 @@ enum ClassLRSelect_LeafType : u32 {
 };
 
 // race_prints
-extern bool g_race_prints_enabled;
+enum ClassLRSelect_RacePrints : u32 {
+    RACE_PRINTS_OFF,
+    RACE_PRINTS_SPEED,
+    RACE_PRINTS_SPEED_XYZ,
+    RACE_PRINTS_FULL
+};
+extern u32 g_race_prints_option;
 
 // ultra_miniturbos
 extern bool g_ultra_miniturbo_enabled;

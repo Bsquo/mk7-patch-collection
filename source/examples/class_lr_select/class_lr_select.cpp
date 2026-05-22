@@ -82,16 +82,7 @@ mod::utils::MyLRSelect::Settings ultra_miniturbo_select_settings(
 );
 
 void onApply_ultraMiniturbo(mod::utils::MyLRSelect *lr_select) {
-    switch (lr_select->m_option) {
-        case OPTION_OFF:
-        default:
-            g_ultra_miniturbo_enabled = false;
-            break;
-
-        case OPTION_ON:
-            g_ultra_miniturbo_enabled = true;
-            break;
-    }
+    g_ultra_miniturbo_enabled = lr_select->m_option;
 }
 
 // random_stats
@@ -107,41 +98,23 @@ mod::utils::MyLRSelect::Settings random_stats_select_settings(
 );
 
 void onApply_randomStats(mod::utils::MyLRSelect *lr_select) {
-    switch (lr_select->m_option) {
-        case OPTION_OFF:
-        default:
-            g_random_stats_enabled = false;
-            break;
-
-        case OPTION_ON:
-            g_random_stats_enabled = true;
-            break;
-    }
+    g_random_stats_enabled = lr_select->m_option;
 }
 
 // race_prints
-bool g_race_prints_enabled = false;
+u32 g_race_prints_option = RACE_PRINTS_OFF;
 
 mod::utils::MyLRSelect::Settings race_prints_select_settings(
     0,
     u"Race prints",
     {
-        { u"Off", u"On" },
-        2
+        { u"Off", u"Speed", u"Speed (XYZ)", u"Full" },
+        4
     }
 );
 
 void onApply_racePrints(mod::utils::MyLRSelect *lr_select) {
-    switch (lr_select->m_option) {
-        case OPTION_OFF:
-        default:
-            g_race_prints_enabled = false;
-            break;
-
-        case OPTION_ON:
-            g_race_prints_enabled = true;
-            break;
-    }
+    g_race_prints_option = lr_select->m_option;
 }
 
 // input_viewer
@@ -157,20 +130,7 @@ mod::utils::MyLRSelect::Settings input_viewer_select_settings(
 );
 
 void onApply_inputViewerSelect(mod::utils::MyLRSelect *lr_select) {
-    switch (lr_select->m_option) {
-        case INPUT_VIEWER_OFF:
-        default:
-            g_input_viewer_option = INPUT_VIEWER_OFF;
-            break;
-
-        case INPUT_VIEWER_NO_BG:
-            g_input_viewer_option = INPUT_VIEWER_NO_BG;
-            break;
-
-        case INPUT_VIEWER_FULL:
-            g_input_viewer_option = INPUT_VIEWER_FULL;
-            break;
-    }
+    g_input_viewer_option = lr_select->m_option;
 }
 
 /////////////////

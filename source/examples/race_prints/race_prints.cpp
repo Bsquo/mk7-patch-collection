@@ -12,7 +12,7 @@
 mod::utils::MyPrintf *prints = nullptr;
 
 HOOK void racePrints_init(Sequence::BaseRacePage *race_page) {
-    if (g_race_prints_enabled) {
+    if (g_race_prints_option != RACE_PRINTS_OFF) {
         // Avoid printing in Battle mode, since this example print is only meant for
         // races in mind.
         RaceSys::CRaceMode::RaceType match_type = RaceSys::GetRaceInfo()->m_race_mode.m_type;
@@ -30,7 +30,7 @@ HOOK void racePrints_init(Sequence::BaseRacePage *race_page) {
 }
 
 HOOK void racePrints_calc(Sequence::BaseRacePage *page) {
-    if (g_race_prints_enabled) {
+    if (g_race_prints_option != RACE_PRINTS_OFF) {
         // Avoid printing in Battle mode, since this example print is only meant for
         // races in mind.
         RaceSys::CRaceMode::RaceType match_type = RaceSys::GetRaceInfo()->m_race_mode.m_type;
@@ -42,27 +42,45 @@ HOOK void racePrints_calc(Sequence::BaseRacePage *page) {
         const s32 playerIdx = page->m_target_player_id;
 
         Kart::Vehicle *vehicle = Kart::GetDirector()->getKart(playerIdx);
-        prints->printf
-        (
-            0.0f, 0.0f,
-            L"Frame: %d\n"
-            L"Pos: (%.3f, %.3f, %.3f)\n"
-            L"MT: (%03.0f/%03.0f)\n"
-            L"Boost: %d\n"
-            L"CP: %d\n"
-            L"CKP: %d\n"
-            L"Race%%: %.3f\n"
-            L"MaxRace%%: %.3f\n"
-            L"Speed: %.3f",
-            *vehicle->m_frame,
-            vehicle->m_position->x, vehicle->m_position->y, vehicle->m_position->z,
-            vehicle->m_miniturbo_charge, (vehicle->m_miniturbo_charge >= 220.0f) ? 460.0f : 220.0f,
-            vehicle->m_boost_frames,
-            vehicle->m_lap_rank_checker->m_kart_infos[playerIdx].m_current_checkpoint_index,
-            vehicle->m_lap_rank_checker->m_kart_infos[playerIdx].m_key_checkpoint_id,
-            vehicle->m_lap_rank_checker->m_kart_infos[playerIdx].m_current_race_progress,
-            vehicle->m_lap_rank_checker->m_kart_infos[playerIdx].m_max_race_progress,
-            vehicle->m_forward_speed
-        );
+
+        switch (g_race_prints_option) {
+            case RACE_PRINTS_FULL:
+                prints->printf
+                (
+                    0.0f, 0.0f,
+                    L"Frame: %d\n"
+                    L"Pos: (%.3f, %.3f, %.3f)\n"
+                    L"MT: (%03.0f/%03.0f)\n"
+                    L"Boost: %d\n"
+                    L"CP: %d\n"
+                    L"CKP: %d\n"
+                    L"Race%%: %.3f\n"
+                    L"MaxRace%%: %.3f\n"
+                    L"Speed: %.3f",
+                    *vehicle->m_frame,
+                    vehicle->m_position->x, vehicle->m_position->y, vehicle->m_position->z,
+                    vehicle->m_miniturbo_charge, (vehicle->m_miniturbo_charge >= 220.0f) ? 460.0f : 220.0f,
+                    vehicle->m_boost_frames,
+                    vehicle->m_lap_rank_checker->m_kart_infos[playerIdx].m_current_checkpoint_index,
+                    vehicle->m_lap_rank_checker->m_kart_infos[playerIdx].m_key_checkpoint_id,
+                    vehicle->m_lap_rank_checker->m_kart_infos[playerIdx].m_current_race_progress,
+                    vehicle->m_lap_rank_checker->m_kart_infos[playerIdx].m_max_race_progress,
+                    vehicle->m_forward_speed
+                );
+                break;
+
+            case RACE_PRINTS_SPEED:
+            case RACE_PRINTS_SPEED_XYZ:
+                prints->printf
+                (
+                    260.0f, 0.0f,
+                    L"Speed: %.3f",
+                    (g_race_prints_option == RACE_PRINTS_SPEED) ? vehicle->m_forward_speed : vehicle->m_xyz_speed
+                );
+                break;
+
+            default:
+                break;
+        }
     }
 }
