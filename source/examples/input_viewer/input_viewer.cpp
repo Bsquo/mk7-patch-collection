@@ -52,7 +52,8 @@ void InputViewer::onCreate(const Control::CreateArg *) {
     m_stick_pane = static_cast<nw::lyt::Pane *>(m_stick_pane_element.m_element);
     m_stick_text = static_cast<nw::lyt::TextBox *>(getElement("T_stick_values", UI::ControlSight::EElementType::ELEMENT_TYPE_TEXTBOX));
 
-    setRootPos(-110.0f, -55.0f);
+    setRootPos(-125.0f, -60.0f);
+    setRootScale(0.7f, 0.7f);
     m_stick_original_pos.set(m_stick_pane->m_translate.x, m_stick_pane->m_translate.y);
 
     m_prev_buttons = -1;
@@ -162,15 +163,23 @@ void InputViewer::setRootPos(f32 x, f32 y) {
     UI::ControlSight::ElementHandle root_pane_handle;
 
     root_pane_handle.m_element = m_control_sight->getElementHandle("R_center", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
-    setPos(root_pane_handle, sead::Vector3f(x, y, 0.0f));
+    nw::lyt::Pane *root_pane = static_cast<nw::lyt::Pane *>(root_pane_handle.m_element);
+    setPos(root_pane_handle, sead::Vector3f(x, y, root_pane->m_translate.z));
+}
+
+void InputViewer::setRootScale(f32 x, f32 y) {
+    UI::ControlSight::ElementHandle root_pane_handle;
+
+    root_pane_handle.m_element = m_control_sight->getElementHandle("R_center", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
+    nw::lyt::Pane *root_pane = static_cast<nw::lyt::Pane *>(root_pane_handle.m_element);
+    
+    root_pane->m_scale.x = x;
+    root_pane->m_scale.y = y;
 }
 
 nw::lyt::Pane *InputViewer::getElement(const sead::SafeString & name, const UI::ControlSight::EElementType element_type) {
     UI::ControlSight::ElementHandle element_handle;
     element_handle.m_element = m_control_sight->getElementHandle(name, element_type);
-    
-    if (element_handle.m_element == nullptr)
-        return nullptr;
     
     return static_cast<nw::lyt::Pane *>(element_handle.m_element);
 }
@@ -203,5 +212,5 @@ HOOK void inputViewer_create() {
     Sequence::RacePage *race_page;
     READ_ARM_REG(r4, race_page);
 
-    mod::utils::setupControl<mod::InputViewer>(race_page, "input_viewer", "input_viewer");
+    mod::utils::setupBothControls<mod::InputViewer>(race_page, "input_viewer", "input_viewer");
 }

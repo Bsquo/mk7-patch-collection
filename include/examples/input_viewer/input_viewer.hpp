@@ -54,6 +54,7 @@ class InputViewer: public UI::BaseMenuViewControl {
         virtual void onCreate(const Control::CreateArg *);
         virtual void onCalc();
         void setRootPos(f32, f32);
+        void setRootScale(f32, f32);
 
         private:
             nw::lyt::Pane *getElement(const sead::SafeString &, const UI::ControlSight::EElementType);
