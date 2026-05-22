@@ -98,7 +98,7 @@ void InputViewer::calcNormal(const System::KDPadAddBase::KDPadDataOnFrame *data,
 
     if (data->m_stick_x != m_prev_stick_x || data->m_stick_y != m_prev_stick_y) {
         // Calc stick
-        sead::Vector3f new_stick_pos(0.0f, 0.0f, 6.0f);     // We assign the position Z to 6 so that it renders in front of the outer ring.
+        sead::Vector3f new_stick_pos(0.0f, 0.0f, m_stick_pane->m_translate.z);
         new_stick_pos.x = m_stick_original_pos.x + (data->m_stick_x - 7) * 2.0f;
         new_stick_pos.y = m_stick_original_pos.y + (data->m_stick_y - 7) * 2.0f;
 
@@ -141,7 +141,7 @@ void InputViewer::calcRaw(const System::KDPadAddBase::KDPadDataOnFrame *data, bo
 
     if (data->m_raw_stick.x != m_prev_raw_stick.x || data->m_raw_stick.y != m_prev_raw_stick.y) {
         // Calc stick
-        sead::Vector3f new_stick_pos(0.0f, 0.0f, 6.0f);     // We assign the position Z to 6 so that it renders in front of the outer ring.
+        sead::Vector3f new_stick_pos(0.0f, 0.0f, m_stick_pane->m_translate.z);
         new_stick_pos.x = m_stick_original_pos.x + data->m_raw_stick.x * 14.0f;
         new_stick_pos.y = m_stick_original_pos.y + data->m_raw_stick.y * 14.0f;
 
