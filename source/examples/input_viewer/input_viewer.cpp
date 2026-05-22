@@ -1,5 +1,6 @@
 #include "mod_common.hpp"
 #include "examples/input_viewer/input_viewer.hpp"
+#include "examples/class_lr_select/class_lr_select.hpp"
 #include "utils/ext_base_menu_page.hpp"
 
 #include "Kart/Director.hpp"
@@ -51,6 +52,12 @@ void InputViewer::onCreate(const Control::CreateArg *) {
     m_stick_pane_element.m_element = m_control_sight->getElementHandle("P_button_stick", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_stick_pane = static_cast<nw::lyt::Pane *>(m_stick_pane_element.m_element);
     m_stick_text = static_cast<nw::lyt::TextBox *>(getElement("T_stick_values", UI::ControlSight::EElementType::ELEMENT_TYPE_TEXTBOX));
+
+    // Background
+    if (g_input_viewer_option == INPUT_VIEWER_NO_BG) {
+        nw::lyt::Pane *bg_pane = getElement("P_bg", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
+        m_control_sight->setVisibleImpl((u32) bg_pane, false);
+    }
 
     setRootPos(-125.0f, -60.0f);
     setRootScale(0.7f, 0.7f);
@@ -212,5 +219,6 @@ HOOK void inputViewer_create() {
     Sequence::RacePage *race_page;
     READ_ARM_REG(r4, race_page);
 
-    mod::utils::setupBothControls<mod::InputViewer>(race_page, "input_viewer", "input_viewer");
+    if (g_input_viewer_option != INPUT_VIEWER_OFF)
+        mod::utils::setupBothControls<mod::InputViewer>(race_page, "input_viewer", "input_viewer");
 }

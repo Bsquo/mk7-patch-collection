@@ -9,21 +9,9 @@
 #include "UI/BackButton.hpp"
 #include "UI/CursorMove.hpp"
 
-mod::utils::MyLRSelect *lr_select_array[5] = {0};
-
-enum ClassLRSelect_OnOff : u32 {
-    OPTION_OFF,
-    OPTION_ON
-};
+mod::utils::MyLRSelect *lr_select_array[6] = {0};
 
 // engine_class_select
-enum ClassLRSelect_EngineClass : u32 {
-    _150_CC,
-    _300_CC,
-    _500_CC,
-    _9999_CC
-};
-
 mod::utils::MyLRSelect::Settings engine_class_select_settings(
     0,
     u"Modded 150cc",
@@ -57,11 +45,6 @@ void onApply_engineClassSelect(mod::utils::MyLRSelect *lr_select) {
 }
 
 // unused_leaf_type_select
-enum ClassLRSelect_LeafType : u32 {
-    TYPE_NORMAL,
-    TYPE_UNUSED
-};
-
 mod::utils::MyLRSelect::Settings unused_leaf_type_select_settings(
     0,
     u"Leaf Type",
@@ -161,6 +144,35 @@ void onApply_racePrints(mod::utils::MyLRSelect *lr_select) {
     }
 }
 
+// input_viewer
+u32 g_input_viewer_option = INPUT_VIEWER_OFF;
+
+mod::utils::MyLRSelect::Settings input_viewer_select_settings(
+    0,
+    u"Input viewer",
+    {
+        { u"No", u"No background", u"With background"},
+        3
+    }
+);
+
+void onApply_inputViewerSelect(mod::utils::MyLRSelect *lr_select) {
+    switch (lr_select->m_option) {
+        case INPUT_VIEWER_OFF:
+        default:
+            g_input_viewer_option = INPUT_VIEWER_OFF;
+            break;
+
+        case INPUT_VIEWER_NO_BG:
+            g_input_viewer_option = INPUT_VIEWER_NO_BG;
+            break;
+
+        case INPUT_VIEWER_FULL:
+            g_input_viewer_option = INPUT_VIEWER_FULL;
+            break;
+    }
+}
+
 /////////////////
 
 HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
@@ -208,6 +220,12 @@ HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
     lr_select_array[4]->initSettings(race_prints_select_settings);
     lr_select_array[4]->setOnApply(onApply_racePrints);
     lr_select_array[4]->setPosY(-100.0f);
+
+    // input_viewer
+    lr_select_array[5] = mod::utils::MyLRSelect::createLRSelect(menu, false, mod::utils::MyLRSelect::EDesign::DESIGN_0);
+    lr_select_array[5]->initSettings(input_viewer_select_settings);
+    lr_select_array[5]->setOnApply(onApply_inputViewerSelect);
+    lr_select_array[5]->setPosY(-120.0f);
 
     // TODO: Do we really need to call this?
     menu->m_manipulators[0]->m_cursor_move.setType(UI::CursorMove::EType::NEXT_GAME_SETTING);
