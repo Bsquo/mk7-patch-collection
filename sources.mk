@@ -7,4 +7,5 @@ SOURCES		:=	source \
 				source/examples/class_lr_select \
 				source/examples/ultra_miniturbo \
 				source/examples/random_stats \
-				source/examples/input_viewer
+				source/examples/input_viewer \
+				source/examples/variable_mii_size

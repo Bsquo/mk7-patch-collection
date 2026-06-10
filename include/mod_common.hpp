@@ -23,6 +23,11 @@
 #define READ_ARM_REG(REG, OUT_VAR) \
     __asm__ volatile ("mov %0, " #REG : "=r" (OUT_VAR))
 
+// Copies the value of a C / C++ variable (`OUT_VAR`)
+// into a general-purpose register (`REG`)
+#define WRITE_ARM_REG(REG, IN_VAR) \
+    __asm__ volatile ("mov " #REG ", %0" :: "r" (IN_VAR))
+
 #define PATCH_INSTR(addr, instr) do { \
     volatile uint32_t* patch_ptr = reinterpret_cast<volatile uint32_t*>(addr); \
     *patch_ptr = static_cast<uint32_t>(instr); \

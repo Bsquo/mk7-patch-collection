@@ -118,6 +118,20 @@ SECTIONS {
     *(.patch_input_viewer_create)
   }
 
+  /* variable_mii_size */
+  .patch_variable_mii_size_determine_vehicle_scale ADDR_VARIABLE_MII_SIZE_DETERMINE_VEHICLE_SIZE : {
+    *(.patch_variable_mii_size_determine_vehicle_scale)
+  }
+  .patch_variable_mii_size_determine_driver_size_type ADDR_VARIABLE_MII_SIZE_DETERMINE_DRIVER_SIZE_TYPE : {
+    *(.patch_variable_mii_size_determine_driver_size_type)
+  }
+  .patch_variable_mii_size_set_mii_voice_pitch ADDR_VARIABLE_MII_SIZE_SET_MII_VOICE_PITCH : {
+    *(.patch_variable_mii_size_set_mii_voice_pitch)
+  }
+  .patch_variable_mii_size_determine_stats ADDR_VARIABLE_MII_SIZE_DETERMINE_STATS : {
+    *(.patch_variable_mii_size_determine_stats)
+  }
+
   /* We'll insert the loader's code at the very end of the executable's .text section */
   /* NOTE: This address depends on the game version! */
   . = ADDR_LOADER;

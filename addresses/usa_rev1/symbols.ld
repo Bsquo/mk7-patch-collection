@@ -104,6 +104,11 @@ _ZN2UI15ControlAnimator15AnimationDefine19initAnimationFamilyElRKN4sead14SafeStr
 _ZN2UI15ControlAnimator15AnimationDefine13initAnimationElRKN4sead14SafeStringBaseIcEEl = 0x0015b150;
 _ZN2UI15ControlAnimator15AnimationFamily12setAnimationElf = 0x0015b480;
 _ZN2UI15BaseFastControl8calcAnimEv = 0x0015ad00;
+_ZN6System12SystemEngine15getMyPlayerDataEPNS_10PlayerDataEb = 0x0044210c;
+_ZN6System10PlayerDataC1Ev = 0x0043d808;
+_ZN4Kart25KartConstructInfoAccessor17getDriverSizeTypeEv = 0x002e9b88;
+_ZN4sead11SoundHandle8setPitchEf = 0x00309eb8;
+_ZN5Sound9SndEngine10startSysSeEm = 0x003d8ac0;
 
 # NOTE: This is a pointer that points to another pointer that actually points at RootSystem
 # i.e. not a direct pointer to RootSystem

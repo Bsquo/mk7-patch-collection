@@ -9,7 +9,9 @@
     .global \name
 \name:
     push {r0-r12, lr}
+    vpush {d0-d15}
     bl \target_func
+    vpop {d0-d15}
     pop  {r0-r12, lr}
     \original_instr
     bx lr
@@ -23,8 +25,25 @@
     .global \name
 \name:
     push {r1-r12, lr}
+    vpush {d0-d15}
     bl \target_func
+    vpop {d0-d15}
     pop  {r1-r12, lr}
+    \original_instr
+    bx lr
+.endm
+
+/* Same as above, except this won't restore s0, s1 nor s2.
+   Used when the hook returns a Vector3f by value
+*/
+.macro HOOK_RET_VEC3 name, target_func, original_instr:vararg
+    .global \name
+\name:
+    push {r0-r12, lr}
+    vpush {d2-d15}
+    bl \target_func
+    vpop {d2-d15}
+    pop  {r0-r12, lr}
     \original_instr
     bx lr
 .endm
