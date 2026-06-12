@@ -1,4 +1,5 @@
 #include "mod_common.hpp"
+#include "examples/class_lr_select/class_lr_select.hpp"
 
 #include "Kart/KartConstructInfoAccessor.hpp"
 #include "Kart/KartConstructInfoData.hpp"
@@ -61,7 +62,7 @@ namespace mod
 HOOK sead::Vector3f variableMiiSize_determineVehicleScale(Kart::KartConstructInfoAccessor *accessor) {
     RaceSys::EDriverID driver = accessor->m_kart_parts_construct_param.m_driver_id;
 
-    if (mod::isMii(driver)) {
+    if (g_variable_mii_size && mod::isMii(driver)) {
         switch (mod::getMyMiiWeightClass()) {
             case Kart::KartConstructInfoAccessor::EDriverSizeType::LARGE:
                 return sead::Vector3f(1.10f, 1.10f, 1.10f);
@@ -82,7 +83,7 @@ HOOK sead::Vector3f variableMiiSize_determineVehicleScale(Kart::KartConstructInf
 HOOK void variableMiiSize_determineDriverSizeType(Kart::KartConstructInfoAccessor::EDriverSizeType *out, Kart::KartConstructInfoAccessor *accessor) {
     RaceSys::EDriverID driver = accessor->m_kart_parts_construct_param.m_driver_id;
 
-    if (mod::isMii(driver)) {
+    if (g_variable_mii_size && mod::isMii(driver)) {
         *out = mod::getMyMiiWeightClass();
         return;
     }
@@ -102,14 +103,14 @@ HOOK void variableMiiSize_setMiiVoicePitch() {
     READ_ARM_REG(r4, snd_actor_kart);
 
     RaceSys::EDriverID driver = snd_actor_kart->m_vehicle->m_driver_id;
-    if (!mod::isMii(driver))
+    if (!g_variable_mii_size || !mod::isMii(driver))
         return;
 
     snd_actor_kart->m_driver_voice_snd_handle.m_sound_handle.setPitch(mod::getMiiVoicePitch());
 }
 
 HOOK void variableMiiSize_determineStats(void *, s32 *driver) {
-    if (!mod::isMii(*reinterpret_cast<RaceSys::EDriverID *>(driver)))
+    if (!g_variable_mii_size || !mod::isMii(*reinterpret_cast<RaceSys::EDriverID *>(driver)))
         return;
     
     switch (mod::getMyMiiWeightClass()) {

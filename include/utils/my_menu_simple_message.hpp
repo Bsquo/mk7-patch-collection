@@ -23,6 +23,7 @@ class MyMenuSimpleMessage: public UI::MenuSimpleMessage {
         MyMenuSimpleMessage() = default;
         ~MyMenuSimpleMessage() = default;
         void setMessage(const UI::MessageString &);
+        void setTextboxSize(f32, f32);
 };
 
 }

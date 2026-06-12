@@ -1,6 +1,7 @@
 #pragma once
 
 #include "utils/my_printf.hpp"
+#include "utils/my_menu_simple_message.hpp"
 
 #include "Sequence/BasePage.hpp"
 #include "UI/ControlAnimator.hpp"
@@ -35,6 +36,7 @@ class MyLRSelect: public UI::LRSelect {
             s32 m_num_options;
             s32 m_default_option;
             UI::MessageString name;
+            UI::MessageString description_text;
             UI::MessageString options_text[MAX_OPTIONS];
             s32 name_message_id = -1;
 
@@ -46,7 +48,8 @@ class MyLRSelect: public UI::LRSelect {
             Settings(
                 s32 default_option,
                 const char16_t* name_str,
-                OptionList list
+                OptionList list,
+                const char16_t* description_str = nullptr
             ):
                 m_num_options(list.count),
                 m_default_option(default_option),
@@ -55,9 +58,17 @@ class MyLRSelect: public UI::LRSelect {
                 for (s32 i = 0; i < m_num_options; i++) {
                     options_text[i] = UI::MessageString(list.data[i]);
                 }
+
+                if (description_str != nullptr) {
+                    description_text = description_str;
+                }
             }
 
-            Settings(): m_num_options(0), m_default_option(0), name(nullptr) {}
+            Settings(): m_num_options(0), m_default_option(0), name(u""), description_text(u"") {
+                for (s32 i = 0; i < MAX_OPTIONS; i++) {
+                    options_text[i] = u"";
+                }
+            }
 
             ~Settings() = default;
         };
@@ -80,18 +91,23 @@ class MyLRSelect: public UI::LRSelect {
             //if (caption != nullptr) {
             //    delete caption;
             //}
+            //if (menu_simple_message != nullptr) {
+            //    delete menu_simple_message;
+            //}
 
             caption = nullptr;
+            menu_simple_message = nullptr;
         }
         void onReset();
         void keyHandlerCursor(s32, s32);
         void selectHandlerOn(s32, s32);
         void selectHandlerOff(s32, s32);
 
-        static MyLRSelect *createLRSelect(Sequence::BasePage *, bool, EDesign);
+        static MyLRSelect *createLRSelect(Sequence::BasePage *, bool, EDesign, const char *);
         void initSettings(const Settings &);
         void setOnApply(OnApplyCallback callback);
-        void initCaption(Sequence::BasePage *, bool, const UI::MessageString &);
+        void initDescription(bool, bool, MyPrintf *, MyMenuSimpleMessage *, Sequence::BasePage *, bool do_hide_background = false);
+        void updateDescriptionText();
         void setPosY(f32);
 
         Settings m_settings;
@@ -104,6 +120,7 @@ class MyLRSelect: public UI::LRSelect {
         // DashSequenceEngine already has an array for this purpose (field 0xE8), but it only supports up to 23 entries.
         static s32 options_array[100];
         MyPrintf *caption = nullptr;
+        MyMenuSimpleMessage *menu_simple_message = nullptr;
 
     private:
         void updateSelection();

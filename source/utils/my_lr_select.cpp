@@ -36,6 +36,8 @@ void MyLRSelect::keyHandlerCursor(s32 param_1, s32 key) {
 void MyLRSelect::selectHandlerOn(s32 param_1, s32 param_2) {
     LRSelect::selectHandlerOn(param_1, param_2);
 
+    updateDescriptionText();
+
     if (caption != nullptr)
         caption->animIn();
 }
@@ -47,7 +49,7 @@ void MyLRSelect::selectHandlerOff(s32 param_1, s32 param_2) {
         caption->animOut();
 }
 
-MyLRSelect *MyLRSelect::createLRSelect(Sequence::BasePage *menu, bool create_bg, EDesign design) {
+MyLRSelect *MyLRSelect::createLRSelect(Sequence::BasePage *menu, bool create_bg, EDesign design, const char *control_dataname = "game_setup_2_00") {
     MyLRSelectBg *bg = nullptr;
     const char *control_filename = nullptr;
 
@@ -71,7 +73,7 @@ MyLRSelect *MyLRSelect::createLRSelect(Sequence::BasePage *menu, bool create_bg,
     }
 
     // We will use "game_setup_LL" and "game_setup_2_00" as examples
-    MyLRSelect *my_lr_select = mod::utils::setupControl<MyLRSelect>(menu, control_filename, "game_setup_2_00");
+    MyLRSelect *my_lr_select = mod::utils::setupControl<MyLRSelect>(menu, control_filename, control_dataname);
 
     if (create_bg) {
         my_lr_select->setBg(bg);
@@ -99,12 +101,12 @@ void MyLRSelect::setOnApply(OnApplyCallback callback) {
     onApply = callback;
 }
 
-void MyLRSelect::initCaption(Sequence::BasePage *menu, bool do_hide_background, const UI::MessageString &message) {
-    caption = MyPrintf::createPrint(menu, do_hide_background);
+void MyLRSelect::initDescription(bool use_caption, bool use_menu_simple_message, MyPrintf *caption_, MyMenuSimpleMessage *menu_simple_message_, Sequence::BasePage *menu, bool do_hide_background) {
+    if (use_caption)
+        caption = caption_;
 
-    if (caption != nullptr) {
-        caption->setMessage(message);
-    }
+    if (use_menu_simple_message)
+        menu_simple_message = menu_simple_message_;
 }
 
 void MyLRSelect::setPosY(f32 pos_y) {
@@ -126,6 +128,14 @@ void MyLRSelect::updateSelection() {
     }
 
     options_array[id] = m_option;
+}
+
+void MyLRSelect::updateDescriptionText() {
+    if (caption != nullptr)
+        caption->setMessage(m_settings.description_text);
+
+    if (menu_simple_message != nullptr)
+        menu_simple_message->setMessage(m_settings.description_text);
 }
 
 }

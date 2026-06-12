@@ -43,3 +43,6 @@ enum ClassLRSelect_InputViewer : u32 {
     INPUT_VIEWER_FULL
 };
 extern u32 g_input_viewer_option;
+
+// input_viewer
+extern u32 g_variable_mii_size;

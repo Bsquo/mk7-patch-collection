@@ -1,5 +1,5 @@
 #include "examples/class_lr_select/class_lr_select.hpp"
-#include "utils/my_lr_select.hpp"
+#include "utils/my_lr_select_group.hpp"
 #include "utils/ext_base_menu_page.hpp"
 #include "utils/my_menu_simple_message.hpp"
 
@@ -9,7 +9,9 @@
 #include "UI/BackButton.hpp"
 #include "UI/CursorMove.hpp"
 
-mod::utils::MyLRSelect *lr_select_array[6] = {0};
+#include <controller/ctr/seadCtrController.h>
+
+mod::utils::MyLRSelectGroup *lr_select_group = nullptr;
 
 // engine_class_select
 mod::utils::MyLRSelect::Settings engine_class_select_settings(
@@ -18,7 +20,8 @@ mod::utils::MyLRSelect::Settings engine_class_select_settings(
     {
         { u"No", u"300cc", u"500cc", u"9999cc" },
         4
-    }
+    },
+    u"Modify the engine speed in 150cc"
 );
 
 void onApply_engineClassSelect(mod::utils::MyLRSelect *lr_select) {
@@ -51,7 +54,8 @@ mod::utils::MyLRSelect::Settings unused_leaf_type_select_settings(
     {
         { u"Normal", u"Unused" },
         2
-    }
+    },
+    u"Enable the unused Super Leaf behaviour"
 );
 
 void onApply_unusedLeafTypeSelect(mod::utils::MyLRSelect *lr_select) {
@@ -75,10 +79,12 @@ bool g_ultra_miniturbo_enabled = false;
 mod::utils::MyLRSelect::Settings ultra_miniturbo_select_settings(
     0,
     u"Ultra Miniturbo",
+    
     {
         { u"Off", u"On" },
         2
-    }
+    },
+    u"Enable purple miniturbos"
 );
 
 void onApply_ultraMiniturbo(mod::utils::MyLRSelect *lr_select) {
@@ -94,7 +100,8 @@ mod::utils::MyLRSelect::Settings random_stats_select_settings(
     {
         { u"Off", u"On" },
         2
-    }
+    },
+    u"Randomize the vehicle statistics on each race"
 );
 
 void onApply_randomStats(mod::utils::MyLRSelect *lr_select) {
@@ -110,7 +117,11 @@ mod::utils::MyLRSelect::Settings race_prints_select_settings(
     {
         { u"Off", u"Speed", u"Speed (XYZ)", u"Full" },
         4
-    }
+    },
+    u"Display one of the following during races:\n\n"
+    u" - Speed: Shows the engine's speed\n"
+    u" - Speed (XYZ): Shows the speed including forces\n"
+    u" - Full: Shows the kart and race status"
 );
 
 void onApply_racePrints(mod::utils::MyLRSelect *lr_select) {
@@ -121,80 +132,84 @@ void onApply_racePrints(mod::utils::MyLRSelect *lr_select) {
 u32 g_input_viewer_option = INPUT_VIEWER_OFF;
 
 mod::utils::MyLRSelect::Settings input_viewer_select_settings(
-    0,
+    INPUT_VIEWER_NO_BG,
     u"Input viewer",
     {
         { u"No", u"No background", u"With background"},
         3
-    }
+    },
+    u"Shows an input viewer during races"
 );
 
 void onApply_inputViewerSelect(mod::utils::MyLRSelect *lr_select) {
     g_input_viewer_option = lr_select->m_option;
 }
 
+// variable_mii_size
+u32 g_variable_mii_size = VARIABLE_MII_SIZE_OFF;
+
+mod::utils::MyLRSelect::Settings variable_mii_size_select_settings(
+    0,
+    u"Mii size",
+    {
+        { u"Normal", u"Variable"},
+        2
+    },
+    u" - Normal: Miis are always medium weight\n\n"
+    u" - Variable: Miis can also be large or\n"
+    u"   small depending on its size,\n"
+    u"   just like in MKWii\n"
+);
+
+void onApply_variableMiiSize(mod::utils::MyLRSelect *lr_select) {
+    g_input_viewer_option = lr_select->m_option;
+}
+
 /////////////////
 
 HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
-    // Create the upper screen message window
-    mod::utils::MyMenuSimpleMessage *simple_message = mod::utils::setupControl<mod::utils::MyMenuSimpleMessage>(menu, "dialogue01", "dialogue");
-    simple_message->setMessage(u"Mod Menu");
+    lr_select_group = new mod::utils::MyLRSelectGroup();
+    lr_select_group->initControl(menu, false, true, false);
+    lr_select_group->initSettings(2);
+    lr_select_group->setCurrentPage(0);
+
+    // Page 1 / 2
+    // engine_class_select
+    lr_select_group->setupEntry(0, 0, &engine_class_select_settings, onApply_engineClassSelect);
+
+    // unused_leaf_type_select
+    lr_select_group->setupEntry(1, 0, &unused_leaf_type_select_settings, onApply_unusedLeafTypeSelect);
+
+    // ultra_miniturbo_select
+    lr_select_group->setupEntry(2, 0, &ultra_miniturbo_select_settings, onApply_ultraMiniturbo);
+
+    // random_stats
+    lr_select_group->setupEntry(3, 0, &random_stats_select_settings, onApply_randomStats);
+
+    // race_prints
+    lr_select_group->setupEntry(4, 0, &race_prints_select_settings, onApply_racePrints);
+
+    // Page 2 / 2
+    // input_viewer
+    lr_select_group->setupEntry(0, 1, &input_viewer_select_settings, onApply_inputViewerSelect);
+
+    // variable_mii_size
+    lr_select_group->setupEntry(0, 1, &variable_mii_size_select_settings, onApply_variableMiiSize);
+
+    lr_select_group->initCurrentPage();
 
     // Create the back button
     UI::BackButton *back_button = menu->setupControl<UI::BackButton>("cmn_back_btn", "cmn_back_btn");
     back_button->m_on_button_press_se = Sound::SndSeEvent::EEvent::SE_SYS_CANCEL_L;
     back_button->m_return_code = menu->m_on_back_return_code;
-
-    // Create each LRSelect
-    // engine_class_select 
-    lr_select_array[0] = mod::utils::MyLRSelect::createLRSelect(menu, false, mod::utils::MyLRSelect::EDesign::DESIGN_0);
-    lr_select_array[0]->initSettings(engine_class_select_settings);
-    lr_select_array[0]->setOnApply(onApply_engineClassSelect);
-    lr_select_array[0]->initCaption(menu, false, u"Select a custom top speed for 150cc");
-    // TODO: This doesn't work for `engine_class_select`. Only for `unused_leaf_type_select`
-    lr_select_array[0]->setPosY(40.0f);
-
-    // unused_leaf_type_select
-    lr_select_array[1] = mod::utils::MyLRSelect::createLRSelect(menu, false, mod::utils::MyLRSelect::EDesign::DESIGN_0);
-    lr_select_array[1]->initSettings(unused_leaf_type_select_settings);
-    lr_select_array[1]->setOnApply(onApply_unusedLeafTypeSelect);
-    lr_select_array[1]->initCaption(menu, false, u"Enables unused Super Leaf behaviour");
-    lr_select_array[1]->setPosY(00.0f);
-
-    // ultra_miniturbo_select
-    lr_select_array[2] = mod::utils::MyLRSelect::createLRSelect(menu, false, mod::utils::MyLRSelect::EDesign::DESIGN_0);
-    lr_select_array[2]->initSettings(ultra_miniturbo_select_settings);
-    lr_select_array[2]->setOnApply(onApply_ultraMiniturbo);
-    lr_select_array[2]->initCaption(menu, false, u"Enables purple miniturbos");
-    lr_select_array[2]->setPosY(-40.0f);
-
-    // random_stats
-    lr_select_array[3] = mod::utils::MyLRSelect::createLRSelect(menu, false, mod::utils::MyLRSelect::EDesign::DESIGN_0);
-    lr_select_array[3]->initSettings(random_stats_select_settings);
-    lr_select_array[3]->setOnApply(onApply_randomStats);
-    lr_select_array[3]->initCaption(menu, false, u"Randomizes your vehicle stats on each race");
-    lr_select_array[3]->setPosY(-80.0f);
-
-    // race_prints
-    lr_select_array[4] = mod::utils::MyLRSelect::createLRSelect(menu, false, mod::utils::MyLRSelect::EDesign::DESIGN_0);
-    lr_select_array[4]->initSettings(race_prints_select_settings);
-    lr_select_array[4]->setOnApply(onApply_racePrints);
-    lr_select_array[4]->setPosY(-100.0f);
-
-    // input_viewer
-    lr_select_array[5] = mod::utils::MyLRSelect::createLRSelect(menu, false, mod::utils::MyLRSelect::EDesign::DESIGN_0);
-    lr_select_array[5]->initSettings(input_viewer_select_settings);
-    lr_select_array[5]->setOnApply(onApply_inputViewerSelect);
-    lr_select_array[5]->setPosY(-120.0f);
-
-    // TODO: Do we really need to call this?
-    menu->m_manipulators[0]->m_cursor_move.setType(UI::CursorMove::EType::NEXT_GAME_SETTING);
 }
 
 HOOK void classLRSelect_onPageEnter(Sequence::BaseMenuPage *menu) {
-    lr_select_array[0]->selectHandlerOn(0, 0);   // Ensure the caption for the first select appears when entering the menu
-    
     Sequence::StartFadein(Sequence::Fader::EFaderType::FADE_IN_BLACK, 30, Sequence::Fader::EFaderScreen::BOTH_SCREENS);
+}
+
+HOOK void classLRSelect_onPagePreStep(Sequence::BaseMenuPage *menu) {
+    lr_select_group->calc();
 }
 
 HOOK void classLRSelect_onPageComplete(Sequence::BaseMenuPage *menu) {
