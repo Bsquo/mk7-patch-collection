@@ -17,7 +17,8 @@ This repository contains various examples patches and mods for **Mario Kart 7**.
 
 * **ultra_miniturbo**: Allows you to charge a third level of miniturbo, displayed in purple (just like in MK8D).
 
-* **variable_mii_size**: Changes the weight class of you player Mii depending on its size and weight set in the Mii Maker, instead of always be forced to medium class (just like in MKWii).
+* **variable_mii_size**: Changes the weight class of you player Mii depending on its size and weight set in the Mii Maker, instead of always be forced to medium class (just like in MKWii).</br>
+For this mod, two versions are available for the 3DS version: **with_assets** (has the custom Mii body models, but might crash if used with Luma CFW's game patching) and **without_assets** (doesn't have the custom Mii body models, but works fine if using Luma CFW's game patching).
 
 ## Building
 
