@@ -16,5 +16,6 @@ extern char _LD_SYMBOL_TEXT_START;
  */
 extern char _LD_SYMBOL_TEXT_SIZE;
 #define NEWCODE_SIZE ((u32) & _LD_SYMBOL_TEXT_SIZE)
+#define ALIGN_UP(size, align) (((size) + ((align) - 1)) & ~((align) - 1))
 
 #endif //_NEWCODEINFO_H_

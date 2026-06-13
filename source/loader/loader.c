@@ -18,13 +18,14 @@ void loader_main(void) {
   Result res;
 
   u32 address = NEWCODE_OFFSET;
-  u32 neededMemory = (NEWCODE_SIZE + 0xFFF) & ~0xFFF;  // rounding up
+  u32 neededMemory = ALIGN_UP(NEWCODE_SIZE, 0x1000);
 
   // 7 = All permissions (R-W-X)
   res = svcControlProcessMemory(getCurrentProcessHandle(), address, address, neededMemory, MEMOP_PROT, 7);
 
-  if (res < 0)
+  if (res < 0) {
     svcBreak(USERBREAK_ASSERT);
+  }
 }
 
 Handle getCurrentProcessHandle(void) {

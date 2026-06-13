@@ -7,9 +7,16 @@ SECTIONS {
 
   . = 0x100000;
 
-	/* Loader-related patches */
+	/* Loader-related */
   .patch_loader 0x100000 : {
     *(.patch_loader)
+  }
+
+  . = 0x100018;
+
+  # TODO: Do the same for global destructors
+  .patch_call_global_constructors 0x100018 : {
+    *(.patch_call_global_constructors)
   }
 
   /* --- Our custom code patches --- */
@@ -17,12 +24,14 @@ SECTIONS {
   .patch_show_timer_in_gp ADDR_SHOW_TIMER_IN_GP : {
     *(.patch_show_timer_in_gp)
   }
+  .patch_set_time_control_pos ADDR_PATCH_SET_TIME_CONTROL_POS : {
+    *(.patch_set_time_control_pos)
+  }
 
   /* race_prints */
   .patch_race_prints_init ADDR_RACE_PRINTS_INIT : {
     *(.patch_race_prints_init)
   }
-
   .patch_race_prints_calc ADDR_RACE_PRINTS_CALC : {
     *(.patch_race_prints_calc)
   }
@@ -31,9 +40,102 @@ SECTIONS {
   .patch_change_chara_wifi_initControl ADDR_CHANGE_CHARA_WIFI_INIT_CONTROL : {
     *(.patch_change_chara_wifi_initControl)
   }
-
   .patch_change_chara_wifi_onPageEnter ADDR_CHANGE_CHARA_WIFI_ON_PAGE_ENTER : {
     *(.patch_change_chara_wifi_onPageEnter)
+  }
+
+  /* class_lr_select */
+  .patch_class_lr_select_initControl ADDR_CLASS_LR_SELECT_INIT_CONTROL : {
+    *(.patch_class_lr_select_initControl)
+  }
+  .patch_class_lr_select_onPagePreStep ADDR_CLASS_LR_SELECT_ON_PAGE_PRE_STEP : {
+    *(.patch_class_lr_select_onPagePreStep)
+  }
+  .patch_class_lr_select_onPageEnter ADDR_CLASS_LR_SELECT_ON_PAGE_ENTER : {
+    *(.patch_class_lr_select_onPageEnter)
+  }
+  .patch_class_lr_select_onPageComplete ADDR_CLASS_LR_SELECT_ON_PAGE_COMPLETE : {
+    *(.patch_class_lr_select_onPageComplete)
+  }
+  .patch_class_lr_select_onSliderSetting ADDR_CLASS_LR_SELECT_ON_SLIDER_SETTING : {
+    *(.patch_class_lr_select_onSliderSetting)
+  }
+  .patch_class_lr_select_procOpenMenu ADDR_CLASS_LR_SELECT_PROC_OPEN_MENU : {
+    *(.patch_class_lr_select_procOpenMenu)
+  }
+
+  /* ultra_miniturbo */
+  .patch_ultraminiturbo_init ADDR_ULTRA_MINITURBO_INIT : {
+    *(.patch_ultraminiturbo_init)
+  }
+  .patch_ultraminiturbo_calc ADDR_ULTRA_MINITURBO_CALC : {
+    *(.patch_ultraminiturbo_calc)
+  }
+  .patch_ultraminiturbo_update_dash_param ADDR_ULTRA_MINITURBO_UPDATE_DASH_PARAM : {
+    *(.patch_ultraminiturbo_update_dash_param)
+  }
+
+  /* random_stats_patches */
+  .patch_random_stats_weight ADDR_RANDOM_STATS_WEIGHT : {
+    *(.patch_random_stats_weight)
+  }
+  .patch_random_stats_speed_land ADDR_RANDOM_STATS_SPEED_LAND : {
+    *(.patch_random_stats_speed_land)
+  }
+  .patch_random_stats_speed_sea ADDR_RANDOM_STATS_SPEED_SEA : {
+    *(.patch_random_stats_speed_sea)
+  }
+  .patch_random_stats_speed_air ADDR_RANDOM_STATS_SPEED_AIR : {
+    *(.patch_random_stats_speed_air)
+  }
+  .patch_random_stats_accel ADDR_RANDOM_STATS_ACCEL : {
+    *(.patch_random_stats_accel)
+  }
+  .patch_random_stats_turn_land ADDR_RANDOM_STATS_TURN_LAND : {
+    *(.patch_random_stats_turn_land)
+  }
+  .patch_random_stats_turn_sea ADDR_RANDOM_STATS_TURN_SEA : {
+    *(.patch_random_stats_turn_sea)
+  }
+  .patch_random_stats_turn_air ADDR_RANDOM_STATS_TURN_AIR : {
+    *(.patch_random_stats_turn_air)
+  }
+  .patch_random_stats_offroad ADDR_RANDOM_STATS_OFFROAD : {
+    *(.patch_random_stats_offroad)
+  }
+  .patch_random_stats_miniturbo ADDR_RANDOM_STATS_MINITURBO : {
+    *(.patch_random_stats_miniturbo)
+  }
+  .patch_random_stats_tirefeeling ADDR_RANDOM_STATS_TIREFEELING : {
+    *(.patch_random_stats_tirefeeling)
+  }
+  .patch_random_stats_driftstart ADDR_RANDOM_STATS_DRIFTSTART : {
+    *(.patch_random_stats_driftstart)
+  }
+
+  /* input_viewer */
+  .patch_input_viewer_create ADDR_INPUT_VIEWER_CREATE : {
+    *(.patch_input_viewer_create)
+  }
+
+  /* variable_mii_size */
+  .patch_variable_mii_size_determine_vehicle_scale ADDR_VARIABLE_MII_SIZE_DETERMINE_VEHICLE_SIZE : {
+    *(.patch_variable_mii_size_determine_vehicle_scale)
+  }
+  .patch_variable_mii_size_determine_driver_size_type ADDR_VARIABLE_MII_SIZE_DETERMINE_DRIVER_SIZE_TYPE : {
+    *(.patch_variable_mii_size_determine_driver_size_type)
+  }
+  .patch_variable_mii_size_set_mii_voice_pitch ADDR_VARIABLE_MII_SIZE_SET_MII_VOICE_PITCH : {
+    *(.patch_variable_mii_size_set_mii_voice_pitch)
+  }
+  .patch_variable_mii_size_determine_stats ADDR_VARIABLE_MII_SIZE_DETERMINE_STATS : {
+    *(.patch_variable_mii_size_determine_stats)
+  }
+  .patch_variable_mii_size_determine_model ADDR_VARIABLE_MII_SIZE_DETERMINE_MODEL : {
+    *(.patch_variable_mii_size_determine_model)
+  }
+  .patch_variable_mii_size_determine_model_2 ADDR_VARIABLE_MII_SIZE_DETERMINE_MODEL_2 : {
+    *(.patch_variable_mii_size_determine_model_2)
   }
 
   /* We'll insert the loader's code at the very end of the executable's .text section */
@@ -45,22 +147,39 @@ SECTIONS {
 		*(.loader*)
 	}
 
+  .init : {
+    *(.init)
+  }
+
+  .init_array : {
+    __init_array_start = . ;
+    KEEP(*(SORT(.init_array.*)))
+    KEEP(*(.init_array))
+    . = ALIGN(4);
+    __init_array_end = . ;
+  }
+
+  .fini : {
+    *(.fini)
+  }
+
+  .fini_array : {
+    KEEP(*(SORT(.fini_array.*)))
+    KEEP(*(.fini_array))
+  }
+
   /* Our custom code goes here */
   . = ADDR_CUSTOM_CODE;
   _LD_SYMBOL_TEXT_START = . ;
     .text : {
-        __text_start = . ;
-        *(.text*)
-        *(.rodata*)
-        *(.data*)
-        *(.bss*)
-        *(.init*)
-        *(.fini*)
-        *(.eh_frame*)
-        *(.init_array*)
-        *(.fini_array*)
-        *(COMMON)
-        __text_end  = . ;
+      __text_start = . ;
+      *(.text*)
+      *(.rodata*)
+      *(.data*)
+      *(.bss*)
+      *(.eh_frame*)
+      *(COMMON)
+      __text_end  = . ;
   }
   _LD_SYMBOL_TEXT_SIZE = __text_end - __text_start;
 

@@ -1,0 +1,16 @@
+.include "macros.s"
+
+.arm
+
+PATCH_BL patch_random_stats_weight, hook_random_stats_get
+PATCH_BL patch_random_stats_speed_land, hook_random_stats_get
+PATCH_BL patch_random_stats_speed_sea, hook_random_stats_get
+PATCH_BL patch_random_stats_speed_air, hook_random_stats_get
+PATCH_BL patch_random_stats_accel, hook_random_stats_get
+PATCH_BL patch_random_stats_turn_land, hook_random_stats_get
+PATCH_BL patch_random_stats_turn_sea, hook_random_stats_get
+PATCH_BL patch_random_stats_turn_air, hook_random_stats_get
+PATCH_BL patch_random_stats_offroad, hook_random_stats_get
+PATCH_BL patch_random_stats_miniturbo, hook_random_stats_get
+PATCH_BL patch_random_stats_tirefeeling, hook_random_stats_get
+PATCH_BL patch_random_stats_driftstart, hook_random_stats_get

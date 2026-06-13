@@ -1,0 +1,7 @@
+.include "macros.s"
+
+.arm
+
+PATCH_BL patch_ultraminiturbo_init, hook_ultraminiturbo_init
+PATCH_BL patch_ultraminiturbo_calc, hook_ultraminiturbo_calc
+PATCH_BL patch_ultraminiturbo_update_dash_param, hook_ultraminiturbo_update_dash_param

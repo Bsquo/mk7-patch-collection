@@ -9,7 +9,40 @@
     .global \name
 \name:
     push {r0-r12, lr}
+    vpush {d0-d15}
     bl \target_func
+    vpop {d0-d15}
+    pop  {r0-r12, lr}
+    \original_instr
+    bx lr
+.endm
+
+/* Same as above, except this will modify the value of r0,
+   so that we can execute hooks that return a number and use those
+   in the original game code.
+*/
+.macro HOOK_RET_INT name, target_func, original_instr:vararg
+    .global \name
+\name:
+    push {r1-r12, lr}
+    vpush {d0-d15}
+    bl \target_func
+    vpop {d0-d15}
+    pop  {r1-r12, lr}
+    \original_instr
+    bx lr
+.endm
+
+/* Same as above, except this won't restore s0, s1 nor s2.
+   Used when the hook returns a Vector3f by value
+*/
+.macro HOOK_RET_VEC3 name, target_func, original_instr:vararg
+    .global \name
+\name:
+    push {r0-r12, lr}
+    vpush {d2-d15}
+    bl \target_func
+    vpop {d2-d15}
     pop  {r0-r12, lr}
     \original_instr
     bx lr
@@ -32,4 +65,25 @@
     .global \name
 \name:
     b \hook_func
+.endm
+
+.macro PATCH_WORD name, values:vararg
+    .section .\name
+    .global \name
+\name:
+    .word \values
+.endm
+
+.macro PATCH_HALF name, values:vararg
+    .section .\name
+    .global \name
+\name:
+    .hword \values
+.endm
+
+.macro PATCH_BYTES name, values:vararg
+    .section .\name
+    .global \name
+\name:
+    .byte \values
 .endm
