@@ -1,4 +1,5 @@
 #include "examples/class_lr_select/class_lr_select.hpp"
+#include "utils/my_printf.hpp"
 #include "utils/my_lr_select_group.hpp"
 #include "utils/ext_base_menu_page.hpp"
 #include "utils/my_menu_simple_message.hpp"
@@ -12,6 +13,7 @@
 #include <controller/ctr/seadCtrController.h>
 
 mod::utils::MyLRSelectGroup *lr_select_group = nullptr;
+mod::utils::MyPrintf *page_numbers = nullptr;
 
 // engine_class_select
 mod::utils::MyLRSelect::Settings engine_class_select_settings(
@@ -162,7 +164,7 @@ mod::utils::MyLRSelect::Settings variable_mii_size_select_settings(
 );
 
 void onApply_variableMiiSize(mod::utils::MyLRSelect *lr_select) {
-    g_input_viewer_option = lr_select->m_option;
+    g_variable_mii_size = lr_select->m_option;
 }
 
 /////////////////
@@ -202,6 +204,12 @@ HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
     UI::BackButton *back_button = menu->setupControl<UI::BackButton>("cmn_back_btn", "cmn_back_btn");
     back_button->m_on_button_press_se = Sound::SndSeEvent::EEvent::SE_SYS_CANCEL_L;
     back_button->m_return_code = menu->m_on_back_return_code;
+
+    // Create the page number prints
+    page_numbers = mod::utils::MyPrintf::createPrint(menu, true);
+    page_numbers->setTextAlignment(nw::lyt::ALIGN_TOP_LEFT);
+    page_numbers->setSize(16.0f, 16.0f);
+
 }
 
 HOOK void classLRSelect_onPageEnter(Sequence::BaseMenuPage *menu) {
@@ -210,6 +218,13 @@ HOOK void classLRSelect_onPageEnter(Sequence::BaseMenuPage *menu) {
 
 HOOK void classLRSelect_onPagePreStep(Sequence::BaseMenuPage *menu) {
     lr_select_group->calc();
+
+    page_numbers->printf
+    (
+        310.0f, 20.0f,
+        L"%3d / %3d",
+        lr_select_group->getCurrentPage() + 1, lr_select_group->getNumPages()
+    );
 }
 
 HOOK void classLRSelect_onPageComplete(Sequence::BaseMenuPage *menu) {

@@ -68,7 +68,7 @@ void MyLRSelectGroup::initCurrentPage() {
         if (settings->m_is_active) {
             m_entries[i]->m_cursor_item.m_is_enabled = true;
             m_entries[i]->m_visible = true;
-            m_entries[i]->initSettings(*settings->m_entry_settings);
+            m_entries[i]->initSettingsWithSpecificOption(*settings->m_entry_settings, settings->m_selected_option);
             m_entries[i]->setOnApply(settings->m_on_apply);
         }
         else {
@@ -83,6 +83,7 @@ void MyLRSelectGroup::initCurrentPage() {
 }
 
 void MyLRSelectGroup::calc() {
+    Settings *settings = nullptr;
     System::KDPadControllerCore *controller = System::g_root_system->get_pad_director()->m_pads[static_cast<s32>(System::KDPadDirector::eKDPadListIndex::UI)]->m_pad_controller->m_pad_controller_core;
 
     if (controller->mPadTrig & sead::CtrController::BUTTON_R) {
@@ -94,6 +95,14 @@ void MyLRSelectGroup::calc() {
         setCurrentPage((m_current_page > 0) ? m_current_page - 1 : m_num_pages - 1);
         Sequence::PlaySe(Sound::SndSeEvent::EEvent::SE_SYS_CURSOR_1);
         initCurrentPage();
+    }
+
+    for (s32 i = 0; i < NUM_ENTRIES; i++) {
+        settings = getSettings(i, m_current_page);
+
+        if (settings->m_is_active) {
+            settings->m_selected_option = m_entries[i]->m_option;
+        }
     }
 }
 

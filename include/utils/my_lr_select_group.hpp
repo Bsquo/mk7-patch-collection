@@ -14,6 +14,7 @@ class MyLRSelectGroup {
             bool m_is_active = false;
             MyLRSelect::Settings *m_entry_settings;
             MyLRSelect::OnApplyCallback m_on_apply;
+            s32 m_selected_option = 0;
         };
 
         static constexpr s32 NUM_ENTRIES = 5;

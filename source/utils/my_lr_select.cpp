@@ -83,18 +83,22 @@ MyLRSelect *MyLRSelect::createLRSelect(Sequence::BasePage *menu, bool create_bg,
 }
 
 void MyLRSelect::initSettings(const Settings &settings) {
-    nw::lyt::TextBox *name_textbox = static_cast<nw::lyt::TextBox*>(m_elements[0].m_element);
+    initSettingsWithSpecificOption(settings, m_settings.m_default_option);
+}
 
-    m_selected_option_idx = 0;
+void MyLRSelect::initSettingsWithSpecificOption(const Settings &settings, s32 option) {
+    nw::lyt::TextBox *name_textbox = static_cast<nw::lyt::TextBox*>(m_elements[0].m_element);
+    
     m_settings = settings;
+    m_selected_option_idx = option;
 
     // Set name string
-    setVal(0, settings.m_num_options, m_settings.m_default_option);
+    setVal(0, settings.m_num_options, option);
     m_control_sight->replaceMessageImpl((u32) name_textbox, m_settings.name, nullptr, nullptr);
     UI::UIUtil::AdjustTextWidth(name_textbox, m_settings.name);
 
-    m_control_sight->replaceMessageImpl((u32) m_val_textbox, m_settings.options_text[m_settings.m_default_option], nullptr, nullptr);
-    UI::UIUtil::AdjustTextWidth(m_val_textbox, m_settings.options_text[m_settings.m_default_option]);
+    m_control_sight->replaceMessageImpl((u32) m_val_textbox, m_settings.options_text[option], nullptr, nullptr);
+    UI::UIUtil::AdjustTextWidth(m_val_textbox, m_settings.options_text[option]);
 }
 
 void MyLRSelect::setOnApply(OnApplyCallback callback) {

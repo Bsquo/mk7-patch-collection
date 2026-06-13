@@ -105,6 +105,7 @@ class MyLRSelect: public UI::LRSelect {
 
         static MyLRSelect *createLRSelect(Sequence::BasePage *, bool, EDesign, const char *);
         void initSettings(const Settings &);
+        void initSettingsWithSpecificOption(const Settings &, s32);
         void setOnApply(OnApplyCallback callback);
         void initDescription(bool, bool, MyPrintf *, MyMenuSimpleMessage *, Sequence::BasePage *, bool do_hide_background = false);
         void updateDescriptionText();
