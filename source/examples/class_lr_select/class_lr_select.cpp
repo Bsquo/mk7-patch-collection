@@ -17,7 +17,7 @@ mod::utils::MyPrintf *page_numbers = nullptr;
 
 // engine_class_select
 mod::utils::MyLRSelect::Settings engine_class_select_settings(
-    0,
+    _150_CC,
     u"Modded 150cc",
     {
         { u"No", u"300cc", u"500cc", u"9999cc" },
@@ -51,7 +51,7 @@ void onApply_engineClassSelect(mod::utils::MyLRSelect *lr_select) {
 
 // unused_leaf_type_select
 mod::utils::MyLRSelect::Settings unused_leaf_type_select_settings(
-    0,
+    TYPE_NORMAL,
     u"Leaf Type",
     {
         { u"Normal", u"Unused" },
@@ -79,7 +79,7 @@ void onApply_unusedLeafTypeSelect(mod::utils::MyLRSelect *lr_select) {
 bool g_ultra_miniturbo_enabled = false;
 
 mod::utils::MyLRSelect::Settings ultra_miniturbo_select_settings(
-    0,
+    OPTION_OFF,
     u"Ultra Miniturbo",
     
     {
@@ -97,7 +97,7 @@ void onApply_ultraMiniturbo(mod::utils::MyLRSelect *lr_select) {
 bool g_random_stats_enabled = false;
 
 mod::utils::MyLRSelect::Settings random_stats_select_settings(
-    0,
+    OPTION_OFF,
     u"Random stats",
     {
         { u"Off", u"On" },
@@ -114,7 +114,7 @@ void onApply_randomStats(mod::utils::MyLRSelect *lr_select) {
 u32 g_race_prints_option = RACE_PRINTS_OFF;
 
 mod::utils::MyLRSelect::Settings race_prints_select_settings(
-    0,
+    RACE_PRINTS_SPEED,
     u"Race prints",
     {
         { u"Off", u"Speed", u"Speed (XYZ)", u"Full" },
@@ -148,10 +148,10 @@ void onApply_inputViewerSelect(mod::utils::MyLRSelect *lr_select) {
 }
 
 // variable_mii_size
-u32 g_variable_mii_size = VARIABLE_MII_SIZE_OFF;
+u32 g_variable_mii_size = OPTION_OFF;
 
 mod::utils::MyLRSelect::Settings variable_mii_size_select_settings(
-    0,
+    OPTION_OFF,
     u"Mii size",
     {
         { u"Normal", u"Variable"},
@@ -196,7 +196,7 @@ HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
     lr_select_group->setupEntry(0, 1, &input_viewer_select_settings, onApply_inputViewerSelect);
 
     // variable_mii_size
-    lr_select_group->setupEntry(0, 1, &variable_mii_size_select_settings, onApply_variableMiiSize);
+    lr_select_group->setupEntry(1, 1, &variable_mii_size_select_settings, onApply_variableMiiSize);
 
     lr_select_group->initCurrentPage();
 
@@ -221,7 +221,7 @@ HOOK void classLRSelect_onPagePreStep(Sequence::BaseMenuPage *menu) {
 
     page_numbers->printf
     (
-        310.0f, 20.0f,
+        280.0f, 20.0f,
         L"%3d / %3d",
         lr_select_group->getCurrentPage() + 1, lr_select_group->getNumPages()
     );

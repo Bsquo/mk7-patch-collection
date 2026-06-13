@@ -45,8 +45,4 @@ enum ClassLRSelect_InputViewer : u32 {
 extern u32 g_input_viewer_option;
 
 // input_viewer
-enum ClassLRSelect_VariableMiiSize : u32 {
-    VARIABLE_MII_SIZE_OFF,
-    VARIABLE_MII_SIZE_ON
-};
 extern u32 g_variable_mii_size;
