@@ -110,6 +110,9 @@ _ZN4Kart25KartConstructInfoAccessor17getDriverSizeTypeEv = 0x002e9b88;
 _ZN4sead11SoundHandle8setPitchEf = 0x00309eb8;
 _ZN5Sound9SndEngine10startSysSeEm = 0x003d8ac0;
 _ZN8Sequence6PlaySeEN5Sound10SndSeEvent6EEventE = 0x004d0ad4;
+_ZN2UI11Manipulator9setCursorEPKNS_10CursorItemE = 0x0014c25c;
+_ZN2UI11Manipulator9setCursorEl = 0x0014c314;
+_ZN5Sound12SndSceneBase12stopSceneBgmEl = 0x003cfaf8;
 
 # NOTE: This is a pointer that points to another pointer that actually points at RootSystem
 # i.e. not a direct pointer to RootSystem

@@ -78,7 +78,9 @@ void MyLRSelectGroup::initCurrentPage() {
     }
 
     // Select the first option when switching pages
-    m_entries[0]->m_cursor_item.m_manipulator->m_selected_option = 0;   // TODO: This line doesn't seem to do anything
+    UI::Manipulator *manipulator = m_entries[0]->m_cursor_item.m_manipulator;
+    manipulator->setCursor(static_cast<s32>(0));
+    manipulator->m_selected_option = 0;
     m_entries[0]->selectHandlerOn(0, 0);
 }
 

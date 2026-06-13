@@ -7,6 +7,9 @@
 #include "Sequence/ControlSlider.hpp"
 #include "Sequence/BaseMenuPage.hpp"
 #include "Sequence/FaderPage.hpp"
+#include "Sound/SndEngine.hpp"
+#include "Sound/SndSceneMenu.hpp"
+#include "System/RootSystem.hpp"
 #include "UI/BackButton.hpp"
 #include "UI/CursorMove.hpp"
 
@@ -229,4 +232,5 @@ HOOK void classLRSelect_onPagePreStep(Sequence::BaseMenuPage *menu) {
 
 HOOK void classLRSelect_onPageComplete(Sequence::BaseMenuPage *menu) {
     Sequence::StartFadeout(Sequence::Fader::EFaderType::FADE_OUT_BLACK, 30, Sequence::Fader::EFaderScreen::BOTH_SCREENS);
+    System::g_root_system->m_root_scene->get_sound_engine()->m_director_list->m_snd_scene_menu->stopSceneBgm(30);
 }
