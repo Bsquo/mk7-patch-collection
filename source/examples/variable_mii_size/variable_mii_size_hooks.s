@@ -14,3 +14,9 @@ HOOK hook_variable_mii_size_set_mii_voice_pitch, variableMiiSize_setMiiVoicePitc
 
 HOOK hook_variable_mii_size_determine_stats, variableMiiSize_determineStats, \
     cpy r4, r0
+
+HOOK_RET_INT hook_variable_mii_size_determine_model, variableMiiSize_determineModel, \
+    bx lr
+
+HOOK_RET_INT hook_variable_mii_size_determine_model_2, variableMiiSize_determineModel, \
+    bx lr

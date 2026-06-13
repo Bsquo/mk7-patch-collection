@@ -34,6 +34,7 @@ class MyLRSelectGroup {
 
     private:
         void disableAllEntries();
+        void selectEntry(s32);
 
         MyLRSelect *m_entries[NUM_ENTRIES] = {nullptr};
         MyLRSelectBg *m_bg = nullptr;

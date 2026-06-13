@@ -131,6 +131,12 @@ SECTIONS {
   .patch_variable_mii_size_determine_stats ADDR_VARIABLE_MII_SIZE_DETERMINE_STATS : {
     *(.patch_variable_mii_size_determine_stats)
   }
+  .patch_variable_mii_size_determine_model ADDR_VARIABLE_MII_SIZE_DETERMINE_MODEL : {
+    *(.patch_variable_mii_size_determine_model)
+  }
+  .patch_variable_mii_size_determine_model_2 ADDR_VARIABLE_MII_SIZE_DETERMINE_MODEL_2 : {
+    *(.patch_variable_mii_size_determine_model_2)
+  }
 
   /* We'll insert the loader's code at the very end of the executable's .text section */
   /* NOTE: This address depends on the game version! */

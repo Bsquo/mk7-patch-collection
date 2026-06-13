@@ -5,9 +5,19 @@ This repository contains various examples patches and mods for **Mario Kart 7**.
 ## List of patches
 * **change_chara_wifi** (WIP): Adds a "Character" button in the online VR screen that allows you to change the character in between races.
 
+* **class_lr_select**: A custom menu that replaces the Local Multiplayer, which allows you to enable or disable many of these mods.
+
+* **input_viewer**: Allows you to view your stick movements and button presses in real time during races.
+
 * **race_prints**: Prints some vehicle and race information in the top screen during races. (USA Rev1 only, at the moment)
 
+* **random_stats**: Randomizes the stats of your vehicle on each race.
+
 * **show_timer_in_gp**: Makes the timer be visible during Grand Prix
+
+* **ultra_miniturbo**: Allows you to charge a third level of miniturbo, displayed in purple (just like in MK8D).
+
+* **variable_mii_size**: Changes the weight class of you player Mii depending on its size and weight set in the Mii Maker, instead of always be forced to medium class (just like in MKWii).
 
 ## Building
 
@@ -17,11 +27,13 @@ Use ```make``` in the repository's root to build ```code.ips``` and ```exheader.
 
 You can specify which game version to build the patches for by typing ```make VERSION=XXXX```, where XXXX is one of the following. The title ID is shown between parenthesis:
 
-* ```usa_rev1```: Americas (v1.1, prepatched) (`0004000000030800`)
+* ```usa_rev1```: Americas (v1.1, prepatched) (`0004000000030800`) (default)
 * ```eur_rev0```: Europe (v1.0) (`0004000000030700`) (WIP)
 * ```eur_rev2```: Europe (v1.2) (`0004000000030700`) (WIP)
 
 ## Installation
+To know what Title ID corresponds to your game, [check this document](https://docs.google.com/spreadsheets/d/1tjbaPn8k-6oe--BmxkvZLP1WWRtDMBun8AKfAPmcGW8/edit?usp=drive_open).
+
 ### On 3DS Console with Luma3DS
 Open the 3DS's SD card in your computer. Then, navigate to ```\luma\titles\title ID```, and copy the files ```code.ips```, ```exheader.bin``` generated in this repository's root into that folder. 
 
@@ -41,6 +53,8 @@ This project is based on bits and pieces of other 3DS modding and reverse engine
     - [PabloMK7](https://github.com/PabloMK7): game research
     - [Marioiscool246](https://github.com/Marioiscool246): `Kart::NetData` research
     - _tZ: `System::RootSystem`, its nested classes, and much more
+
+* **craiyonchewer** on Discord: For creating all the 3D models used in the "variable Mii size" example.
 
 * [devkitPro](https://github.com/devkitpro): For the `devkitARM` toolchain.
 

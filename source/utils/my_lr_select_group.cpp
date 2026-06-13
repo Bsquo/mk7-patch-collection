@@ -78,10 +78,7 @@ void MyLRSelectGroup::initCurrentPage() {
     }
 
     // Select the first option when switching pages
-    UI::Manipulator *manipulator = m_entries[0]->m_cursor_item.m_manipulator;
-    manipulator->setCursor(static_cast<s32>(0));
-    manipulator->m_selected_option = 0;
-    m_entries[0]->selectHandlerOn(0, 0);
+    selectEntry(0);
 }
 
 void MyLRSelectGroup::calc() {
@@ -116,6 +113,13 @@ void MyLRSelectGroup::disableAllEntries() {
             }
         }
     }
+}
+
+void MyLRSelectGroup::selectEntry(s32 index) {
+    UI::Manipulator *manipulator = m_entries[0]->m_cursor_item.m_manipulator;
+    manipulator->setCursor(static_cast<s32>(index));
+    manipulator->m_selected_option = index;
+    m_entries[index]->selectHandlerOn(0, 0);
 }
 
 }

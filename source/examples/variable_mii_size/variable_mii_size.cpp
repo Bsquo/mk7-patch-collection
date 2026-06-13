@@ -6,6 +6,7 @@
 #include "Kart/RawKartConstructInfoBin.hpp"
 #include "Kart/Vehicle/Vehicle.hpp"
 #include "Kart/PartsDriveParam.hpp"
+#include "Mii/MiiEngine.hpp"
 #include "RaceSys/EDriverID.hpp"
 #include "Sound/SndActorKart.hpp"
 #include "Sound/SndEngine.hpp"
@@ -17,6 +18,7 @@
 #include "System/SystemEngine.hpp"
 
 #include <math/seadVector.h>
+#include <prim/seadSafeString.h>
 
 namespace mod
 {
@@ -36,6 +38,16 @@ namespace mod
         else {
             return Kart::KartConstructInfoAccessor::EDriverSizeType::SMALL;
         }
+    }
+
+    bool isMyMiiFemale() {
+        System::PlayerData player_data;
+        CFLAdditionalInfo additional_info;
+
+        System::g_root_system->m_root_scene->get_system_engine()->getMyPlayerData(&player_data, false);
+        System::g_root_system->m_root_scene->get_mii_engine()->getAdditionalInfo(&additional_info, player_data.m_store_data, false);
+
+        return additional_info.skin_color_or_gender & 1;
     }
 
     bool isMii(RaceSys::EDriverID driver) {
@@ -126,4 +138,36 @@ HOOK void variableMiiSize_determineStats(void *, s32 *driver) {
             *driver = static_cast<s32>(RaceSys::EDriverID::Toad);
             break;
     }
+}
+
+HOOK sead::SafeString variableMiiSize_determineModel(Kart::KartConstructInfoAccessor *accessor, s32 *driverId) {
+    if (g_variable_mii_size && mod::isMii(*reinterpret_cast<RaceSys::EDriverID *>(driverId))) {
+        if (!mod::isMyMiiFemale()) {
+            switch (mod::getMyMiiWeightClass()) {
+                case Kart::KartConstructInfoAccessor::EDriverSizeType::LARGE:
+                    return "lim";
+
+                case Kart::KartConstructInfoAccessor::EDriverSizeType::MEDIUM:
+                    break;
+
+                case Kart::KartConstructInfoAccessor::EDriverSizeType::SMALL:
+                    return "sim";
+            }
+        }
+        else {
+            switch (mod::getMyMiiWeightClass()) {
+                case Kart::KartConstructInfoAccessor::EDriverSizeType::LARGE:
+                    return "lif";
+
+                case Kart::KartConstructInfoAccessor::EDriverSizeType::MEDIUM:
+                    break;
+
+                case Kart::KartConstructInfoAccessor::EDriverSizeType::SMALL:
+                    return "sif";
+            }
+        }
+    }
+
+    // Original logic
+    return accessor->m_data->m_excel_or_manager.m_raw_file->m_character_info[*driverId].m_short_name;
 }

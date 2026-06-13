@@ -113,6 +113,7 @@ _ZN8Sequence6PlaySeEN5Sound10SndSeEvent6EEventE = 0x004d0ad4;
 _ZN2UI11Manipulator9setCursorEPKNS_10CursorItemE = 0x0014c25c;
 _ZN2UI11Manipulator9setCursorEl = 0x0014c314;
 _ZN5Sound12SndSceneBase12stopSceneBgmEl = 0x003cfaf8;
+_ZN3Mii9MiiEngine17getAdditionalInfoEP17CFLAdditionalInfoRK12CFLStoreDatab = 0x00286738;
 
 # NOTE: This is a pointer that points to another pointer that actually points at RootSystem
 # i.e. not a direct pointer to RootSystem
