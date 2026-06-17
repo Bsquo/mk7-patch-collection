@@ -115,6 +115,7 @@ _ZN2UI11Manipulator9setCursorEl = 0x0014c314;
 _ZN5Sound12SndSceneBase12stopSceneBgmEl = 0x003cfaf8;
 _ZN3Mii9MiiEngine17getAdditionalInfoEP17CFLAdditionalInfoRK12CFLStoreDatab = 0x00286738;
 __rt_memclr_w = 0x0010c248;
+MIN_DRIFT_SPEED_PERCENTAGE = 0x006655fc;
 
 # NOTE: This is a pointer that points to another pointer that actually points at RootSystem
 # i.e. not a direct pointer to RootSystem

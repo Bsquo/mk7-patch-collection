@@ -18,6 +18,17 @@
 
 mod::utils::MyLRSelectGroup *lr_select_group = nullptr;
 mod::utils::MyPrintf *page_numbers = nullptr;
+mod::utils::MyPrintf *category = nullptr;
+
+/////////////////
+
+const wchar_t* category_names[] = {
+    L"Misc",
+    L"Misc 2",
+    L"Enhancements"
+};
+
+/////////////////
 
 // engine_class_select
 mod::utils::MyLRSelect::Settings engine_class_select_settings(
@@ -179,8 +190,8 @@ mod::utils::MyLRSelect::Settings disable_cpu_rubberbanding_select_settings(
         { u"Enabled", u"Disabled"},
         2
     },
-    u"Allow CPUs to catch up or slow down\n\n"
-    u"depending on how far you're from them\n"
+    u"Allow CPUs to catch up or slow down\n"
+    u"depending on how far you're from them"
 );
 
 void onApply_disableCPURubberbanding(mod::utils::MyLRSelect *lr_select) {
@@ -192,39 +203,57 @@ void onApply_disableCPURubberbanding(mod::utils::MyLRSelect *lr_select) {
     }
 }
 
+// drift_from_standstill
+mod::utils::MyLRSelect::Settings drift_from_standstill_select_settings(
+    OPTION_OFF,
+    u"Drift from stop",
+    {
+        { u"No", u"Yes"},
+        2
+    },
+    u"Allow you to drift without having to\n"
+    u"wait reaching 55%% of your max speed"
+);
+
+void onApply_driftFromStandstill(mod::utils::MyLRSelect *lr_select) {
+    extern f32 MIN_DRIFT_SPEED_PERCENTAGE;
+
+    MIN_DRIFT_SPEED_PERCENTAGE = (lr_select->m_option) ? 0.0f : 0.55f;
+}
+
 /////////////////
 
 HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
+    const u32 num_pages = 3;
+
     lr_select_group = new mod::utils::MyLRSelectGroup();
     lr_select_group->initControl(menu, false, true, false);
-    lr_select_group->initSettings(2);
+    lr_select_group->initSettings(num_pages);
     lr_select_group->setCurrentPage(0);
 
-    // Page 1 / 2
+    // Page 1: Misc
     // engine_class_select
     lr_select_group->setupEntry(0, 0, &engine_class_select_settings, onApply_engineClassSelect);
-
     // unused_leaf_type_select
     lr_select_group->setupEntry(1, 0, &unused_leaf_type_select_settings, onApply_unusedLeafTypeSelect);
-
     // ultra_miniturbo_select
     lr_select_group->setupEntry(2, 0, &ultra_miniturbo_select_settings, onApply_ultraMiniturbo);
-
     // random_stats
     lr_select_group->setupEntry(3, 0, &random_stats_select_settings, onApply_randomStats);
 
-    // race_prints
-    lr_select_group->setupEntry(4, 0, &race_prints_select_settings, onApply_racePrints);
-
-    // Page 2 / 2
-    // input_viewer
-    lr_select_group->setupEntry(0, 1, &input_viewer_select_settings, onApply_inputViewerSelect);
-
+    // Page 2: Misc 2
     // variable_mii_size
-    lr_select_group->setupEntry(1, 1, &variable_mii_size_select_settings, onApply_variableMiiSize);
-
+    lr_select_group->setupEntry(0, 1, &variable_mii_size_select_settings, onApply_variableMiiSize);
     // disable_cpu_rubberbanding
-    lr_select_group->setupEntry(2, 1, &disable_cpu_rubberbanding_select_settings, onApply_disableCPURubberbanding);
+    lr_select_group->setupEntry(1, 1, &disable_cpu_rubberbanding_select_settings, onApply_disableCPURubberbanding);
+    // drift_from_standstill
+    lr_select_group->setupEntry(2, 1, &drift_from_standstill_select_settings, onApply_driftFromStandstill);
+
+    // Page 3: Enhancements
+    // race_prints
+    lr_select_group->setupEntry(0, 2, &race_prints_select_settings, onApply_racePrints);
+    // input_viewer
+    lr_select_group->setupEntry(1, 2, &input_viewer_select_settings, onApply_inputViewerSelect);
 
     lr_select_group->initCurrentPage();
 
@@ -237,6 +266,11 @@ HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
     page_numbers = mod::utils::MyPrintf::createPrint(menu, true);
     page_numbers->setTextAlignment(nw::lyt::ALIGN_TOP_LEFT);
     page_numbers->setSize(16.0f, 16.0f);
+
+    // Create the category name print
+    category = mod::utils::MyPrintf::createPrint(menu, true);
+    category->setTextAlignment(nw::lyt::ALIGN_TOP_LEFT);
+    category->setSize(16.0f, 16.0f);
 
 }
 
@@ -252,6 +286,12 @@ HOOK void classLRSelect_onPagePreStep(Sequence::BaseMenuPage *menu) {
         280.0f, 20.0f,
         L"%3d / %3d",
         lr_select_group->getCurrentPage() + 1, lr_select_group->getNumPages()
+    );
+
+    category->printf
+    (
+        40.0f, 20.0f,
+        category_names[lr_select_group->getCurrentPage()]
     );
 }
 
