@@ -8,4 +8,5 @@ SOURCES		:=	source \
 				source/examples/ultra_miniturbo \
 				source/examples/random_stats \
 				source/examples/input_viewer \
-				source/examples/variable_mii_size
+				source/examples/variable_mii_size \
+				source/examples/disable_voices
