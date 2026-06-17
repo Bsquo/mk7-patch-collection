@@ -170,18 +170,22 @@ SECTIONS {
 
   /* Our custom code goes here */
   . = ADDR_CUSTOM_CODE;
-  _LD_SYMBOL_TEXT_START = . ;
-    .text : {
-      __text_start = . ;
+  _LD_SYMBOL_CUSTOM_CODE_START = . ;
+    .custom_code : {
+      __custom_code_start = . ;
       *(.text*)
       *(.rodata*)
       *(.data*)
+      
+      __bss_start = .;
       *(.bss*)
-      *(.eh_frame*)
       *(COMMON)
-      __text_end  = . ;
+      __bss_end = .;
+
+      *(.eh_frame*)
+      __custom_code_end  = . ;
   }
-  _LD_SYMBOL_TEXT_SIZE = __text_end - __text_start;
+  _LD_SYMBOL_CUSTOM_CODE_SIZE = __custom_code_end - __custom_code_start;
 
   /* ARM unwind tables (required even without exceptions) */
   .ARM.extab : {

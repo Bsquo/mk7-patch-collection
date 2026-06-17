@@ -24,7 +24,7 @@ For this mod, two versions are available for the 3DS version: **with_assets** (h
 
 Install the 3DS packages from [devkitPro](https://devkitpro.org/wiki/Getting_Started), as well as Python and make, if not already installed.
 
-Use ```make``` in the repository's root to build ```code.ips``` and ```exheader.bin```. For cleaning, use ```make clean```.
+Use ```make``` in the repository's root to build ```code.ips``` and ```exheader.bin``` (```exheader_Citra.bin``` will also be built. Use this in emulators instead of ```exheader.bin```). For cleaning, use ```make clean```.
 
 You can specify which game version to build the patches for by typing ```make VERSION=XXXX```, where XXXX is one of the following. The title ID is shown between parenthesis:
 

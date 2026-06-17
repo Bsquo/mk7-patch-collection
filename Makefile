@@ -149,7 +149,7 @@ endif
 clean:
 	@echo clean ...
 	@$(MAKE) -C include/vendor/MK7-Memory clean
-	@rm -fr $(BUILD) $(TARGET).elf code.ips exheader.bin $(OUTPUT).elf
+	@rm -fr $(BUILD) $(TARGET).elf code.ips exheader.bin exheader_Citra.bin $(OUTPUT).elf
 
 else
 

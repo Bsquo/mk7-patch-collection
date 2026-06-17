@@ -25,5 +25,6 @@ source/patch_symbols.hpp
 !exheader/
 !exheader/**/
 !exheader/**/exheader_template.bin
+!exheader/**/exheader_Citra_template.bin
 !assets/
 !assets/**

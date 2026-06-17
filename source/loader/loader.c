@@ -4,7 +4,11 @@
  */
 
 #include <3ds/svc.h>
+#include <mem.h>
 #include "newcodeinfo.h"
+
+extern u32 __bss_start;
+extern u32 __bss_end;
 
 Result svcOpenProcess(Handle* process, u32 processId);
 Result svcGetProcessId(u32* out, Handle handle);
@@ -20,12 +24,14 @@ void loader_main(void) {
   u32 address = NEWCODE_OFFSET;
   u32 neededMemory = ALIGN_UP(NEWCODE_SIZE, 0x1000);
 
-  // 7 = All permissions (R-W-X)
-  res = svcControlProcessMemory(getCurrentProcessHandle(), address, address, neededMemory, MEMOP_PROT, 7);
+  res = svcControlProcessMemory(getCurrentProcessHandle(), address, address, neededMemory, MEMOP_PROT, (MEMPERM_READ | MEMPERM_WRITE | MEMPERM_EXECUTE));
 
   if (res < 0) {
     svcBreak(USERBREAK_ASSERT);
   }
+
+  // Clear .bss section
+  __rt_memclr_w(&__bss_start, (u32) &__bss_end - (u32) &__bss_start);
 }
 
 Handle getCurrentProcessHandle(void) {

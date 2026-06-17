@@ -5,6 +5,33 @@ import sys
 
 print()
 
+# Create exheader file by adding code size info to the template
+# TODO: Finish support for Citra exheader
+def create_exheader(isCitra: bool):
+    exhTemplatePath = os.path.join('exheader', version, 'exheader_Citra_template.bin' if isCitra else 'exheader_template.bin')
+    exhFileName = 'exheader_Citra.bin' if isCitra else 'exheader.bin'
+
+    with open(exhTemplatePath, 'rb') as exhTemplate, open(exhFileName, 'wb') as exh:
+        exh.write(exhTemplate.read(0x34))
+
+        numDataPages = struct.unpack("<I", exhTemplate.read(4))[0]
+        dataSize = struct.unpack("<I", exhTemplate.read(4))[0]
+        bssSize = struct.unpack("<I", exhTemplate.read(4))[0]
+
+        # A buffer of 0x1000 bytes is added because the new code is injected at the first
+        # multiple of 0x1000 after the BSS section.
+        dataSize += bssSize + memoryExtension + 0x1000
+        numDataPages = ((dataSize + 0xFFF) & ~0xFFF) >> 0xC
+        bssSize = 0
+
+        exh.write(struct.pack("<I", numDataPages))
+        exh.write(struct.pack("<I", dataSize))
+        exh.write(struct.pack("<I", bssSize))
+
+        exh.write(exhTemplate.read())
+
+    print("created %s" % exhFileName)
+
 if len(sys.argv) < 3:
     print("Usage: python patch.py <elf_path> <version>")
     sys.exit(1)
@@ -53,29 +80,7 @@ with open("code.ips", 'wb') as patchFile:
 
 print("created code.ips")
 
-# Create exheader file by adding code size info to the template
-for citra in [False, True]:
-    exhTemplatePath = os.path.join('exheader', version, 'exheader_template.bin')
-    exhFileName = 'exheader.bin'
-    with open(exhTemplatePath, 'rb') as exhTemplate, open(exhFileName, 'wb') as exh:
-        exh.write(exhTemplate.read(0x34))
-
-        numDataPages = struct.unpack("<I", exhTemplate.read(4))[0]
-        dataSize = struct.unpack("<I", exhTemplate.read(4))[0]
-        bssSize = struct.unpack("<I", exhTemplate.read(4))[0]
-
-        # A buffer of 0x1000 bytes is added because the new code is injected at the first
-        # multiple of 0x1000 after the BSS section.
-        dataSize += bssSize + memoryExtension + 0x1000
-        numDataPages = ((dataSize + 0xFFF) & ~0xFFF) >> 0xC
-        bssSize = 0
-
-        exh.write(struct.pack("<I", numDataPages))
-        exh.write(struct.pack("<I", dataSize))
-        exh.write(struct.pack("<I", bssSize))
-
-        exh.write(exhTemplate.read())
-
-    print("created %s" % exhFileName)
+create_exheader(False)  # exheader_template.bin -> exheader.bin
+create_exheader(True)   # exheader_Citra_template.bin -> exheader_Citra.bin
 
 print()
