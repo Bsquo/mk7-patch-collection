@@ -1,5 +1,6 @@
 #pragma once
 
+#include "addresses.hpp"
 #include "common.hpp"
 #include "versions.h"
 #include <3ds/types.h>
@@ -28,11 +29,29 @@
 #define WRITE_ARM_REG(REG, IN_VAR) \
     __asm__ volatile ("mov " #REG ", %0" :: "r" (IN_VAR))
 
-#define PATCH_INSTR(addr, instr) do { \
-    volatile uint32_t* patch_ptr = reinterpret_cast<volatile uint32_t*>(addr); \
-    *patch_ptr = static_cast<uint32_t>(instr); \
+// Patches a single instruction in the original executable's code
+// sym: Address of the instruction
+// instr: The encoded instruction
+// Eg: PATCH_INSTR(0x0033ED5C, 0xE12FFF1E);
+#define PATCH_INSTR(sym, instr) do { \
+    *(vu32 *)(u32)(&(sym)) = (u32)(instr); \
 } while(0)
 
-// ARM thumb mode (16-bit):  
-#define PATCH_THUMB16(addr, instr16) \
-    *reinterpret_cast<volatile uint16_t*>(addr) = static_cast<uint16_t>(instr16)
+// Writes an array of data into an address
+// Eg: 
+/*
+const u32 patch[] = {
+    0xE12FFF1E, // bx lr
+    0xE3A00000, // mov r0, #0
+    0xE12FFF1E  // bx lr
+};
+
+WRITE_BYTES(0x0033ED5C, patch);
+*/
+#define WRITE_BYTES(addr, src) \
+    __rt_memcpy_w((void *)(addr), &(src), sizeof(src))
+
+// Reads a single 32-bit instruction from memory
+// Eg: u32 instr = READ_INSTR(0x0033ED5C);
+#define READ_INSTR(addr) \
+    (*(vu32 *)(addr))

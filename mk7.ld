@@ -2,6 +2,9 @@ OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
 OUTPUT_ARCH(arm)
 ENTRY(loader_patch) /* Go to `patch_loader` in `patches.s` */
 
+PROVIDE(__game_image_start = ADDR_GAME_IMAGE_START);
+PROVIDE(__game_image_end   = ADDR_GAME_IMAGE_END);
+
 /* Addresses come from a version-specific .ld included via -T in the Makefile */
 SECTIONS {
 

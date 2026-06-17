@@ -1,3 +1,4 @@
+#include "mod_common.hpp"
 #include "examples/class_lr_select/class_lr_select.hpp"
 #include "utils/my_printf.hpp"
 #include "utils/my_lr_select_group.hpp"
@@ -170,6 +171,27 @@ void onApply_variableMiiSize(mod::utils::MyLRSelect *lr_select) {
     g_variable_mii_size = lr_select->m_option;
 }
 
+// disable_cpu_rubberbanding
+mod::utils::MyLRSelect::Settings disable_cpu_rubberbanding_select_settings(
+    OPTION_OFF,
+    u"CPU Rubberbanding",
+    {
+        { u"Enabled", u"Disabled"},
+        2
+    },
+    u"Allow CPUs to catch up or slow down\n\n"
+    u"depending on how far you're from them\n"
+);
+
+void onApply_disableCPURubberbanding(mod::utils::MyLRSelect *lr_select) {
+    if (lr_select->m_option == 1) {
+        PATCH_INSTR(ADDR_DISABLE_CPU_RUBBERBANDING, 0xE12FFF1E);  // bx lr
+    }
+    else {
+        PATCH_INSTR(ADDR_DISABLE_CPU_RUBBERBANDING, 0xEEB40A40);  // Original instruction
+    }
+}
+
 /////////////////
 
 HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
@@ -200,6 +222,9 @@ HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
 
     // variable_mii_size
     lr_select_group->setupEntry(1, 1, &variable_mii_size_select_settings, onApply_variableMiiSize);
+
+    // disable_cpu_rubberbanding
+    lr_select_group->setupEntry(2, 1, &disable_cpu_rubberbanding_select_settings, onApply_disableCPURubberbanding);
 
     lr_select_group->initCurrentPage();
 
