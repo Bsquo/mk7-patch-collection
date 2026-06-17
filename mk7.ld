@@ -141,6 +141,20 @@ SECTIONS {
     *(.patch_variable_mii_size_determine_model_2)
   }
 
+  /* disable_voices */
+  .patch_disable_voices_1 ADDR_DISABLE_VOICES_1 : {
+    *(.patch_disable_voices_1)
+  }
+  .patch_disable_voices_2 ADDR_DISABLE_VOICES_2 : {
+    *(.patch_disable_voices_2)
+  }
+  .patch_disable_voices_3 ADDR_DISABLE_VOICES_3 : {
+    *(.patch_disable_voices_3)
+  }
+  .patch_disable_voices_4 ADDR_DISABLE_VOICES_4 : {
+    *(.patch_disable_voices_4)
+  }
+
   /* We'll insert the loader's code at the very end of the executable's .text section */
   /* NOTE: This address depends on the game version! */
   . = ADDR_LOADER;

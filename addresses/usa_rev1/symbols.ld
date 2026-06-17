@@ -116,6 +116,9 @@ _ZN5Sound12SndSceneBase12stopSceneBgmEl = 0x003cfaf8;
 _ZN3Mii9MiiEngine17getAdditionalInfoEP17CFLAdditionalInfoRK12CFLStoreDatab = 0x00286738;
 __rt_memclr_w = 0x0010c248;
 MIN_DRIFT_SPEED_PERCENTAGE = 0x006655fc;
+_ZN5Sound10SndSeEvent18playReadyToGoVoiceEl = 0x003c89cc;
+_ZN5Sound10SndSeEvent20playCharaDecideVoiceEl = 0x003c8b9c;
+_ZN5Sound10SndSeEvent21playCharaPresentVoiceEl = 0x003c8d6c;
 
 # NOTE: This is a pointer that points to another pointer that actually points at RootSystem
 # i.e. not a direct pointer to RootSystem

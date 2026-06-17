@@ -46,3 +46,6 @@ extern u32 g_input_viewer_option;
 
 // input_viewer
 extern u32 g_variable_mii_size;
+
+// disable_voices
+extern u32 g_disable_voices;

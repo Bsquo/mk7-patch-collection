@@ -25,7 +25,8 @@ mod::utils::MyPrintf *category = nullptr;
 const wchar_t* category_names[] = {
     L"Misc",
     L"Misc 2",
-    L"Enhancements"
+    L"Enhancements",
+    L"Sound"
 };
 
 /////////////////
@@ -221,10 +222,54 @@ void onApply_driftFromStandstill(mod::utils::MyLRSelect *lr_select) {
     MIN_DRIFT_SPEED_PERCENTAGE = (lr_select->m_option) ? 0.0f : 0.55f;
 }
 
+// disable_bgm
+mod::utils::MyLRSelect::Settings disable_bgm_select_settings(
+    OPTION_OFF,
+    u"BGM",
+    {
+        { u"Yes", u"No"},
+        2
+    },
+    u"Toggle background music"
+);
+
+void onApply_disableBGM(mod::utils::MyLRSelect *lr_select) {
+    if (lr_select->m_option == 1) {
+        PATCH_INSTR(ADDR_DISABLE_BGM_1, 0xE12FFF1E);  // bx lr
+        PATCH_INSTR(ADDR_DISABLE_BGM_2, 0xE12FFF1E);  // bx lr
+        PATCH_INSTR(ADDR_DISABLE_BGM_3, 0xE12FFF1E);  // bx lr
+        PATCH_INSTR(ADDR_DISABLE_BGM_4, 0xE12FFF1E);  // bx lr
+    }
+    else {
+        // Original instructions
+        PATCH_INSTR(ADDR_DISABLE_BGM_1, 0xE92D41F0);
+        PATCH_INSTR(ADDR_DISABLE_BGM_2, 0xE92D4010);
+        PATCH_INSTR(ADDR_DISABLE_BGM_3, 0xE5D0303C);
+        PATCH_INSTR(ADDR_DISABLE_BGM_4, 0xE2800004);
+    }
+}
+
+// disable_voices
+u32 g_disable_voices = OPTION_OFF;
+
+mod::utils::MyLRSelect::Settings disable_voices_select_settings(
+    OPTION_OFF,
+    u"Voices",
+    {
+        { u"Yes", u"No"},
+        2
+    },
+    u"Toggle character voices"
+);
+
+void onApply_disableVoices(mod::utils::MyLRSelect *lr_select) {
+    g_disable_voices = lr_select->m_option;
+}
+
 /////////////////
 
 HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
-    const u32 num_pages = 3;
+    const u32 num_pages = 4;
 
     lr_select_group = new mod::utils::MyLRSelectGroup();
     lr_select_group->initControl(menu, false, true, false);
@@ -254,6 +299,13 @@ HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
     lr_select_group->setupEntry(0, 2, &race_prints_select_settings, onApply_racePrints);
     // input_viewer
     lr_select_group->setupEntry(1, 2, &input_viewer_select_settings, onApply_inputViewerSelect);
+
+    // Page 4: Sound
+    // disable_bgm
+    lr_select_group->setupEntry(0, 3, &disable_bgm_select_settings, onApply_disableBGM);
+
+    // disable_voices
+    lr_select_group->setupEntry(1, 3, &disable_voices_select_settings, onApply_disableVoices);
 
     lr_select_group->initCurrentPage();
 
