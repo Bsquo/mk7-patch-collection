@@ -212,7 +212,7 @@ mod::utils::MyLRSelect::Settings drift_from_standstill_select_settings(
         { u"No", u"Yes"},
         2
     },
-    u"Allow you to drift without having to\n"
+    u"Allows you to drift without having to\n"
     u"wait reaching 55%% of your max speed"
 );
 
@@ -264,6 +264,68 @@ mod::utils::MyLRSelect::Settings disable_voices_select_settings(
 
 void onApply_disableVoices(mod::utils::MyLRSelect *lr_select) {
     g_disable_voices = lr_select->m_option;
+
+    if (g_disable_voices) {
+        PATCH_INSTR(ADDR_DISABLE_VOICES_4, 0xE12FFF1E);  // bx lr
+        PATCH_INSTR(ADDR_DISABLE_VOICES_5, 0xE12FFF1E);  // bx lr
+        PATCH_INSTR(ADDR_DISABLE_VOICES_6, 0xE12FFF1E);  // bx lr
+    }
+    else {
+        // Original instructions
+        PATCH_INSTR(ADDR_DISABLE_VOICES_4, 0xE92D41F0);  // bx lr
+        PATCH_INSTR(ADDR_DISABLE_VOICES_5, 0xE92D41F0);  // bx lr
+        PATCH_INSTR(ADDR_DISABLE_VOICES_6, 0xE92D4070);  // bx lr
+    }
+}
+
+// high_poly_racers
+mod::utils::MyLRSelect::Settings high_poly_racers_select_settings(
+    OPTION_OFF,
+    u"High Poly CPUs",
+    {
+        { u"No", u"Yes"},
+        2
+    },
+    u"Makes CPU racers use their\n"
+    u"high poly models (WIP)"
+);
+
+void onApply_highPolyRacers(mod::utils::MyLRSelect *lr_select) {
+    if (lr_select->m_option == 1) {
+        PATCH_INSTR(ADDR_HIGH_POLY_RACERS_1, 0xE1A00000);
+        PATCH_INSTR(ADDR_HIGH_POLY_RACERS_2, 0xE1A00000);
+        PATCH_INSTR(ADDR_HIGH_POLY_RACERS_3, 0xE3A00001);
+        PATCH_INSTR(ADDR_HIGH_POLY_RACERS_4, 0xEA000007);
+    }
+    else {
+        // Original instructions
+        PATCH_INSTR(ADDR_HIGH_POLY_RACERS_1, 0x1A000000);
+        PATCH_INSTR(ADDR_HIGH_POLY_RACERS_2, 0x1A000000);
+        PATCH_INSTR(ADDR_HIGH_POLY_RACERS_3, 0xE5D5001A);
+        PATCH_INSTR(ADDR_HIGH_POLY_RACERS_4, 0x0A000007);
+    }
+}
+
+// no_oob_respawn
+mod::utils::MyLRSelect::Settings no_oob_respawn_select_settings(
+    OPTION_OFF,
+    u"No OoB Respawn",
+    {
+        { u"Disabled", u"Enabled"},
+        2
+    },
+    u"You won't respawn when leaving\n"
+    u"a checkpoint area"
+);
+
+void onApply_noOobRespawn(mod::utils::MyLRSelect *lr_select) {
+    if (lr_select->m_option == 1) {
+        PATCH_INSTR(ADDR_NO_OOB_RESPAWN, 0xEA000002);
+    }
+    else {
+        // Original instructions
+        PATCH_INSTR(ADDR_NO_OOB_RESPAWN, 0x0A000002);
+    }
 }
 
 /////////////////
@@ -293,12 +355,16 @@ HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
     lr_select_group->setupEntry(1, 1, &disable_cpu_rubberbanding_select_settings, onApply_disableCPURubberbanding);
     // drift_from_standstill
     lr_select_group->setupEntry(2, 1, &drift_from_standstill_select_settings, onApply_driftFromStandstill);
+    // no_oob_respawn
+    lr_select_group->setupEntry(3, 1, &no_oob_respawn_select_settings, onApply_noOobRespawn);
 
     // Page 3: Enhancements
     // race_prints
     lr_select_group->setupEntry(0, 2, &race_prints_select_settings, onApply_racePrints);
     // input_viewer
     lr_select_group->setupEntry(1, 2, &input_viewer_select_settings, onApply_inputViewerSelect);
+    // high_poly_racers
+    lr_select_group->setupEntry(2, 2, &high_poly_racers_select_settings, onApply_highPolyRacers);
 
     // Page 4: Sound
     // disable_bgm

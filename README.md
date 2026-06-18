@@ -3,6 +3,9 @@
 This repository contains various examples patches and mods for **Mario Kart 7**.
 
 ## List of patches
+<details>
+  <summary>Click to reveal spoiler</summary>
+
 * **change_chara_wifi** (WIP): Adds a "Character" button in the online VR screen that allows you to change the character in between races.
 
 * **class_lr_select**: A custom menu that replaces the Local Multiplayer, which allows you to enable or disable many of these mods.
@@ -19,6 +22,20 @@ This repository contains various examples patches and mods for **Mario Kart 7**.
 
 * **variable_mii_size**: Changes the weight class of you player Mii depending on its size and weight set in the Mii Maker, instead of always be forced to medium class (just like in MKWii).</br>
 For this mod, two versions are available for the 3DS version: **with_assets** (has the custom Mii body models, but might crash if used with Luma CFW's game patching) and **without_assets** (doesn't have the custom Mii body models, but works fine if using Luma CFW's game patching).
+
+* **disable_cpu_rubberbanding**: The speed of the CPU racers will respect their vehicle combos, instead of speeding up or down depending on how far you're from them.
+
+* **drift_from_standstill**: Allows you to drift without having to wait reaching 55% of your max speed
+
+* **disable_bgm**: Toggles background music
+
+* **disable_voices**: Toggles character voices
+
+* **high_poly_racers**: Renders CPU racers in high poly, with animations (WIP)
+
+* **no_oob_respawn**: You won't respawn when leaving a checkpoint area.
+
+</details>
 
 ## Building
 
@@ -56,6 +73,8 @@ This project is based on bits and pieces of other 3DS modding and reverse engine
     - _tZ: `System::RootSystem`, its nested classes, and much more
 
 * **craiyonchewer** on Discord: For creating all the 3D models used in the "variable Mii size" example.
+
+* [h4x0rspooky](https://github.com/mainexploit): For the `high_poly_racers` example.
 
 * [devkitPro](https://github.com/devkitpro): For the `devkitARM` toolchain.
 

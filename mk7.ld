@@ -4,6 +4,14 @@ ENTRY(loader_patch) /* Go to `patch_loader` in `patches.s` */
 
 PROVIDE(__game_image_start = ADDR_GAME_IMAGE_START);
 PROVIDE(__game_image_end   = ADDR_GAME_IMAGE_END);
+PROVIDE(__game_text_start  = ADDR_GAME_TEXT_START);
+PROVIDE(__game_text_end    = ADDR_GAME_TEXT_END);
+PROVIDE(__game_data_start  = ADDR_GAME_DATA_START);
+PROVIDE(__game_data_end    = ADDR_GAME_DATA_END);
+PROVIDE(__game_rodata_start  = ADDR_GAME_RODATA_START);
+PROVIDE(__game_rodata_end    = ADDR_GAME_RODATA_END);
+PROVIDE(__game_bss_start  = ADDR_GAME_BSS_START);
+PROVIDE(__game_bss_end    = ADDR_GAME_BSS_END);
 
 /* Addresses come from a version-specific .ld included via -T in the Makefile */
 SECTIONS {
