@@ -1,1 +1,7 @@
 _ZN5Debug27PrintTextToBottomScreenCharEllPKcz = 0x001fb340;
+_ZN6System11SDMCManagerC1Ev = 0x00162ddc;
+_ZNK6System11SDMCManager8openFileERKN4sead14SafeStringBaseIcEEPv = 0x00162c88;
+_ZN6System11SDMCManager17writeStringToFileEPKcz = 0x001cb640;
+_ZN6System11SDMCManager9closeFileEv = 0x00162db0;
+_ZN6System11SDMCManagerD1Ev = 0x00162e44;
+_ZN6System15getSystemEngineEN6Object11EEngineTypeE = 0x001b95f4;
