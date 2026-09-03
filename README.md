@@ -76,6 +76,6 @@ This project is based on bits and pieces of other 3DS modding and reverse engine
 
 * [h4x0rspooky](https://github.com/mainexploit): For the `high_poly_racers` example.
 
-* [devkitPro](https://github.com/devkitpro): For the `devkitARM` toolchain.
+* [devkitPro](https://github.com/devkitpro): For the `devkitARM` toolchain, as well as the [libctru](https://github.com/devkitPro/libctru) library.
 
 * [Magikoopa-NSMB2-Examples](https://github.com/RicBent/Magikoopa-NSMB2-Examples) ([RicBent](https://github.com/RicBent/Magikoopa-NSMB2-Examples)) and [nsmb2-patch-collection](https://github.com/Gimzie/nsmb2-patch-collection) ([Gimzie](https://github.com/Gimzie)): Being the idea inspiration for this repository.

@@ -26,8 +26,8 @@ namespace mod
         System::PlayerData player_data;
 
         System::g_root_system->m_root_scene->get_system_engine()->getMyPlayerData(&player_data, false);
-        u8 height = player_data.m_store_data.height;
-        u8 weight = player_data.m_store_data.weight;
+        u8 height = player_data.m_store_data.miiData.height;
+        u8 weight = player_data.m_store_data.miiData.width;
 
         if ((150 - height) < weight) {
             return Kart::KartConstructInfoAccessor::EDriverSizeType::LARGE;

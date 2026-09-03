@@ -28,7 +28,8 @@ INCLUDES	:=	include \
 				include/vendor/MK7-Memory/vendor/nnheaders/include \
 				include/vendor/MK7-Memory/vendor/nw4c/include \
 				include/vendor/MK7-Memory/vendor/sead/include \
-				include/vendor/MK7-Memory/vendor/libc/include
+				include/vendor/MK7-Memory/vendor/libc/include \
+				include/vendor/libctru/libctru/include
 				
 PATCH		:= patch.py
 
