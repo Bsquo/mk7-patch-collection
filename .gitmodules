@@ -1,3 +1,6 @@
 [submodule "include/vendor/MK7-Memory"]
 	path = include/vendor/MK7-Memory
 	url = https://github.com/mk7re/MK7-Memory.git
+[submodule "include/vendor/libctru"]
+	path = include/vendor/libctru
+	url = https://github.com/devkitPro/libctru.git
