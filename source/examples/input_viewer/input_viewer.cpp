@@ -20,12 +20,12 @@ void InputViewer::onCreate(const Control::CreateArg *) {
     m_button_panes[INPUT_A][OFF] = getElement("P_button_a_off", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_button_panes[INPUT_A][ON] = getElement("P_button_a_on", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_buttons[INPUT_A] = System::KDPad::BUTTON_A;
-    m_raw_buttons[INPUT_A] = System::KDPad::RAW_BUTTON_A;
+    m_raw_buttons[INPUT_A] = sead::CtrController::BUTTON_A;
 
     m_button_panes[INPUT_B][OFF] = getElement("P_button_b_off", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_button_panes[INPUT_B][ON] = getElement("P_button_b_on", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_buttons[INPUT_B] = System::KDPad::BUTTON_B;
-    m_raw_buttons[INPUT_B] = System::KDPad::RAW_BUTTON_B;
+    m_raw_buttons[INPUT_B] = sead::CtrController::BUTTON_B;
 
     m_button_panes[INPUT_X][OFF] = getElement("P_button_x_off", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_button_panes[INPUT_X][ON] = getElement("P_button_x_on", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
@@ -38,12 +38,12 @@ void InputViewer::onCreate(const Control::CreateArg *) {
     m_button_panes[INPUT_L][OFF] = getElement("P_button_l_off", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_button_panes[INPUT_L][ON] = getElement("P_button_l_on", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_buttons[INPUT_L] = System::KDPad::BUTTON_L;
-    m_raw_buttons[INPUT_L] = System::KDPad::RAW_BUTTON_L;
+    m_raw_buttons[INPUT_L] = sead::CtrController::BUTTON_L;
 
     m_button_panes[INPUT_R][OFF] = getElement("P_button_r_off", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_button_panes[INPUT_R][ON] = getElement("P_button_r_on", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_buttons[INPUT_R] = System::KDPad::BUTTON_R;
-    m_raw_buttons[INPUT_R] = System::KDPad::RAW_BUTTON_R;
+    m_raw_buttons[INPUT_R] = sead::CtrController::BUTTON_R;
 
     m_button_panes[INPUT_FIRST_PERSON][ON] = getElement("P_wheel", UI::ControlSight::EElementType::ELEMENT_TYPE_PANE);
     m_buttons[INPUT_FIRST_PERSON] = System::KDPad::BUTTON_FIRST_PERSON;
