@@ -9,4 +9,5 @@ SOURCES		:=	source \
 				source/examples/random_stats \
 				source/examples/input_viewer \
 				source/examples/variable_mii_size \
-				source/examples/disable_voices
+				source/examples/disable_voices \
+				source/examples/enable_unused_demo_cameras

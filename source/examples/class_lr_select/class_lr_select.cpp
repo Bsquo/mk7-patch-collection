@@ -328,6 +328,23 @@ void onApply_noOobRespawn(mod::utils::MyLRSelect *lr_select) {
     }
 }
 
+// enable_unused_demo_cameras
+bool g_enable_unused_demo_cameras = false;
+
+mod::utils::MyLRSelect::Settings enable_unused_demo_cameras_select_settings(
+    OPTION_OFF,
+    u"Unused cameras",
+    {
+        { u"Off", u"On" },
+        2
+    },
+    u"Show the unused race start and finish cameras"
+);
+
+void onApply_enableUnusedDemoCameras(mod::utils::MyLRSelect *lr_select) {
+    g_enable_unused_demo_cameras = lr_select->m_option;
+}
+
 /////////////////
 
 HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
@@ -347,6 +364,8 @@ HOOK void classLRSelect_initControl(Sequence::BaseMenuPage *menu) {
     lr_select_group->setupEntry(2, 0, &ultra_miniturbo_select_settings, onApply_ultraMiniturbo);
     // random_stats
     lr_select_group->setupEntry(3, 0, &random_stats_select_settings, onApply_randomStats);
+    // enable_unused_demo_cameras
+    lr_select_group->setupEntry(4, 0, &enable_unused_demo_cameras_select_settings, onApply_enableUnusedDemoCameras);
 
     // Page 2: Misc 2
     // variable_mii_size

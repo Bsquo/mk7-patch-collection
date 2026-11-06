@@ -49,3 +49,6 @@ extern u32 g_variable_mii_size;
 
 // disable_voices
 extern u32 g_disable_voices;
+
+// enable_unused_demo_cameras
+extern bool g_enable_unused_demo_cameras;

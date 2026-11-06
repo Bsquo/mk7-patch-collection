@@ -163,6 +163,26 @@ SECTIONS {
     *(.patch_disable_voices_4)
   }
 
+  /* enable_unused_demo_cameras */
+  .patch_enable_unused_demo_cameras_goal_1 ADDR_ENABLE_UNUSED_DEMO_CAMERAS_GOAL_1 : {
+    *(.patch_enable_unused_demo_cameras_goal_1)
+  }
+  .patch_enable_unused_demo_cameras_goal_2 ADDR_ENABLE_UNUSED_DEMO_CAMERAS_GOAL_2 : {
+    *(.patch_enable_unused_demo_cameras_goal_2)
+  }
+  .patch_enable_unused_demo_cameras_goal_3 ADDR_ENABLE_UNUSED_DEMO_CAMERAS_GOAL_3 : {
+    *(.patch_enable_unused_demo_cameras_goal_3)
+  }
+  .patch_enable_unused_demo_cameras_start_1 ADDR_ENABLE_UNUSED_DEMO_CAMERAS_START_1 : {
+    *(.patch_enable_unused_demo_cameras_start_1)
+  }
+  .patch_enable_unused_demo_cameras_start_2 ADDR_ENABLE_UNUSED_DEMO_CAMERAS_START_2 : {
+    *(.patch_enable_unused_demo_cameras_start_2)
+  }
+  .patch_enable_unused_demo_cameras_start_3 ADDR_ENABLE_UNUSED_DEMO_CAMERAS_START_3 : {
+    *(.patch_enable_unused_demo_cameras_start_3)
+  }
+
   /* We'll insert the loader's code at the very end of the executable's .text section */
   /* NOTE: This address depends on the game version! */
   . = ADDR_LOADER;

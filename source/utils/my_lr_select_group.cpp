@@ -52,11 +52,13 @@ void MyLRSelectGroup::initSettings(s32 num_pages) {
 }
 
 void MyLRSelectGroup::setupEntry(s32 entry_index, s32 page, MyLRSelect::Settings *entry_settings, MyLRSelect::OnApplyCallback on_apply) {
-    Settings *settings = getSettings(entry_index, page);
-    
-    settings->m_is_active = true;
-    settings->m_entry_settings = entry_settings;
-    settings->m_on_apply = on_apply;
+    if (entry_index < NUM_ENTRIES && page < m_num_pages) {
+        Settings *settings = getSettings(entry_index, page);
+        
+        settings->m_is_active = true;
+        settings->m_entry_settings = entry_settings;
+        settings->m_on_apply = on_apply;
+    }
 }
 
 void MyLRSelectGroup::initCurrentPage() {

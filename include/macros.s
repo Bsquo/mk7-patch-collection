@@ -87,3 +87,10 @@
 \name:
     .byte \values
 .endm
+
+.macro PATCH_ASM name, instructions:vararg
+    .section .\name
+    .global \name
+\name:
+    \instructions
+.endm

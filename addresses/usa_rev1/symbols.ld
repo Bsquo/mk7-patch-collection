@@ -119,6 +119,7 @@ MIN_DRIFT_SPEED_PERCENTAGE = 0x006655fc;
 _ZN5Sound10SndSeEvent18playReadyToGoVoiceEl = 0x003c89cc;
 _ZN5Sound10SndSeEvent20playCharaDecideVoiceEl = 0x003c8b9c;
 _ZN5Sound10SndSeEvent21playCharaPresentVoiceEl = 0x003c8d6c;
+_ZN6Camera18KartCameraDirector8_setModeENS0_5EModeE = 0x003dd7d4;
 
 # NOTE: This is a pointer that points to another pointer that actually points at RootSystem
 # i.e. not a direct pointer to RootSystem
