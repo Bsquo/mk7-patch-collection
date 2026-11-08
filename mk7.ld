@@ -176,11 +176,11 @@ SECTIONS {
   .patch_enable_unused_demo_cameras_start_1 ADDR_ENABLE_UNUSED_DEMO_CAMERAS_START_1 : {
     *(.patch_enable_unused_demo_cameras_start_1)
   }
-  .patch_enable_unused_demo_cameras_start_2 ADDR_ENABLE_UNUSED_DEMO_CAMERAS_START_2 : {
-    *(.patch_enable_unused_demo_cameras_start_2)
+  .patch_enable_unused_demo_cameras_start_1 ADDR_ENABLE_UNUSED_DEMO_CAMERAS_START_2 : {
+    *(.patch_enable_unused_demo_cameras_start_1)
   }
-  .patch_enable_unused_demo_cameras_start_3 ADDR_ENABLE_UNUSED_DEMO_CAMERAS_START_3 : {
-    *(.patch_enable_unused_demo_cameras_start_3)
+  .patch_enable_unused_demo_cameras_start_2 ADDR_ENABLE_UNUSED_DEMO_CAMERAS_START_3 : {
+    *(.patch_enable_unused_demo_cameras_start_2)
   }
 
   /* We'll insert the loader's code at the very end of the executable's .text section */
